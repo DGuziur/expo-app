@@ -1,5 +1,8 @@
-import { course } from "../data/data";
+import app from "@/firebaseInit";
+import { Unit } from "@/types/types";
+import { addDoc, collection, getFirestore } from "@firebase/firestore";
 import { Button } from "@react-navigation/elements";
+import { useRouter } from "expo-router";
 import {
   ScrollView,
   StyleSheet,
@@ -7,11 +10,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useRouter } from "expo-router";
-import { Unit } from "@/types/types";
-
+import { course } from "../data/data";
 export default function Index() {
   const router = useRouter();
+  const db = getFirestore(app);
+
   return (
     <View style={styles.container}>
       <Text style={styles.popup}>Hej szmexy~</Text>
@@ -27,7 +30,9 @@ export default function Index() {
                   <Text>{a.lessons?.length}</Text>
                   <Button
                     style={{ margin: 10 }}
-                    onPress={() => router.push("./lessons")}
+                    onPress={() => {
+                      router.push("./lessons/Lessons");
+                    }}
                   >
                     Learn more
                   </Button>
@@ -35,6 +40,17 @@ export default function Index() {
               </TouchableOpacity>
             );
           })}
+          <Button
+            onPress={() => {
+              addDoc(collection(db, "Units"), {
+                title: "Testowy Unit 1",
+                desc: "To jest unit stworzony do testowania czy coś",
+                lessons: [],
+              });
+            }}
+          >
+            Dodaj
+          </Button>
           <View style={{ height: 100 }}></View>
         </ScrollView>
       </View>

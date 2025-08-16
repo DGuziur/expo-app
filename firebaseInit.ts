@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { initializeAuth } from "firebase/auth";
+import { initializeFirestore } from "firebase/firestore";
 import { Platform } from "react-native";
 
 function getRequiredEnvVar(name: string): string {
@@ -24,6 +24,7 @@ const app = initializeApp(firebaseConfig);
 if (Platform.OS === "web") {
   //   initializeAnalytics(app);
 }
-initializeAuth(app);
-
+initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
 export default app;

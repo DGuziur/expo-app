@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    width: "50%",
+    width: 300,
     fontSize: 16,
     marginBottom: 16,
     shadowColor: "#000",

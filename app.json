@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "note-app",
-    "slug": "note-app",
+    "slug": "mood-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -39,6 +39,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "29513e06-49ed-4ff6-be29-4f471629c05b"
+      }
+    },
+    "owner": "dguziur"
   }
 }

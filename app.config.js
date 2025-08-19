@@ -27,6 +27,12 @@ export default {
       output: "static",
       favicon: "./assets/images/favicon.png",
     },
+    updates: {
+      url: "https://u.expo.dev/29513e06-49ed-4ff6-be29-4f471629c05b",
+    },
+    runtimeVersion: {
+      policy: "appVersion",
+    },
     plugins: [
       "expo-router",
       [

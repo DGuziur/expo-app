@@ -1,0 +1,10 @@
+name: Update Preview Build
+
+on:
+  push:
+    branches: ["demo"]
+
+jobs:
+  publish_update:
+    type: update
+    channel: string

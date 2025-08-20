@@ -40,6 +40,20 @@ export default function Index() {
               </TouchableOpacity>
             );
           })}
+
+          <Button
+            style={styles.cardDesc}
+            onPress={() => {
+              addDoc(collection(db, "Units"), {
+                title: "Testowy Unit Hihi",
+                desc: "To jest unit do... hihi",
+                lessons: [],
+              });
+            }}
+          >
+            Dodaj
+          </Button>
+
           <View style={{ height: 100 }}></View>
         </ScrollView>
       </View>

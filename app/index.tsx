@@ -1,6 +1,6 @@
 import app from "@/firebaseInit";
 import { Unit } from "@/types/types";
-import { addDoc, collection, getFirestore } from "@firebase/firestore";
+import { getFirestore } from "@firebase/firestore";
 import { Button } from "@react-navigation/elements";
 import { useRouter } from "expo-router";
 import {
@@ -40,17 +40,6 @@ export default function Index() {
               </TouchableOpacity>
             );
           })}
-          <Button
-            onPress={() => {
-              addDoc(collection(db, "Units"), {
-                title: "Testowy Unit 1",
-                desc: "To jest unit stworzony do testowania czy coś",
-                lessons: [],
-              });
-            }}
-          >
-            Dodaj
-          </Button>
           <View style={{ height: 100 }}></View>
         </ScrollView>
       </View>

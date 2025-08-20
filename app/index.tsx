@@ -1,6 +1,6 @@
 import app from "@/firebaseInit";
 import { Unit } from "@/types/types";
-import { getFirestore } from "@firebase/firestore";
+import {addDoc, collection, getFirestore } from "@firebase/firestore";
 import { Button } from "@react-navigation/elements";
 import { useRouter } from "expo-router";
 import {

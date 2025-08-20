@@ -41,9 +41,10 @@ export default function Index() {
             );
           })}
           <Button
+            style={styles.cardDesc}
             onPress={() => {
               addDoc(collection(db, "Units"), {
-                title: "Testowy Unit 1",
+                title: "Testowy Unit Haga",
                 desc: "To jest unit stworzony do testowania czy coś",
                 lessons: [],
               });

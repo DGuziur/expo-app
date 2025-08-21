@@ -43,7 +43,11 @@ export default function TabsLayout() {
                 alignItems: "center",
               }}
             >
-              <Text style={{ marginRight: 10 }}>{"User"}</Text>
+              <Text style={{ marginRight: 10 }}>
+                {auth.currentUser?.displayName ??
+                  auth.currentUser?.email ??
+                  "User"}
+              </Text>
               <Image
                 source={{ uri: "https://i.pravatar.cc/40" }}
                 style={{
@@ -63,6 +67,9 @@ export default function TabsLayout() {
         headerTitleStyle: {
           fontWeight: "bold",
           fontSize: 20,
+        },
+        tabBarStyle: {
+          backgroundColor: "powderblue",
         },
       }}
     >

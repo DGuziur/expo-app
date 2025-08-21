@@ -1,15 +1,11 @@
+import { styles } from "@/assets/styles/auth.styles";
 import app from "@/firebaseInit";
 import { router } from "expo-router";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
   Image,
   SafeAreaView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -28,18 +24,6 @@ export default function LoginPage() {
       );
     } catch (err) {
       console.log("SignIn failed: ", err);
-    }
-  };
-
-  const signUp = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        getAuth(app),
-        email,
-        password
-      );
-    } catch (err: any) {
-      console.log("SignUp failed: ", err.message);
     }
   };
 
@@ -77,62 +61,3 @@ export default function LoginPage() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  input: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    width: 300,
-    fontSize: 16,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    marginBottom: 12,
-    shadowColor: "#000",
-    width: 300,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  secondaryButton: {
-    backgroundColor: "transparent",
-    borderWidth: 2,
-    borderColor: "#007AFF",
-  },
-  secondaryButtonText: {
-    color: "#007AFF",
-  },
-});

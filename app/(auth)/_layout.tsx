@@ -21,5 +21,5 @@ export default function AuthRoutesLayout() {
 
   if (user) return <Redirect href={"/"} />;
 
-  return <Stack />;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

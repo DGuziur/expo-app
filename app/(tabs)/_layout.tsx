@@ -1,9 +1,10 @@
 import Spinner from "@/components/Spinner";
 import app from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
-import { getAuth, onAuthStateChanged, User } from "@firebase/auth";
+import { getAuth, onAuthStateChanged, signOut, User } from "@firebase/auth";
 import { Redirect, Tabs } from "expo-router";
 import { useEffect, useState } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function TabsLayout() {
   const [user, setUser] = useState<User | null>(null);
@@ -30,7 +31,41 @@ export default function TabsLayout() {
   if (!user) return <Redirect href={"/(auth)/LoginPage"} />;
 
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        headerRight: () => (
+          <TouchableOpacity onPress={() => signOut(getAuth(app))}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ marginRight: 10 }}>{"User"}</Text>
+              <Image
+                source={{ uri: "https://i.pravatar.cc/40" }}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  marginRight: 50,
+                }}
+              ></Image>
+            </View>
+          </TouchableOpacity>
+        ),
+        headerStyle: {
+          backgroundColor: "powderblue",
+        },
+        headerTintColor: "white",
+        headerTitleStyle: {
+          fontWeight: "bold",
+          fontSize: 20,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{

@@ -2,13 +2,12 @@ import { Unit } from "@/types/types";
 import { course } from "../../data/data";
 
 import {
+  Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
-  Dimensions,
 } from "react-native";
 
 export default function Lessons() {

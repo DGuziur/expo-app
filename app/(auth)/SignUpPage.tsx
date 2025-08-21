@@ -1,5 +1,4 @@
 import app from "@/firebaseInit";
-import { router } from "expo-router";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -15,7 +14,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -26,7 +25,6 @@ export default function LoginPage() {
         email,
         password
       );
-      if (user) router.replace("/lessons/Lessons");
     } catch (err) {
       console.log("SignIn failed: ", err);
     }
@@ -39,7 +37,6 @@ export default function LoginPage() {
         email,
         password
       );
-      if (user) router.replace("/lessons/Lessons");
     } catch (err: any) {
       console.log("SignUp failed: ", err.message);
     }

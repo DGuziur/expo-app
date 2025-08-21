@@ -1,6 +1,6 @@
 import app from "@/firebaseInit";
 import { Unit } from "@/types/types";
-import {addDoc, collection, getFirestore } from "@firebase/firestore";
+import { addDoc, collection, getFirestore } from "@firebase/firestore";
 import { Button } from "@react-navigation/elements";
 import { useRouter } from "expo-router";
 import {
@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { course } from "../data/data";
+import { course } from "../../data/data";
 export default function Index() {
   const router = useRouter();
   const db = getFirestore(app);
@@ -31,7 +31,7 @@ export default function Index() {
                   <Button
                     style={{ margin: 10 }}
                     onPress={() => {
-                      router.push("./lessons/Lessons");
+                      router.push("./Lessons");
                     }}
                   >
                     Learn more

@@ -1,7 +1,7 @@
 import Spinner from "@/components/Spinner";
-import app from "@/firebaseInit";
+import { auth } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
-import { getAuth, onAuthStateChanged, signOut, User } from "@firebase/auth";
+import { onAuthStateChanged, signOut, User } from "@firebase/auth";
 import { Redirect, Tabs } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
@@ -11,7 +11,7 @@ export default function TabsLayout() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
     });
@@ -34,7 +34,7 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerRight: () => (
-          <TouchableOpacity onPress={() => signOut(getAuth(app))}>
+          <TouchableOpacity onPress={() => signOut(auth)}>
             <View
               style={{
                 display: "flex",

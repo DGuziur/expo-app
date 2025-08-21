@@ -1,6 +1,6 @@
 import Spinner from "@/components/Spinner";
-import app from "@/firebaseInit";
-import { getAuth, onAuthStateChanged, User } from "@firebase/auth";
+import { auth } from "@/firebaseInit";
+import { onAuthStateChanged, User } from "@firebase/auth";
 import { Redirect, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,7 @@ export default function AuthRoutesLayout() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
     });

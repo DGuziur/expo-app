@@ -1,4 +1,4 @@
-import app from "@/firebaseInit";
+import { app } from "@/firebaseInit";
 import { Unit } from "@/types/types";
 import { addDoc, collection, getFirestore } from "@firebase/firestore";
 import { Button } from "@react-navigation/elements";

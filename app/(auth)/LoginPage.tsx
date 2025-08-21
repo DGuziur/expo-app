@@ -1,7 +1,7 @@
 import { styles } from "@/assets/styles/auth.styles";
-import app from "@/firebaseInit";
+import { auth } from "@/firebaseInit";
 import { router } from "expo-router";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
   Image,
@@ -17,11 +17,7 @@ export default function LoginPage() {
 
   const signIn = async () => {
     try {
-      const user = await signInWithEmailAndPassword(
-        getAuth(app),
-        email,
-        password
-      );
+      const user = await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
       console.log("SignIn failed: ", err);
     }

@@ -1,4 +1,11 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
+import {
+  Auth,
+  getAuth,
+  getReactNativePersistence,
+  initializeAuth,
+} from "firebase/auth";
 import { initializeFirestore } from "firebase/firestore";
 import { Platform } from "react-native";
 
@@ -13,10 +20,16 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+let auth: Auth;
+
 if (Platform.OS === "web") {
-  //   initializeAnalytics(app);
+  auth = getAuth(app);
+} else {
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage),
+  });
 }
 initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
-export default app;
+export { app, auth };

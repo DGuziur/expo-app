@@ -1,6 +1,8 @@
 import { styles } from "@/assets/styles/auth.styles";
 import { auth } from "@/firebaseInit";
+import { getAuthErrorNamePl } from "@/utils/errors/firebaseAuth";
 import { router } from "expo-router";
+import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
@@ -14,13 +16,12 @@ import {
 export default function LoginPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const signIn = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      console.log("SignIn failed: ", err);
-    }
+    await signInWithEmailAndPassword(auth, email, password).catch(
+      (err: FirebaseError) => setLoginError(getAuthErrorNamePl(err.code))
+    );
   };
 
   return (
@@ -31,6 +32,7 @@ export default function LoginPage() {
         }}
         style={{ width: "50%", aspectRatio: 16 / 9, marginBottom: 50 }}
       />
+      {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
       <TextInput
         placeholder="Email"
         value={email}

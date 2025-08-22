@@ -49,6 +49,12 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    fontWeight: "600",
+    paddingBottom: 16,
+  },
   secondaryButton: {
     backgroundColor: "transparent",
     borderWidth: 2,

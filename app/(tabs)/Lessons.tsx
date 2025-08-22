@@ -12,12 +12,6 @@ import {
 
 export default function Lessons() {
   const unit: Unit = course[0];
-
-  const amplitude = 50; // jak bardzo "faluje"
-  const frequency = 1.5; // częstotliwość fali
-  const spacing = 250; // odstęp w pionie
-  const baseX = 100; // środek poziomej pozycji (bo sin może dać ujemne)
-
   return (
     <ScrollView style={styles.container}>
       <Image
@@ -29,26 +23,16 @@ export default function Lessons() {
 
       <View style={styles.sinus}>
         {unit.lessons.map((a, i) => {
-          const top = i * spacing;
-          const left = baseX + Math.sin(i * frequency) * amplitude;
-
           return (
             <View key={a.id}>
-              <TouchableOpacity style={[styles.lesson, { top, left }]}>
+              <TouchableOpacity style={[styles.lesson]}>
                 <Text>{a.id}</Text>
               </TouchableOpacity>
 
               {i < unit.lessons.length - 1 &&
                 [1, 2, 3].map((step) => {
-                  const t = i + step / 4; // np. 1.25, 1.5, 1.75
-                  const dotTop = t * spacing;
-                  const dotLeft = baseX + Math.sin(t * frequency) * amplitude;
-
                   return (
-                    <Text
-                      key={`dot-${a.id}-${step}`}
-                      style={[styles.dots, { top: dotTop, left: dotLeft }]}
-                    >
+                    <Text key={`dot-${a.id}-${step}`} style={[styles.dots]}>
                       ⋯
                     </Text>
                   );

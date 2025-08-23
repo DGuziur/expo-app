@@ -4,6 +4,7 @@ import { course } from "../../data/data";
 import { useState } from "react";
 import {
   Image,
+  LayoutChangeEvent,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,12 +13,19 @@ import {
 } from "react-native";
 
 export default function Lessons() {
-  const [positions, setPositions] = useState([{}]);
+  const [positions, setPositions] = useState<{ [id: string]: number }>({});
   const unit: Unit = course[0];
 
   function whereItemGo() {
     const options = ["flex-start", "center", "flex-end"];
     return options[Math.floor(Math.random() * 3)];
+  }
+  function getItemCenter(id: string, e: LayoutChangeEvent) {
+    const { x, width } = e.nativeEvent.layout;
+    setPositions((prev) => ({
+      ...prev,
+      [id]: x + width / 2,
+    }));
   }
 
   const lessonPositions = unit.lessons.map(() => whereItemGo());
@@ -34,32 +42,22 @@ export default function Lessons() {
         {unit.lessons.map((a, i) => {
           const placeHere: any = lessonPositions[i];
           const nextPlacement: any = lessonPositions[i + 1];
+          console.log(positions);
 
           return (
-            <View key={a.id} style={styles.lessonsContainer}>
+            <View
+              key={a.id}
+              style={styles.lessonsContainer}
+              onLayout={(e) => getItemCenter(a.id, e)}
+            >
               <TouchableOpacity
                 style={[styles.lesson, { alignSelf: placeHere }]}
-                onLayout={(event) => {
-                  const layout = event.nativeEvent.layout;
-                  // console.log("height:", layout.height);
-                  // console.log("width:", layout.width);
-                  // console.log("x:", layout.x);
-                  // console.log("y:", layout.y);
-                  setPositions((prev) => ({
-                    ...prev,
-                    [a.id]: {
-                      x: layout.x + layout.width / 2,
-                      y: layout.y + layout.height / 2,
-                    },
-                  }));
-                }}
               >
                 <Text>{a.id}</Text>
               </TouchableOpacity>
 
               {i < unit.lessons.length - 1 && (
                 <>
-                  {/* {console.log("START ", placeHere, "NEXT ", nextPlacement)} */}
                   <View style={styles.dotContainer}>
                     <Text style={[styles.dots, { alignSelf: placeHere }]}>
                       •

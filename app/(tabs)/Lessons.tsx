@@ -1,5 +1,4 @@
 import { Unit } from "@/types/types";
-import { useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,7 +10,6 @@ import {
 import { course } from "../../data/data";
 
 export default function Lessons() {
-  const [positions, setPositions] = useState<{ [id: string]: number }>({});
   const unit: Unit = course[0];
 
   function whereItemGo(i: any) {

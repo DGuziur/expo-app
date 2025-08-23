@@ -1,6 +1,7 @@
 import { Unit } from "@/types/types";
 import { course } from "../../data/data";
 
+import { useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,7 +12,16 @@ import {
 } from "react-native";
 
 export default function Lessons() {
+  const [positions, setPositions] = useState([{}]);
   const unit: Unit = course[0];
+
+  function whereItemGo() {
+    const options = ["flex-start", "center", "flex-end"];
+    return options[Math.floor(Math.random() * 3)];
+  }
+
+  const lessonPositions = unit.lessons.map(() => whereItemGo());
+
   return (
     <ScrollView style={styles.container}>
       <Image
@@ -20,23 +30,61 @@ export default function Lessons() {
           uri: "https://www.shutterstock.com/image-photo/maldives-islands-ocean-tropical-beach-600nw-1938868960.jpg",
         }}
       />
-
-      <View style={styles.sinus}>
+      <View>
         {unit.lessons.map((a, i) => {
+          const placeHere: any = lessonPositions[i];
+          const nextPlacement: any = lessonPositions[i + 1];
+
           return (
-            <View key={a.id}>
-              <TouchableOpacity style={[styles.lesson]}>
+            <View key={a.id} style={styles.lessonsContainer}>
+              <TouchableOpacity
+                style={[styles.lesson, { alignSelf: placeHere }]}
+                onLayout={(event) => {
+                  const layout = event.nativeEvent.layout;
+                  // console.log("height:", layout.height);
+                  // console.log("width:", layout.width);
+                  // console.log("x:", layout.x);
+                  // console.log("y:", layout.y);
+                  setPositions((prev) => ({
+                    ...prev,
+                    [a.id]: {
+                      x: layout.x + layout.width / 2,
+                      y: layout.y + layout.height / 2,
+                    },
+                  }));
+                }}
+              >
                 <Text>{a.id}</Text>
               </TouchableOpacity>
 
-              {i < unit.lessons.length - 1 &&
-                [1, 2, 3].map((step) => {
-                  return (
-                    <Text key={`dot-${a.id}-${step}`} style={[styles.dots]}>
-                      ⋯
+              {i < unit.lessons.length - 1 && (
+                <>
+                  {/* {console.log("START ", placeHere, "NEXT ", nextPlacement)} */}
+                  <View style={styles.dotContainer}>
+                    <Text style={[styles.dots, { alignSelf: placeHere }]}>
+                      •
                     </Text>
-                  );
-                })}
+                  </View>
+                  <View style={styles.dotContainer}>
+                    <Text
+                      style={[
+                        styles.dots,
+                        {
+                          alignSelf:
+                            placeHere === nextPlacement ? "center" : placeHere,
+                        },
+                      ]}
+                    >
+                      •
+                    </Text>
+                  </View>
+                  <View style={styles.dotContainer}>
+                    <Text style={[styles.dots, { alignSelf: nextPlacement }]}>
+                      •
+                    </Text>
+                  </View>
+                </>
+              )}
             </View>
           );
         })}
@@ -52,21 +100,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f8f8f8",
   },
-  sinus: {
-    position: "relative",
-    height: 1000,
-    marginTop: 20,
-  },
-  lesson: {
-    position: "absolute",
-    width: 150,
-    height: 150,
-    backgroundColor: "pink",
-    borderRadius: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-  },
   image: {
     height: 200,
     resizeMode: "stretch",
@@ -76,15 +109,20 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     backgroundColor: "orange",
   },
+  lessonsContainer: {
+    marginTop: 10,
+    flex: 3,
+    flexDirection: "column",
+  },
+  lesson: {
+    margin: 1,
+    backgroundColor: "brown",
+    width: "30%",
+    height: 30,
+    borderRadius: 5,
+  },
+  dotContainer: {},
   dots: {
-    position: "absolute",
     fontSize: 30,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "gray",
-    opacity: 0.6,
-    color: "white",
-    textAlign: "center",
   },
 });

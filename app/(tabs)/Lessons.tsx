@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     color: "#636e72",
   },
   timelineContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 90,
     paddingVertical: 10,
   },
   lessonRow: {
@@ -117,10 +117,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 2,
-    borderBottomColor: "blue",
-    borderBottomWidth: 5,
+    borderBottomColor: "#13145fff",
+    borderBottomWidth: 7,
     borderWidth: 1,
-    borderColor: "blue",
+    borderColor: "#aabcd6ff",
   },
   lessonNumber: {
     color: "white",

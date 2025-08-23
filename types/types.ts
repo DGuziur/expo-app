@@ -2,17 +2,17 @@ export interface Unit {
   id: string;
   title: string;
   desc: string;
-  lessons: Lesson[];
+  lessonIds: string[];
 }
 
 export interface Lesson {
   id: string;
   title: string;
-  types: ContentTypeEnabled;
-  content: Content[];
+  //types: ContentTypeEnabled;
+  taskIds: string[];
 }
 
-export interface Content {
+export interface Task {
   type: ContentType | string;
   options: string[] | string[][];
   answers: string[] | string[][];
@@ -20,4 +20,4 @@ export interface Content {
 
 type ContentType = "choose" | "compare" | "fillIn" | "listen" | "speak";
 
-type ContentTypeEnabled = { [K in ContentType]: boolean };
+//type ContentTypeEnabled = { [K in ContentType]: boolean };

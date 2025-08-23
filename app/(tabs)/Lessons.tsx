@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "blue",
     borderBottomWidth: 5,
     borderWidth: 1,
+    borderColor: "blue",
   },
   lessonNumber: {
     color: "white",

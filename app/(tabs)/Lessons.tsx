@@ -26,6 +26,10 @@ export default function Lessons() {
           uri: "https://picsum.photos/600/300",
         }}
       />
+      <Image
+        style={styles.kwiatek}
+        source={require("../../assets/images/flower1.png")}
+      />
       {allUnits.map((unit) => {
         const lessonPositions = unit.lessons.map((_, i) => {
           counter++;
@@ -150,5 +154,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  kwiatek: {
+    position: "absolute",
+    top: 350,
+    left: 10,
+    objectFit: "cover",
+    width: 120,
+    height: 160,
   },
 });

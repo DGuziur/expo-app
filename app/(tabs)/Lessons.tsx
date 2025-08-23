@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     top: 350,
     left: 10,
     objectFit: "cover",
-    width: 120,
+    width: 150,
     height: 160,
+    aspectRatio: 1 / 1,
   },
 });

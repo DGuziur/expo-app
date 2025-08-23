@@ -29,10 +29,11 @@ export default function Lessons() {
       {allUnits.map((unit) => {
         const lessonPositions = unit.lessons.map((_, i) => {
           counter++;
-          return whereItemGo(counter);
+          return whereItemGo(counter - 1);
         });
+        const lessonsLength = unit.lessons.length;
         return (
-          <View>
+          <View key={unit.id}>
             <View style={styles.header}>
               <Text style={styles.courseTitle}>{unit.title}</Text>
               <Text style={styles.lessonsCount}>
@@ -52,7 +53,7 @@ export default function Lessons() {
                       <Text style={styles.lessonNumber}>{i + 1}</Text>
                     </TouchableOpacity>
 
-                    {/* {i < lesson.length - 1 && (
+                    {i < lessonsLength - 1 && (
                       <View style={styles.connection}>
                         <View
                           style={[
@@ -61,7 +62,7 @@ export default function Lessons() {
                           ]}
                         />
                       </View>
-                    )} */}
+                    )}
                   </View>
                 );
               })}

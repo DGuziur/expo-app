@@ -1,6 +1,5 @@
 import { Unit } from "@/types/types";
-import { course } from "../../data/data";
-
+import { useState } from "react";
 import {
   Image,
   ScrollView,
@@ -9,56 +8,59 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { course } from "../../data/data";
 
 export default function Lessons() {
+  const [positions, setPositions] = useState<{ [id: string]: number }>({});
   const unit: Unit = course[0];
 
-  const amplitude = 50; // jak bardzo "faluje"
-  const frequency = 1.5; // częstotliwość fali
-  const spacing = 250; // odstęp w pionie
-  const baseX = 100; // środek poziomej pozycji (bo sin może dać ujemne)
+  function whereItemGo(i: any) {
+    const options = ["center", "flex-end", "center", "flex-start"];
+    return options[i % options.length];
+  }
+  const lessonPositions = unit.lessons.map((a, i) => whereItemGo(i));
 
   return (
     <ScrollView style={styles.container}>
       <Image
         style={styles.image}
         source={{
-          uri: "https://www.shutterstock.com/image-photo/maldives-islands-ocean-tropical-beach-600nw-1938868960.jpg",
+          uri: "https://picsum.photos/600/300",
         }}
       />
 
-      <View style={styles.sinus}>
-        {unit.lessons.map((a, i) => {
-          const top = i * spacing;
-          const left = baseX + Math.sin(i * frequency) * amplitude;
+      <View style={styles.header}>
+        <Text style={styles.courseTitle}>{unit.title}</Text>
+        <Text style={styles.lessonsCount}>{unit.lessons.length} lekcji</Text>
+      </View>
+
+      <View style={styles.timelineContainer}>
+        {unit.lessons.map((lesson, i) => {
+          const placeHere: any = lessonPositions[i];
+          const nextPlacement: any = lessonPositions[i + 1];
 
           return (
-            <View key={a.id}>
-              <TouchableOpacity style={[styles.lesson, { top, left }]}>
-                <Text>{a.id}</Text>
+            <View key={lesson.id} style={styles.lessonRow}>
+              <TouchableOpacity
+                style={[styles.lessonCircle, { alignSelf: placeHere }]}
+              >
+                <Text style={styles.lessonNumber}>{i + 1}</Text>
               </TouchableOpacity>
 
-              {i < unit.lessons.length - 1 &&
-                [1, 2, 3].map((step) => {
-                  const t = i + step / 4; // np. 1.25, 1.5, 1.75
-                  const dotTop = t * spacing;
-                  const dotLeft = baseX + Math.sin(t * frequency) * amplitude;
-
-                  return (
-                    <Text
-                      key={`dot-${a.id}-${step}`}
-                      style={[styles.dots, { top: dotTop, left: dotLeft }]}
-                    >
-                      ⋯
-                    </Text>
-                  );
-                })}
+              {i < unit.lessons.length - 1 && (
+                <View style={styles.connection}>
+                  <View
+                    style={[styles.connectionDot, { alignSelf: nextPlacement }]}
+                  />
+                </View>
+              )}
             </View>
           );
         })}
       </View>
-      <View style={styles.fini}>
-        <Text style={{ textAlign: "center" }}>Fini</Text>
+
+      <View style={styles.finish}>
+        <Text style={styles.finishText}>FINI!</Text>
       </View>
     </ScrollView>
   );
@@ -66,41 +68,74 @@ export default function Lessons() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f8f8f8",
-  },
-  sinus: {
-    position: "relative",
-    height: 1000,
-    marginTop: 20,
-  },
-  lesson: {
-    position: "absolute",
-    width: 150,
-    height: 150,
-    backgroundColor: "pink",
-    borderRadius: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+    flex: 1,
+    backgroundColor: "#1b39b109",
   },
   image: {
     height: 200,
-    resizeMode: "stretch",
+    objectFit: "cover",
+    width: "100%",
   },
-  fini: {
-    padding: 10,
-    marginBottom: 30,
-    backgroundColor: "orange",
+  header: {
+    padding: 20,
+    alignItems: "center",
   },
-  dots: {
-    position: "absolute",
-    fontSize: 30,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "gray",
-    opacity: 0.6,
+  courseTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#0a041aff",
+    marginBottom: 5,
+  },
+  lessonsCount: {
+    fontSize: 16,
+    color: "#636e72",
+  },
+  timelineContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  lessonRow: {
+    marginBottom: 10,
+  },
+  lessonCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "powderblue",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 2,
+    borderBottomColor: "blue",
+    borderBottomWidth: 5,
+    borderWidth: 1,
+  },
+  lessonNumber: {
     color: "white",
-    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  connection: {
+    height: 30,
+    justifyContent: "space-between",
+  },
+  connectionDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "#74b9ff",
+    marginHorizontal: 10,
+  },
+  finish: {
+    padding: 15,
+    margin: 20,
+    marginBottom: 40,
+    backgroundColor: "pink",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  finishText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

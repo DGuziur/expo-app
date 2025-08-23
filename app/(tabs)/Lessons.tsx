@@ -17,7 +17,6 @@ export default function Lessons() {
     const options = ["center", "flex-end", "center", "flex-start"];
     return options[i % options.length];
   }
-  // const lessonPositions = unit.lessons.map((a, i) => whereItemGo(i));
 
   return (
     <ScrollView style={styles.container}>

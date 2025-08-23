@@ -122,6 +122,64 @@ export const course: Unit[] = [
           },
         ],
       },
+      {
+        id: "lesson_five",
+        types: {
+          compare: true,
+          fillIn: true,
+          choose: true,
+          listen: true,
+          speak: true,
+        },
+        title: "lesson title",
+        content: [
+          {
+            type: "choose",
+            options: ["opt1", "opt2"],
+            answers: ["opt1"],
+          },
+          {
+            type: "compare",
+            options: [
+              ["opt1", "opt2"],
+              ["opt3", "opt4"],
+            ],
+            answers: [
+              ["opt1", "opt2"],
+              ["opt3", "opt4"],
+            ],
+          },
+        ],
+      },
+      {
+        id: "lesson_six",
+        types: {
+          compare: true,
+          fillIn: true,
+          choose: true,
+          listen: true,
+          speak: true,
+        },
+        title: "lesson title",
+        content: [
+          {
+            type: "choose",
+            options: ["opt1", "opt2"],
+            answers: ["opt1"],
+          },
+          {
+            type: "compare",
+            options: [
+              ["opt1", "opt2"],
+              ["opt3", "opt4"],
+            ],
+            answers: [
+              ["opt1", "opt2"],
+              ["opt3", "opt4"],
+            ],
+          },
+        ],
+      },
     ],
   },
   {

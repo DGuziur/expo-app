@@ -4,7 +4,6 @@ import { course } from "../../data/data";
 import { useState } from "react";
 import {
   Image,
-  LayoutChangeEvent,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,19 +15,12 @@ export default function Lessons() {
   const [positions, setPositions] = useState<{ [id: string]: number }>({});
   const unit: Unit = course[0];
 
-  function whereItemGo() {
-    const options = ["flex-start", "center", "flex-end"];
-    return options[Math.floor(Math.random() * 3)];
+  function whereItemGo(i: any) {
+    const options = ["center", "flex-end", "center", "flex-start"];
+    return options[i % options.length];
   }
-  function getItemCenter(id: string, e: LayoutChangeEvent) {
-    const { x, width } = e.nativeEvent.layout;
-    setPositions((prev) => ({
-      ...prev,
-      [id]: x + width / 2,
-    }));
-  }
-
-  const lessonPositions = unit.lessons.map(() => whereItemGo());
+  const lessonPositions = unit.lessons.map((a, i) => whereItemGo(i));
+  console.log(lessonPositions);
 
   return (
     <ScrollView style={styles.container}>
@@ -45,11 +37,7 @@ export default function Lessons() {
           console.log(positions);
 
           return (
-            <View
-              key={a.id}
-              style={styles.lessonsContainer}
-              onLayout={(e) => getItemCenter(a.id, e)}
-            >
+            <View key={a.id} style={styles.lessonsContainer}>
               <TouchableOpacity
                 style={[styles.lesson, { alignSelf: placeHere }]}
               >
@@ -58,29 +46,27 @@ export default function Lessons() {
 
               {i < unit.lessons.length - 1 && (
                 <>
-                  <View style={styles.dotContainer}>
-                    <Text style={[styles.dots, { alignSelf: placeHere }]}>
-                      •
-                    </Text>
-                  </View>
-                  <View style={styles.dotContainer}>
-                    <Text
-                      style={[
-                        styles.dots,
-                        {
-                          alignSelf:
-                            placeHere === nextPlacement ? "center" : placeHere,
-                        },
-                      ]}
-                    >
-                      •
-                    </Text>
-                  </View>
-                  <View style={styles.dotContainer}>
-                    <Text style={[styles.dots, { alignSelf: nextPlacement }]}>
-                      •
-                    </Text>
-                  </View>
+                  <Text style={[styles.dots, { alignSelf: placeHere }]}>•</Text>
+                  <Text
+                    style={[
+                      styles.dots,
+                      {
+                        alignSelf: "center",
+                        marginLeft:
+                          placeHere === "center" && nextPlacement === "flex-end"
+                            ? "46%"
+                            : placeHere === "flex-end" &&
+                              nextPlacement === "center"
+                            ? "46%"
+                            : "-0%",
+                      },
+                    ]}
+                  >
+                    •
+                  </Text>
+                  <Text style={[styles.dots, { alignSelf: nextPlacement }]}>
+                    •
+                  </Text>
                 </>
               )}
             </View>
@@ -108,19 +94,29 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
   },
   lessonsContainer: {
-    marginTop: 10,
-    flex: 3,
     flexDirection: "column",
+    marginBottom: 0,
+    marginHorizontal: "20%",
   },
   lesson: {
-    margin: 1,
     backgroundColor: "brown",
-    width: "30%",
-    height: 30,
-    borderRadius: 5,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 2,
+    marginTop: 2,
+    justifyContent: "center",
   },
-  dotContainer: {},
   dots: {
-    fontSize: 30,
+    height: 20,
+    width: 20,
+    backgroundColor: "red",
+    justifyContent: "center",
+    display: "flex",
+    textAlign: "center",
+    fontWeight: 600,
+    marginHorizontal: 60,
+    borderRadius: 10,
+    color: "white",
   },
 });

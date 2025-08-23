@@ -1,7 +1,11 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function AddLesson() {
-  return <View style={styles.container}></View>;
+  return (
+    <View style={styles.container}>
+      <Text>KUPA</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -10,7 +14,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#723333ff",
   },
   title: {
     fontSize: 24,

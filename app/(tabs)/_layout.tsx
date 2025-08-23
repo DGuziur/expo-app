@@ -91,11 +91,26 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="Lessons"
         options={{
-          title: "Dla testów",
+          title: "lekcje",
           tabBarIcon({ color, size }) {
             return (
               <Ionicons
                 name="thumbs-down-outline"
+                size={size}
+                color={color}
+              ></Ionicons>
+            );
+          },
+        }}
+      ></Tabs.Screen>
+      <Tabs.Screen
+        name="AddLesson"
+        options={{
+          title: "Dla testów",
+          tabBarIcon({ color, size }) {
+            return (
+              <Ionicons
+                name="thumbs-up-outline"
                 size={size}
                 color={color}
               ></Ionicons>

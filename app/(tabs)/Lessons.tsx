@@ -1,5 +1,4 @@
 import { Unit } from "@/types/types";
-import { useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,14 +10,13 @@ import {
 import { course } from "../../data/data";
 
 export default function Lessons() {
-  const [positions, setPositions] = useState<{ [id: string]: number }>({});
-  const unit: Unit = course[0];
+  let counter = 0;
+  const allUnits: Unit[] = course;
 
   function whereItemGo(i: any) {
     const options = ["center", "flex-end", "center", "flex-start"];
     return options[i % options.length];
   }
-  const lessonPositions = unit.lessons.map((a, i) => whereItemGo(i));
 
   return (
     <ScrollView style={styles.container}>
@@ -28,36 +26,49 @@ export default function Lessons() {
           uri: "https://picsum.photos/600/300",
         }}
       />
-
-      <View style={styles.header}>
-        <Text style={styles.courseTitle}>{unit.title}</Text>
-        <Text style={styles.lessonsCount}>{unit.lessons.length} lekcji</Text>
-      </View>
-
-      <View style={styles.timelineContainer}>
-        {unit.lessons.map((lesson, i) => {
-          const placeHere: any = lessonPositions[i];
-          const nextPlacement: any = lessonPositions[i + 1];
-
-          return (
-            <View key={lesson.id} style={styles.lessonRow}>
-              <TouchableOpacity
-                style={[styles.lessonCircle, { alignSelf: placeHere }]}
-              >
-                <Text style={styles.lessonNumber}>{i + 1}</Text>
-              </TouchableOpacity>
-
-              {i < unit.lessons.length - 1 && (
-                <View style={styles.connection}>
-                  <View
-                    style={[styles.connectionDot, { alignSelf: nextPlacement }]}
-                  />
-                </View>
-              )}
+      {allUnits.map((unit) => {
+        const lessonPositions = unit.lessons.map((_, i) => {
+          counter++;
+          return whereItemGo(counter);
+        });
+        return (
+          <View>
+            <View style={styles.header}>
+              <Text style={styles.courseTitle}>{unit.title}</Text>
+              <Text style={styles.lessonsCount}>
+                {unit.lessons.length} lekcji
+              </Text>
             </View>
-          );
-        })}
-      </View>
+            <View style={styles.timelineContainer}>
+              {unit.lessons.map((lesson, i) => {
+                const placeHere: any = lessonPositions[i];
+                const nextPlacement: any = lessonPositions[i + 1];
+
+                return (
+                  <View key={lesson.id} style={styles.lessonRow}>
+                    <TouchableOpacity
+                      style={[styles.lessonCircle, { alignSelf: placeHere }]}
+                    >
+                      <Text style={styles.lessonNumber}>{i + 1}</Text>
+                    </TouchableOpacity>
+
+                    {/* {i < lesson.length - 1 && (
+                      <View style={styles.connection}>
+                        <View
+                          style={[
+                            styles.connectionDot,
+                            { alignSelf: nextPlacement },
+                          ]}
+                        />
+                      </View>
+                    )} */}
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        );
+      })}
 
       <View style={styles.finish}>
         <Text style={styles.finishText}>FINI!</Text>
@@ -108,6 +119,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "blue",
     borderBottomWidth: 5,
     borderWidth: 1,
+    borderColor: "blue",
   },
   lessonNumber: {
     color: "white",

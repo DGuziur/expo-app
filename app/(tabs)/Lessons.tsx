@@ -26,11 +26,8 @@ export default function Lessons() {
           uri: "https://picsum.photos/600/300",
         }}
       />
-      <Image
-        style={styles.kwiatek}
-        source={require("../../assets/images/flower1.png")}
-      />
-      {allUnits.map((unit) => {
+
+      {allUnits.map((unit, indexUnit) => {
         const lessonPositions = unit.lessons.map((_, i) => {
           counter++;
           return whereItemGo(counter - 1);
@@ -45,6 +42,26 @@ export default function Lessons() {
               </Text>
             </View>
             <View style={styles.timelineContainer}>
+              <Image
+                style={[
+                  styles.kwiatek,
+                  {
+                    transform:
+                      indexUnit % 2 === 0
+                        ? [
+                            { translateX: -100 },
+                            { translateY: -300 },
+                            { rotate: "30deg" },
+                          ]
+                        : [
+                            { translateX: 180 },
+                            { translateY: -100 },
+                            { rotate: "-30deg" },
+                          ],
+                  },
+                ]}
+                source={require("../../assets/images/gowi1.png")}
+              />
               {unit.lessons.map((lesson, i) => {
                 const placeHere: any = lessonPositions[i];
                 const nextPlacement: any = lessonPositions[i + 1];
@@ -109,6 +126,7 @@ const styles = StyleSheet.create({
   timelineContainer: {
     paddingHorizontal: 90,
     paddingVertical: 10,
+    position: "relative",
   },
   lessonRow: {
     marginBottom: 10,
@@ -157,11 +175,10 @@ const styles = StyleSheet.create({
   },
   kwiatek: {
     position: "absolute",
-    top: 350,
-    left: 10,
-    objectFit: "cover",
-    width: 150,
-    height: 160,
-    aspectRatio: 1 / 1,
+    objectFit: "contain",
+    width: 100,
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: "50%" }, { translateY: "50%" }],
   },
 });

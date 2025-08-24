@@ -74,7 +74,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="modules"
         options={{
           title: "Modules",
           tabBarIcon({ color, size }) {

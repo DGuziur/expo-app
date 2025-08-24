@@ -26,13 +26,15 @@ export default function Lessons() {
           uri: "https://picsum.photos/600/300",
         }}
       />
-      {allUnits.map((unit) => {
+
+      {allUnits.map((unit, indexUnit) => {
         const lessonPositions = unit.lessons.map((_, i) => {
           counter++;
-          return whereItemGo(counter);
+          return whereItemGo(counter - 1);
         });
+        const lessonsLength = unit.lessons.length;
         return (
-          <View>
+          <View key={unit.id}>
             <View style={styles.header}>
               <Text style={styles.courseTitle}>{unit.title}</Text>
               <Text style={styles.lessonsCount}>
@@ -40,6 +42,26 @@ export default function Lessons() {
               </Text>
             </View>
             <View style={styles.timelineContainer}>
+              <Image
+                style={[
+                  styles.kwiatek,
+                  {
+                    transform:
+                      indexUnit % 2 === 0
+                        ? [
+                            { translateX: -100 },
+                            { translateY: -300 },
+                            { rotate: "30deg" },
+                          ]
+                        : [
+                            { translateX: 180 },
+                            { translateY: -100 },
+                            { rotate: "-30deg" },
+                          ],
+                  },
+                ]}
+                source={require("../../assets/images/gowi1.png")}
+              />
               {unit.lessons.map((lesson, i) => {
                 const placeHere: any = lessonPositions[i];
                 const nextPlacement: any = lessonPositions[i + 1];
@@ -52,7 +74,7 @@ export default function Lessons() {
                       <Text style={styles.lessonNumber}>{i + 1}</Text>
                     </TouchableOpacity>
 
-                    {/* {i < lesson.length - 1 && (
+                    {i < lessonsLength - 1 && (
                       <View style={styles.connection}>
                         <View
                           style={[
@@ -61,7 +83,7 @@ export default function Lessons() {
                           ]}
                         />
                       </View>
-                    )} */}
+                    )}
                   </View>
                 );
               })}
@@ -102,8 +124,9 @@ const styles = StyleSheet.create({
     color: "#636e72",
   },
   timelineContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 90,
     paddingVertical: 10,
+    position: "relative",
   },
   lessonRow: {
     marginBottom: 10,
@@ -116,10 +139,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 2,
-    borderBottomColor: "blue",
-    borderBottomWidth: 5,
+    borderBottomColor: "#13145fff",
+    borderBottomWidth: 7,
     borderWidth: 1,
-    borderColor: "blue",
+    borderColor: "#aabcd6ff",
   },
   lessonNumber: {
     color: "white",
@@ -149,5 +172,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  kwiatek: {
+    position: "absolute",
+    objectFit: "contain",
+    width: 100,
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: "50%" }, { translateY: "50%" }],
   },
 });

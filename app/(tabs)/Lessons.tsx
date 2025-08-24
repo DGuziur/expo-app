@@ -18,6 +18,15 @@ export default function Lessons() {
     return options[i % options.length];
   }
 
+  function getFlowerTransform(indexUnit: number) {
+    const isEven = indexUnit % 2 === 0;
+    const translateX = isEven ? 250 : -10;
+    const translateY = isEven ? 90 : -30;
+    const rotate = isEven ? "-30deg" : "30deg";
+
+    return [{ translateX }, { translateY }, { rotate }];
+  }
+
   return (
     <ScrollView style={styles.container}>
       <Image
@@ -46,18 +55,7 @@ export default function Lessons() {
                 style={[
                   styles.kwiatek,
                   {
-                    transform:
-                      indexUnit % 2 === 0
-                        ? [
-                            { translateX: -100 },
-                            { translateY: -300 },
-                            { rotate: "30deg" },
-                          ]
-                        : [
-                            { translateX: 180 },
-                            { translateY: -100 },
-                            { rotate: "-30deg" },
-                          ],
+                    transform: getFlowerTransform(indexUnit),
                   },
                 ]}
                 source={require("../../assets/images/gowi1.png")}
@@ -124,7 +122,7 @@ const styles = StyleSheet.create({
     color: "#636e72",
   },
   timelineContainer: {
-    paddingHorizontal: 90,
+    paddingHorizontal: 120,
     paddingVertical: 10,
     position: "relative",
   },
@@ -175,10 +173,12 @@ const styles = StyleSheet.create({
   },
   kwiatek: {
     position: "absolute",
-    objectFit: "contain",
     width: 100,
+    height: 100,
     top: "50%",
     left: "50%",
-    transform: [{ translateX: "50%" }, { translateY: "50%" }],
+    marginLeft: -50,
+    marginTop: -50,
+    objectFit: "contain",
   },
 });

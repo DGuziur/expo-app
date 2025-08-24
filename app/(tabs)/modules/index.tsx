@@ -19,14 +19,15 @@ export default function Index() {
   const db = getFirestore(app);
 
   const getModuleColor = (index: number) => {
-    const colors = [
-      "#58CC02",
-      "#00B4D8",
-      "#FF9F1C",
-      "#E63946",
-      "#9C89B8",
-      "#F77F00",
-    ];
+    // const colors = [
+    //   "#58CC02",
+    //   "#00B4D8",
+    //   "#FF9F1C",
+    //   "#E63946",
+    //   "#9C89B8",
+    //   "#F77F00",
+    // ];
+    const colors = ["powderblue", "pink"];
     return colors[index % colors.length];
   };
 
@@ -39,7 +40,6 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Twój kursik szmexy</Text>
-        <Text style={styles.headerSubtitle}>Ucz się dzielnie!</Text>
         <Pressable
           onPress={() => router.push("/(tabs)/modules/add-module/AddModule")}
           style={{
@@ -49,7 +49,9 @@ export default function Index() {
             gap: 15,
           }}
         >
-          <Text style={{ fontSize: 16, fontWeight: "bold" }}>Dodaj</Text>
+          <Text style={{ fontSize: 16, fontWeight: "bold", color: "darkblue" }}>
+            Dodaj
+          </Text>
           <View
             style={{
               backgroundColor: "#00B4D8",
@@ -91,7 +93,7 @@ export default function Index() {
                 <Text
                   style={[
                     styles.moduleNumber,
-                    { color: isLocked ? "#999" : "white" },
+                    { color: isLocked ? "#999" : "darkblue" },
                   ]}
                 >
                   {index + 1}
@@ -102,7 +104,7 @@ export default function Index() {
                 <Text
                   style={[
                     styles.moduleTitle,
-                    { color: isLocked ? "#999" : "white" },
+                    { color: isLocked ? "#999" : "darkblue" },
                   ]}
                 >
                   {unit.title}
@@ -110,7 +112,7 @@ export default function Index() {
                 <Text
                   style={[
                     styles.moduleDesc,
-                    { color: isLocked ? "#999" : "rgba(255,255,255,0.9)" },
+                    { color: isLocked ? "#999" : "darkblue" },
                   ]}
                 >
                   {unit.desc}
@@ -149,7 +151,7 @@ export default function Index() {
                 <Text
                   style={[
                     styles.arrowText,
-                    { color: isLocked ? "#999" : "white" },
+                    { color: isLocked ? "#999" : "darkblue" },
                   ]}
                 >
                   ›
@@ -173,19 +175,19 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     paddingVertical: 20,
-    backgroundColor: "white",
+    backgroundColor: "pink",
     borderBottomWidth: 1,
     borderBottomColor: "#E5E5E5",
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#333",
+    color: "white",
     marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 16,
-    color: "#777",
+    color: "darkblue",
   },
   scrollView: {
     flex: 1,
@@ -231,6 +233,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   moduleDesc: {
+    opacity: 0.8,
     fontSize: 14,
     marginBottom: 12,
     lineHeight: 20,
@@ -253,7 +256,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   progressText: {
-    color: "white",
+    color: "darkblue",
     fontSize: 12,
     fontWeight: "600",
     minWidth: 35,
@@ -262,7 +265,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   completedText: {
-    color: "white",
+    color: "darkblue",
     fontSize: 12,
     fontWeight: "600",
   },
@@ -270,7 +273,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   lockedText: {
-    color: "#999",
+    color: "darkblue",
     fontSize: 12,
     fontWeight: "600",
   },

@@ -9,6 +9,11 @@ import {
   View,
 } from "react-native";
 
+type ModuleFormData = {
+  title: string;
+  desc: string;
+};
+
 export default function AddModule() {
   const addNewModule = (moduleData: any) => {
     console.log(moduleData);

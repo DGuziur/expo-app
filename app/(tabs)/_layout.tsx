@@ -104,9 +104,9 @@ export default function TabsLayout() {
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="AddLesson"
+        name="FormLesson"
         options={{
-          title: "Dla testów",
+          title: "Form",
           tabBarIcon({ color, size }) {
             return (
               <Ionicons

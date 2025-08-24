@@ -1,4 +1,5 @@
 import { Unit } from "@/types/types";
+import { router } from "expo-router";
 import {
   Image,
   ScrollView,
@@ -7,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { course } from "../../data/data";
+import { course } from "../../../data/data";
 
 export default function Lessons() {
   let counter = 0;
@@ -58,7 +59,7 @@ export default function Lessons() {
                     transform: getFlowerTransform(indexUnit),
                   },
                 ]}
-                source={require("../../assets/images/gowi1.png")}
+                source={require("../../../assets/images/gowi1.png")}
               />
               {unit.lessons.map((lesson, i) => {
                 const placeHere: any = lessonPositions[i];
@@ -85,6 +86,12 @@ export default function Lessons() {
                   </View>
                 );
               })}
+              <TouchableOpacity
+                style={styles.addLessonBTN}
+                onPress={() => router.push("/(tabs)/lessons/forms/FormLesson")}
+              >
+                <Text style={styles.addLessonBtnText}>+</Text>
+              </TouchableOpacity>
             </View>
           </View>
         );
@@ -180,5 +187,21 @@ const styles = StyleSheet.create({
     marginLeft: -50,
     marginTop: -50,
     objectFit: "contain",
+  },
+  addLessonBTN: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#b811853a",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 2,
+    borderBottomColor: "#13145fff",
+    borderBottomWidth: 7,
+    borderWidth: 1,
+    borderColor: "#c503c5ff",
+  },
+  addLessonBtnText: {
+    color: "#c503c5ff",
   },
 });

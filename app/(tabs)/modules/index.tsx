@@ -1,7 +1,14 @@
 import Spinner from "@/components/Spinner";
 import { app } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
-import { collection, getDocs, getFirestore, query } from "@firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getFirestore,
+  query,
+} from "@firebase/firestore";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -36,6 +43,11 @@ export default function Index() {
     }));
     setUnits(unitsData);
     setLoading(false);
+  };
+
+  const deleteUnit = async (id: string) => {
+    deleteDoc(doc(db, "Units", id));
+    setUnits(units.filter((unit) => unit.id !== id));
   };
 
   useEffect(() => {
@@ -116,6 +128,37 @@ export default function Index() {
               disabled={isLocked}
               activeOpacity={0.8}
             >
+              <View style={styles.menuContainer}>
+                <Pressable
+                  onPress={() => {
+                    console.log("Edit unit:", unit.id);
+                  }}
+                  style={styles.menuButton}
+                >
+                  <Ionicons name="pencil-outline" size={22} color="darkblue" />
+                </Pressable>
+
+                <Pressable
+                  onPress={() => {
+                    console.log("Switch unit:", unit.id);
+                  }}
+                  style={styles.menuButton}
+                >
+                  <Ionicons
+                    name="swap-horizontal-outline"
+                    size={22}
+                    color="darkblue"
+                  />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    deleteUnit(unit.id);
+                  }}
+                  style={styles.menuButton}
+                >
+                  <Ionicons name="trash-outline" size={22} color="darkblue" />
+                </Pressable>
+              </View>
               <View style={styles.moduleIcon}>
                 <Text
                   style={[
@@ -198,6 +241,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F7F8FA",
+  },
+  menuContainer: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    flexDirection: "row",
+    gap: 8,
+    zIndex: 1,
+  },
+  menuButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 11,
+    backgroundColor: "rgba(255,255,255,0.9)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   header: {
     paddingHorizontal: 20,

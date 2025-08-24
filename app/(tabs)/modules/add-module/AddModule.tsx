@@ -1,4 +1,7 @@
+import { app } from "@/firebaseInit";
 import { router } from "expo-router";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Pressable,
@@ -15,8 +18,13 @@ type ModuleFormData = {
 };
 
 export default function AddModule() {
-  const addNewModule = (moduleData: any) => {
-    console.log(moduleData);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const db = getFirestore(app);
+  const addNewModule = async (formData: ModuleFormData) => {
+    setIsLoading(true);
+    const newModuleData = { ...formData, lessons: [] };
+    await addDoc(collection(db, "Units"), newModuleData);
+    router.back();
   };
 
   const {
@@ -25,8 +33,8 @@ export default function AddModule() {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      name: "",
-      description: "",
+      title: "",
+      desc: "",
     },
     mode: "onChange",
   });
@@ -39,7 +47,7 @@ export default function AddModule() {
         <Text style={style.label}>Nazwa</Text>
         <Controller
           control={control}
-          name="name"
+          name="title"
           rules={{
             required: "Nazwa jest wymagana",
             minLength: {
@@ -53,12 +61,12 @@ export default function AddModule() {
               onChangeText={onChange}
               value={value}
               placeholder="Nazwa"
-              style={[style.input, errors.name && style.inputError]}
+              style={[style.input, errors.title && style.inputError]}
             />
           )}
         />
-        {errors.name && (
-          <Text style={style.errorText}>{errors.name.message}</Text>
+        {errors.title && (
+          <Text style={style.errorText}>{errors.title.message}</Text>
         )}
       </View>
 
@@ -66,7 +74,7 @@ export default function AddModule() {
         <Text style={style.label}>Opis</Text>
         <Controller
           control={control}
-          name="description"
+          name="desc"
           rules={{
             required: "Opis jest wymagany",
             minLength: {
@@ -82,19 +90,19 @@ export default function AddModule() {
               placeholder="Opis"
               multiline
               numberOfLines={4}
-              style={[style.input, errors.description && style.inputError]}
+              style={[style.input, errors.desc && style.inputError]}
             />
           )}
         />
-        {errors.description && (
-          <Text style={style.errorText}>{errors.description.message}</Text>
+        {errors.desc && (
+          <Text style={style.errorText}>{errors.desc.message}</Text>
         )}
       </View>
 
       <Pressable
         onPress={handleSubmit(addNewModule)}
         style={[style.button, !isValid && style.buttonDisabled]}
-        disabled={!isValid}
+        disabled={!isValid || isLoading}
       >
         <Text style={style.buttonText}>Dodaj</Text>
       </Pressable>

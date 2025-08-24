@@ -1,8 +1,9 @@
+import Spinner from "@/components/Spinner";
 import { app } from "@/firebaseInit";
-import { Unit } from "@/types/types";
 import { Ionicons } from "@expo/vector-icons";
-import { getFirestore } from "@firebase/firestore";
+import { collection, getDocs, getFirestore, query } from "@firebase/firestore";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   Pressable,
   SafeAreaView,
@@ -12,21 +13,46 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { course } from "../../../data/data";
+
+type UnitData = {
+  id: string;
+  title: string;
+  desc: string;
+};
+
+type FirestoreUnitData = { title: string; desc: string };
 
 export default function Index() {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [units, setUnits] = useState<UnitData[]>([]);
   const router = useRouter();
   const db = getFirestore(app);
 
+  const getUnits = async () => {
+    const snapshot = await getDocs(query(collection(db, "Units")));
+    const unitsData: UnitData[] = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...(doc.data() as FirestoreUnitData),
+    }));
+    setUnits(unitsData);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getUnits();
+  }, []);
+
+  if (loading)
+    return (
+      <Spinner
+        style={{ flex: 1 }}
+        size={100}
+        color="pink"
+        strokeWidth={8}
+      ></Spinner>
+    );
+
   const getModuleColor = (index: number) => {
-    // const colors = [
-    //   "#58CC02",
-    //   "#00B4D8",
-    //   "#FF9F1C",
-    //   "#E63946",
-    //   "#9C89B8",
-    //   "#F77F00",
-    // ];
     const colors = ["powderblue", "pink"];
     return colors[index % colors.length];
   };
@@ -72,12 +98,13 @@ export default function Index() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {course.map((unit: Unit, index: number) => {
+        {units.map((unit: UnitData, index: number) => {
           const isCompleted = getProgressWidth(index) === 100;
-          const isLocked = index > 2;
+          const isLocked = false;
 
           return (
             <TouchableOpacity
+              onPress={() => router.replace("/(tabs)/Lessons")}
               key={index}
               style={[
                 styles.moduleCard,

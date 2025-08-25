@@ -5,9 +5,13 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   query,
+  QueryDocumentSnapshot,
+  QuerySnapshot,
+  setDoc,
 } from "@firebase/firestore";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -32,17 +36,77 @@ type FirestoreUnitData = { title: string; desc: string };
 export default function Index() {
   const [loading, setLoading] = useState<boolean>(true);
   const [units, setUnits] = useState<UnitData[]>([]);
+  const [switchMode, setSwitchMode] = useState<number | null>(null);
   const router = useRouter();
   const db = getFirestore(app);
 
+  const getUnitsOrder = async (unitsSnapshot: QuerySnapshot) => {
+    try {
+      const orderDoc = await getDoc(doc(db, "Config", "UnitsOrder"));
+
+      if (orderDoc.exists()) {
+        return orderDoc.data().order || [];
+      } else {
+        const defaultOrder = unitsSnapshot.docs.map(
+          (doc: QueryDocumentSnapshot) => doc.id
+        );
+
+        await setDoc(doc(db, "Config", "UnitsOrder"), {
+          order: defaultOrder,
+        });
+
+        return defaultOrder;
+      }
+    } catch (error) {
+      console.error("Error getting units order:", error);
+      return [];
+    }
+  };
+
   const getUnits = async () => {
     const snapshot = await getDocs(query(collection(db, "Units")));
-    const unitsData: UnitData[] = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...(doc.data() as FirestoreUnitData),
-    }));
-    setUnits(unitsData);
+    const unitsOrder = await getUnitsOrder(snapshot);
+
+    const unitsMap = new Map(
+      snapshot.docs.map((doc) => [
+        doc.id,
+        {
+          id: doc.id,
+          ...(doc.data() as FirestoreUnitData),
+        },
+      ])
+    );
+
+    const sortedUnits = unitsOrder
+      .map((id: string) => unitsMap.get(id))
+      .filter(Boolean) as UnitData[];
+
+    setUnits(sortedUnits);
     setLoading(false);
+  };
+
+  const swapUnits = async (fromIndex: number, toIndex: number) => {
+    try {
+      const orderDoc = await getDoc(doc(db, "Config", "UnitsOrder"));
+      const currentOrder = orderDoc.data()?.order || [];
+
+      const newOrder = [...currentOrder];
+      [newOrder[fromIndex], newOrder[toIndex]] = [
+        newOrder[toIndex],
+        newOrder[fromIndex],
+      ];
+
+      await setDoc(doc(db, "Config", "UnitsOrder"), {
+        order: newOrder,
+        updatedAt: new Date(),
+      });
+
+      await getUnits();
+    } catch (error) {
+      console.error("Error swapping units:", error);
+    } finally {
+      setSwitchMode(null);
+    }
   };
 
   const deleteUnit = async (id: string) => {
@@ -129,35 +193,77 @@ export default function Index() {
               activeOpacity={0.8}
             >
               <View style={styles.menuContainer}>
-                <Pressable
-                  onPress={() => {
-                    console.log("Edit unit:", unit.id);
-                  }}
-                  style={styles.menuButton}
-                >
-                  <Ionicons name="pencil-outline" size={22} color="darkblue" />
-                </Pressable>
+                {switchMode === null ? (
+                  <>
+                    <Pressable
+                      onPress={() => {
+                        router.push({
+                          pathname: "/(tabs)/modules/edit-module/EditModule",
+                          params: { ...unit },
+                        });
+                      }}
+                      style={styles.menuButton}
+                    >
+                      <Ionicons
+                        name="pencil-outline"
+                        size={22}
+                        color="darkblue"
+                      />
+                    </Pressable>
 
-                <Pressable
-                  onPress={() => {
-                    console.log("Switch unit:", unit.id);
-                  }}
-                  style={styles.menuButton}
-                >
-                  <Ionicons
-                    name="swap-horizontal-outline"
-                    size={22}
-                    color="darkblue"
-                  />
-                </Pressable>
-                <Pressable
-                  onPress={() => {
-                    deleteUnit(unit.id);
-                  }}
-                  style={styles.menuButton}
-                >
-                  <Ionicons name="trash-outline" size={22} color="darkblue" />
-                </Pressable>
+                    <Pressable
+                      onPress={() => {
+                        setSwitchMode(index);
+                      }}
+                      style={styles.menuButton}
+                    >
+                      <Ionicons
+                        name="swap-horizontal-outline"
+                        size={22}
+                        color="darkblue"
+                      />
+                    </Pressable>
+                    <Pressable
+                      onPress={() => {
+                        deleteUnit(unit.id);
+                      }}
+                      style={styles.menuButton}
+                    >
+                      <Ionicons
+                        name="trash-outline"
+                        size={22}
+                        color="darkblue"
+                      />
+                    </Pressable>
+                  </>
+                ) : (
+                  <>
+                    <Pressable
+                      onPress={() => {
+                        swapUnits(switchMode, index);
+                      }}
+                      style={styles.switchMenuButton}
+                    >
+                      <Ionicons
+                        name="swap-horizontal-outline"
+                        size={22}
+                        color="darkblue"
+                      />
+                    </Pressable>
+                    <Pressable
+                      onPress={() => {
+                        setSwitchMode(null);
+                      }}
+                      style={styles.menuButton}
+                    >
+                      <Ionicons
+                        name="close-circle-outline"
+                        size={22}
+                        color="darkblue"
+                      />
+                    </Pressable>
+                  </>
+                )}
               </View>
               <View style={styles.moduleIcon}>
                 <Text
@@ -249,6 +355,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     zIndex: 1,
+  },
+  switchMenuButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,215,100,0.9)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   menuButton: {
     width: 30,

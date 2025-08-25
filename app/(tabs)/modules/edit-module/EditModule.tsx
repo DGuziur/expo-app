@@ -1,13 +1,6 @@
 import { app } from "@/firebaseInit";
-import { router } from "expo-router";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getFirestore,
-  setDoc,
-} from "firebase/firestore";
+import { router, useLocalSearchParams } from "expo-router";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -24,37 +17,44 @@ type ModuleFormData = {
   desc: string;
 };
 
-export default function AddModule() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const db = getFirestore(app);
-  const addNewModule = async (formData: ModuleFormData) => {
-    setIsLoading(true);
-    const newModuleData = { ...formData, lessons: [] };
-    const newDocRef = await addDoc(collection(db, "Units"), newModuleData);
-    const orderDoc = await getDoc(doc(db, "Config", "UnitsOrder"));
-    const currentOrder = orderDoc.exists() ? orderDoc.data().order : [];
-    await setDoc(doc(db, "Config", "UnitsOrder"), {
-      order: [...currentOrder, newDocRef.id],
-    });
+export default function EditModule() {
+  const { id, title, desc } = useLocalSearchParams<
+    ModuleFormData & { id: string }
+  >();
+  const [isLoading, setIsLoading] = useState(false);
 
-    router.back();
-  };
+  const db = getFirestore(app);
 
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<ModuleFormData>({
     defaultValues: {
-      title: "",
-      desc: "",
+      title: title ?? "",
+      desc: desc ?? "",
     },
     mode: "onChange",
   });
 
+  const updateModule = async (formData: ModuleFormData) => {
+    setIsLoading(true);
+    try {
+      await updateDoc(doc(db, "Units", id), {
+        title: formData.title,
+        desc: formData.desc,
+      });
+      router.back();
+    } catch (error) {
+      console.error("Błąd aktualizacji modułu:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView style={style.container}>
-      <Text style={style.title}>Dodaj nowy Moduł</Text>
+      <Text style={style.title}>Edytuj Moduł</Text>
 
       <View>
         <Text style={style.label}>Nazwa</Text>
@@ -113,11 +113,13 @@ export default function AddModule() {
       </View>
 
       <Pressable
-        onPress={handleSubmit(addNewModule)}
+        onPress={handleSubmit(updateModule)}
         style={[style.button, !isValid && style.buttonDisabled]}
         disabled={!isValid || isLoading}
       >
-        <Text style={style.buttonText}>Dodaj</Text>
+        <Text style={style.buttonText}>
+          {isLoading ? "Zapisywanie..." : "Zapisz"}
+        </Text>
       </Pressable>
 
       <Pressable onPress={() => router.back()} style={style.button}>
@@ -134,15 +136,8 @@ const style = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F7F8FA",
   },
-  title: {
-    padding: 15,
-    fontSize: 36,
-  },
-  label: {
-    fontWeight: "bold",
-    fontSize: 15,
-    marginBottom: 5,
-  },
+  title: { padding: 15, fontSize: 36 },
+  label: { fontWeight: "bold", fontSize: 15, marginBottom: 5 },
   input: {
     backgroundColor: "#fff",
     borderWidth: 1,
@@ -153,25 +148,9 @@ const style = StyleSheet.create({
     width: 300,
     fontSize: 16,
     marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
   },
-  inputError: {
-    borderColor: "#FF3B30",
-  },
-  errorText: {
-    color: "#FF3B30",
-    fontSize: 12,
-    marginTop: -12,
-    marginBottom: 16,
-    width: 300,
-  },
+  inputError: { borderColor: "#FF3B30" },
+  errorText: { color: "#FF3B30", fontSize: 12, marginBottom: 16 },
   button: {
     backgroundColor: "#007AFF",
     paddingVertical: 14,
@@ -179,22 +158,8 @@ const style = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     marginBottom: 12,
-    shadowColor: "#000",
     width: 300,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
   },
-  buttonDisabled: {
-    backgroundColor: "#A0A0A0",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
+  buttonDisabled: { backgroundColor: "#A0A0A0" },
+  buttonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
 });

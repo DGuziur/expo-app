@@ -1,10 +1,12 @@
 import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
   Button,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -15,56 +17,68 @@ export default function LessonForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: "",
-      desc: "",
+      lessonName: "",
+      lessonDesc: "",
     },
   });
 
-  const onSubmit = (data: any) => {
+  type FormData = {
+    lessonName: string;
+    lessonDesc: string;
+  };
+  const submit = (data: FormData) => {
     console.log(data);
+    Alert.alert("Dodano: ", JSON.stringify(data));
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.form}>
-        <Text>Tytuł lekcji</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text>Formularz dodania Lekcji oraz zadań</Text>
+        <Text style={styles.label}>Nazwa Lekcji</Text>
         <Controller
+          name="lessonName"
           control={control}
-          name="title"
-          rules={{
-            required: "This field is required.",
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.input}
-              placeholder="Enter title here"
-              onBlur={onBlur}
-              onChangeText={onChange}
+              placeholder="Wpisz nazwę lekcji"
               value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
             />
           )}
+          rules={{ required: true }}
         />
-        {errors.title && <Text>{errors.title?.message}</Text>}
-        <Text>Opis lekcji</Text>
+        {errors.lessonName && (
+          <Text style={styles.errorText}>Nazwa dla lekcji jest wymagana</Text>
+        )}
+
+        <Text style={styles.label}>Opis dla Lekcji</Text>
         <Controller
+          name="lessonDesc"
           control={control}
-          name="desc"
-          rules={{
-            required: "This field is required.",
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.input}
-              placeholder="Enter description here"
-              onBlur={onBlur}
-              onChangeText={onChange}
+              placeholder="Wpisz opis dla lekcji"
               value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
             />
           )}
         />
-        <Text>{errors.desc?.message}</Text>
-        <Text>Dodaj zadania: </Text>
-        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+        {errors.lessonDesc && <Text style={styles.errorText}>Błąd</Text>}
+
+        <Text>Dodaj zadanie</Text>
+        <Text>Wybierz typ zadania</Text>
+        <Text>lista...</Text>
+        <Text>Polecenie</Text>
+        <Text>Tresc</Text>
+
+        <TouchableOpacity style={styles.submitBtn}>
+          <Button title="submit" onPress={handleSubmit(submit)} />
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -72,16 +86,29 @@ export default function LessonForm() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#02071b67",
-    position: "relative",
-  },
-  form: {
-    marginTop: 20,
-    marginHorizontal: 30,
+    backgroundColor: "#f5f5f567",
+    flex: 1,
+    // justifyContent: "center",
+    alignItems: "center",
   },
   input: {
     borderWidth: 1,
-    padding: 8,
-    marginVertical: 5,
+    borderRadius: 10,
+    padding: 10,
+    width: "90%",
+    marginTop: 5,
+    borderColor: "gray",
+  },
+  errorText: {
+    color: "red",
+  },
+  submitBtn: {
+    marginTop: 18,
+    width: "90%",
+  },
+  label: {
+    marginTop: 18,
+    fontWeight: "600",
+    color: "#77077aff",
   },
 });

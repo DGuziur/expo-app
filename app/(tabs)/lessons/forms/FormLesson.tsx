@@ -34,7 +34,9 @@ export default function LessonForm() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text>Formularz dodania Lekcji oraz zadań</Text>
+        <Text style={styles.header}>
+          Formularz dodania Lekcji oraz zadań dla modułu ``NazwaModułu``
+        </Text>
         <Text style={styles.label}>Nazwa Lekcji</Text>
         <Controller
           name="lessonName"
@@ -70,7 +72,7 @@ export default function LessonForm() {
         />
         {errors.lessonDesc && <Text style={styles.errorText}>Błąd</Text>}
 
-        <Text>Dodaj zadanie</Text>
+        <Text style={styles.header}>Dodaj zadanie</Text>
         <Text>Wybierz typ zadania</Text>
         <Text>lista...</Text>
         <Text>Polecenie</Text>
@@ -110,5 +112,10 @@ const styles = StyleSheet.create({
     marginTop: 18,
     fontWeight: "600",
     color: "#77077aff",
+  },
+  header: {
+    marginTop: 18,
+
+    textAlign: "center",
   },
 });

@@ -1,7 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
-  Alert,
   Button,
   ScrollView,
   StyleSheet,
@@ -11,7 +10,13 @@ import {
   View,
 } from "react-native";
 
+import { Unit } from "@/types/types";
+import { course } from "../../../data/data";
+
 export default function LessonForm() {
+  const allUnits: Unit[] = course;
+  const { unitId } = useLocalSearchParams();
+
   const {
     control,
     handleSubmit,
@@ -22,7 +27,6 @@ export default function LessonForm() {
       lessonDesc: "",
     },
   });
-  const { unitId } = useLocalSearchParams();
 
   type FormData = {
     lessonName: string;
@@ -30,7 +34,11 @@ export default function LessonForm() {
   };
   const submit = (data: FormData) => {
     console.log(data);
-    Alert.alert("Dodano: ", JSON.stringify(data));
+    const addToThisUnit = allUnits.find((unit) => unit.id === unitId);
+    if (addToThisUnit) {
+      addToThisUnit.lessons.push(data);
+      console.log("Dodano do unitu o ID: ", unitId, " Dane: ", data);
+    }
   };
 
   return (

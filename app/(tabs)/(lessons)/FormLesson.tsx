@@ -1,3 +1,4 @@
+import { useLocalSearchParams } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
@@ -21,6 +22,7 @@ export default function LessonForm() {
       lessonDesc: "",
     },
   });
+  const { unitId } = useLocalSearchParams();
 
   type FormData = {
     lessonName: string;
@@ -35,7 +37,7 @@ export default function LessonForm() {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.header}>
-          Formularz dodania Lekcji oraz zadań dla modułu ``NazwaModułu``
+          Formularz dodania Lekcji oraz zadań dla modułu {unitId}
         </Text>
         <Text style={styles.label}>Nazwa Lekcji</Text>
         <Controller

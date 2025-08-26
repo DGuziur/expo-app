@@ -89,7 +89,7 @@ export default function TabsLayout() {
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="lessons"
+        name="(lessons)"
         options={{
           title: "lekcje",
           tabBarIcon({ color, size }) {

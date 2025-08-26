@@ -28,6 +28,14 @@ export default function Lessons() {
     return [{ translateX }, { translateY }, { rotate }];
   }
 
+  function openLessonForm(unitId: string) {
+    console.log("openLessonForm wywołane!", unitId);
+    router.push({
+      pathname: "/(tabs)/(lessons)/FormLesson",
+      params: { unitId: unitId },
+    });
+  }
+
   return (
     <ScrollView style={styles.container}>
       <Image
@@ -88,7 +96,7 @@ export default function Lessons() {
               })}
               <TouchableOpacity
                 style={styles.addLessonBTN}
-                onPress={() => router.push("/(tabs)/lessons/forms/FormLesson")}
+                onPress={() => openLessonForm(unit.id)}
               >
                 <Text style={styles.addLessonBtnText}>+</Text>
               </TouchableOpacity>

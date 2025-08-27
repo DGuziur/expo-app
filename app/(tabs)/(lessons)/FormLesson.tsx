@@ -33,6 +33,7 @@ export default function LessonForm() {
   };
   const submit = (data: FormData) => {
     console.log(data);
+
     const addToThisUnit = allUnits.find((unit) => unit.id === unitId);
     if (addToThisUnit) {
       addToThisUnit.lessons.push(data);
@@ -105,7 +106,7 @@ export default function LessonForm() {
   );
 }
 
-const baseBTN = {
+const baseBTN: any = {
   padding: 10,
   borderRadius: 10,
   backgroundColor: "#74b9ff",

@@ -1,3 +1,4 @@
+import MiniMenu from "@/components/MiniMenu";
 import { Unit } from "@/types/types";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -13,9 +14,16 @@ import { course } from "../../../data/data";
 
 export default function Lessons() {
   const [editMode, setEditMode] = useState(false);
-  const [miniMenu, setMiniMenu] = useState(false);
+  const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
   let counter = 0;
   const allUnits: Unit[] = course;
+
+  function handleEditLesson(lessonId: number | string) {
+    console.log("edit: ", lessonId);
+  }
+  function handleDeleteLesson(lessonId: number | string) {
+    console.log("delete ", lessonId);
+  }
 
   function whereItemGo(i: any) {
     const options = ["center", "flex-end", "center", "flex-start"];
@@ -90,59 +98,18 @@ export default function Lessons() {
                 return (
                   <View key={lesson.id} style={styles.lessonRow}>
                     {editMode && (
-                      <View
-                        style={{
-                          alignSelf: placeHere,
-                          display: "flex",
-                          flexDirection: "row",
-                          gap: 10,
-                          zIndex: 100,
-                          marginBottom: 10,
+                      <MiniMenu
+                        placeHere={placeHere}
+                        isActive={activeMenuIndex === i}
+                        onToggle={(index) => {
+                          setActiveMenuIndex(
+                            activeMenuIndex === index ? null : index
+                          );
                         }}
-                      >
-                        <TouchableOpacity
-                          style={
-                            miniMenu
-                              ? {
-                                  ...styles.editModeBtns,
-                                  width: 30,
-                                  height: 30,
-                                }
-                              : {
-                                  ...styles.editModeBtns, //marginLeft: 100
-                                }
-                          }
-                          onPress={() => setMiniMenu(!miniMenu)}
-                        >
-                          {miniMenu ? (
-                            <Text>X</Text>
-                          ) : (
-                            <Text style={{ fontSize: 30 }}>...</Text>
-                          )}
-                        </TouchableOpacity>
-
-                        {miniMenu && (
-                          <View
-                            style={{
-                              gap: 10,
-                              flexDirection: "row",
-                            }}
-                          >
-                            <TouchableOpacity style={styles.editModeBtns}>
-                              <Text>&#128397;</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                              style={[
-                                styles.editModeBtns,
-                                { backgroundColor: "red" },
-                              ]}
-                            >
-                              <Text>&#10006;</Text>
-                            </TouchableOpacity>
-                          </View>
-                        )}
-                      </View>
+                        index={i}
+                        onEdit={() => handleEditLesson(lesson.id)}
+                        onDelete={() => handleDeleteLesson(lesson.id)}
+                      />
                     )}
 
                     <TouchableOpacity
@@ -277,11 +244,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#b811853a",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 2,
-    //borderBottomColor: "#13145fff",
     borderBottomWidth: 7,
     borderWidth: 3,
-    borderColor: "black",
+    borderColor: "rgba(255, 255, 255, 0.52)",
+    shadowColor: "#041f35ff",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   addLessonBtnText: {
     color: "#c503c5ff",
@@ -303,20 +272,5 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     margin: 5,
     alignItems: "center",
-  },
-  editModeBtns: {
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-    width: 55,
-    height: 55,
-    backgroundColor: "rgba(255, 255, 255, 1)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.3)",
-    shadowColor: "#288ee2ff",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
   },
 });

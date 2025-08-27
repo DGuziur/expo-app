@@ -3,6 +3,7 @@ import { Unit } from "@/types/types";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -21,8 +22,34 @@ export default function Lessons() {
   function handleEditLesson(lessonId: number | string) {
     console.log("edit: ", lessonId);
   }
-  function handleDeleteLesson(lessonId: number | string) {
-    console.log("delete ", lessonId);
+
+  function handleDeleteLesson(
+    lessonId: number | string,
+    indexUnit: number,
+    lessonTitle: string
+  ) {
+    Alert.alert(
+      "Potwierdzenie",
+      `Czy na pewno chcesz usunąć tę lekcję? ${lessonTitle}`,
+      [
+        {
+          text: "Anuluj",
+          style: "cancel",
+        },
+        {
+          text: "Usuń",
+          style: "destructive",
+          onPress: () => {
+            const unit = allUnits[indexUnit];
+            unit.lessons = unit.lessons.filter(
+              (lesson) => lessonId !== lesson.id
+            );
+            Alert.alert("Usunięto lekcję", lessonTitle);
+            setActiveMenuIndex(null);
+          },
+        },
+      ]
+    );
   }
 
   function whereItemGo(i: any) {
@@ -108,7 +135,9 @@ export default function Lessons() {
                         }}
                         index={i}
                         onEdit={() => handleEditLesson(lesson.id)}
-                        onDelete={() => handleDeleteLesson(lesson.id)}
+                        onDelete={() =>
+                          handleDeleteLesson(lesson.id, indexUnit, lesson.title)
+                        }
                       />
                     )}
 

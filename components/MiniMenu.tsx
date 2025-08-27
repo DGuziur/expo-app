@@ -52,21 +52,20 @@ export default MiniMenu;
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
     margin: 5,
   },
   miniMenuContainer: {
-    display: "flex",
     flexDirection: "row",
     gap: 12,
     alignItems: "center",
     zIndex: 100,
+    marginBottom: 5,
   },
   menuButton: {
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
@@ -92,8 +91,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   menuItem: {
+    padding: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   editButton: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fff",
     borderColor: "#d1d5db",
   },
   deleteButton: {

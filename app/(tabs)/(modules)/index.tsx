@@ -36,7 +36,7 @@ type FirestoreUnitData = { title: string; desc: string };
 export default function Index() {
   const [loading, setLoading] = useState<boolean>(true);
   const [units, setUnits] = useState<UnitData[]>([]);
-  const [switchMode, setSwitchMode] = useState<number | null>(null);
+  const [selectedForSwap, setSelectedForSwap] = useState<number | null>(null);
   const router = useRouter();
   const db = getFirestore(app);
 
@@ -105,7 +105,7 @@ export default function Index() {
     } catch (error) {
       console.error("Error swapping units:", error);
     } finally {
-      setSwitchMode(null);
+      setSelectedForSwap(null);
     }
   };
 
@@ -143,7 +143,7 @@ export default function Index() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Twój kursik szmexy</Text>
         <Pressable
-          onPress={() => router.push("/(tabs)/modules/add-module/AddModule")}
+          onPress={() => router.push("/(tabs)/(modules)/add-module/AddModule")}
           style={{
             justifyContent: "flex-end",
             alignItems: "center",
@@ -193,77 +193,45 @@ export default function Index() {
               activeOpacity={0.8}
             >
               <View style={styles.menuContainer}>
-                {switchMode === null ? (
-                  <>
-                    <Pressable
-                      onPress={() => {
-                        router.push({
-                          pathname: "/(tabs)/modules/edit-module/EditModule",
-                          params: { ...unit },
-                        });
-                      }}
-                      style={styles.menuButton}
-                    >
-                      <Ionicons
-                        name="pencil-outline"
-                        size={22}
-                        color="darkblue"
-                      />
-                    </Pressable>
+                <Pressable
+                  onPress={() => {
+                    router.push({
+                      pathname: "/(tabs)/(modules)/edit-module/EditModule",
+                      params: { ...unit },
+                    });
+                  }}
+                  style={styles.menuButton}
+                >
+                  <Ionicons name="pencil-outline" size={22} color="darkblue" />
+                </Pressable>
 
-                    <Pressable
-                      onPress={() => {
-                        setSwitchMode(index);
-                      }}
-                      style={styles.menuButton}
-                    >
-                      <Ionicons
-                        name="swap-horizontal-outline"
-                        size={22}
-                        color="darkblue"
-                      />
-                    </Pressable>
-                    <Pressable
-                      onPress={() => {
-                        deleteUnit(unit.id);
-                      }}
-                      style={styles.menuButton}
-                    >
-                      <Ionicons
-                        name="trash-outline"
-                        size={22}
-                        color="darkblue"
-                      />
-                    </Pressable>
-                  </>
-                ) : (
-                  <>
-                    <Pressable
-                      onPress={() => {
-                        swapUnits(switchMode, index);
-                      }}
-                      style={styles.switchMenuButton}
-                    >
-                      <Ionicons
-                        name="swap-horizontal-outline"
-                        size={22}
-                        color="darkblue"
-                      />
-                    </Pressable>
-                    <Pressable
-                      onPress={() => {
-                        setSwitchMode(null);
-                      }}
-                      style={styles.menuButton}
-                    >
-                      <Ionicons
-                        name="close-circle-outline"
-                        size={22}
-                        color="darkblue"
-                      />
-                    </Pressable>
-                  </>
-                )}
+                <Pressable
+                  onPress={() => {
+                    selectedForSwap === null
+                      ? setSelectedForSwap(index)
+                      : swapUnits(selectedForSwap, index);
+                  }}
+                  style={[
+                    styles.menuButton,
+                    selectedForSwap === index
+                      ? { backgroundColor: "green" }
+                      : null,
+                  ]}
+                >
+                  <Ionicons
+                    name="swap-horizontal-outline"
+                    size={22}
+                    color="darkblue"
+                  />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    deleteUnit(unit.id);
+                  }}
+                  style={styles.menuButton}
+                >
+                  <Ionicons name="trash-outline" size={22} color="darkblue" />
+                </Pressable>
               </View>
               <View style={styles.moduleIcon}>
                 <Text

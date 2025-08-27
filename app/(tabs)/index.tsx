@@ -1,4 +1,5 @@
 import { app } from "@/firebaseInit";
+import GowiInput from "@/lib/GowiInput";
 import { Unit } from "@/types/types";
 import { addDoc, collection, getFirestore } from "@firebase/firestore";
 import { Button } from "@react-navigation/elements";
@@ -19,6 +20,11 @@ export default function Index() {
     <View style={styles.container}>
       <Text style={styles.popup}>Hej szmexy~</Text>
       <Text style={styles.popupClose}>&#10008;</Text>
+      <GowiInput
+        containerStyles={{ width: "90%" }}
+        label="name"
+        placeholder="podaj imie"
+      ></GowiInput>
       <View>
         <ScrollView>
           {course.map((a: Unit) => {
@@ -62,7 +68,7 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#E8F8F8" },
+  container: { flex: 1, backgroundColor: "white" },
   popup: {
     backgroundColor: "pink",
     fontSize: 18,

@@ -188,7 +188,7 @@ export const course: Unit[] = [
     desc: "Maecenas et finibus ex. Donec accumsan magna at dui consequat gravida. Aenean mollis vehicula libero.",
     lessons: [
       {
-        id: "lesson_one",
+        id: "lesson_one_b",
         types: {
           compare: true,
           fillIn: true,
@@ -217,7 +217,7 @@ export const course: Unit[] = [
         ],
       },
       {
-        id: "lesson_two",
+        id: "lesson_two_3",
         types: {
           compare: true,
           fillIn: true,
@@ -253,7 +253,7 @@ export const course: Unit[] = [
     desc: "orem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pretium pellentesque sapien. Suspendisse consectetur quis.",
     lessons: [
       {
-        id: "lesson_one",
+        id: "lesson_one_x",
         types: {
           compare: true,
           fillIn: true,
@@ -282,7 +282,7 @@ export const course: Unit[] = [
         ],
       },
       {
-        id: "lesson_two",
+        id: "lesson_two_w",
         types: {
           compare: true,
           fillIn: true,
@@ -311,7 +311,7 @@ export const course: Unit[] = [
         ],
       },
       {
-        id: "lesson_three",
+        id: "lesson_three_0",
         types: {
           compare: true,
           fillIn: true,
@@ -347,7 +347,7 @@ export const course: Unit[] = [
     desc: "orem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pretium pellentesque sapien. Suspendisse consectetur quis.",
     lessons: [
       {
-        id: "lesson_one",
+        id: "lesson_one4",
         types: {
           compare: true,
           fillIn: true,
@@ -376,7 +376,7 @@ export const course: Unit[] = [
         ],
       },
       {
-        id: "lesson_two",
+        id: "lesson_two33",
         types: {
           compare: true,
           fillIn: true,
@@ -405,7 +405,7 @@ export const course: Unit[] = [
         ],
       },
       {
-        id: "lesson_three",
+        id: "lesson_three22",
         types: {
           compare: true,
           fillIn: true,

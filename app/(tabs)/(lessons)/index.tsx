@@ -15,7 +15,9 @@ import { course } from "../../../data/data";
 
 export default function Lessons() {
   const [editMode, setEditMode] = useState(false);
-  const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
+  const [activeMenuId, setActiveMenuId] = useState<string | number | null>(
+    null
+  );
   let counter = 0;
   const allUnits: Unit[] = course;
 
@@ -45,7 +47,7 @@ export default function Lessons() {
               (lesson) => lessonId !== lesson.id
             );
             Alert.alert("Usunięto lekcję", lessonTitle);
-            setActiveMenuIndex(null);
+            setActiveMenuId(null);
           },
         },
       ]
@@ -127,13 +129,12 @@ export default function Lessons() {
                     {editMode && (
                       <MiniMenu
                         placeHere={placeHere}
-                        isActive={activeMenuIndex === i}
-                        onToggle={(index) => {
-                          setActiveMenuIndex(
-                            activeMenuIndex === index ? null : index
-                          );
+                        isActive={activeMenuId === lesson.id}
+                        onToggle={(id) => {
+                          setActiveMenuId(activeMenuId === id ? null : id);
+                          console.log(id);
                         }}
-                        index={i}
+                        index={lesson.id}
                         onEdit={() => handleEditLesson(lesson.id)}
                         onDelete={() =>
                           handleDeleteLesson(lesson.id, indexUnit, lesson.title)

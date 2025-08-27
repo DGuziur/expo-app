@@ -4,8 +4,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 type MiniMenuProps = {
   placeHere: any;
   isActive: boolean;
-  onToggle: (index: number) => void;
-  index: number;
+  onToggle: (index: number | string) => void;
+  index: number | string;
   onEdit?: () => void;
   onDelete?: () => void;
 };
@@ -33,14 +33,18 @@ const MiniMenu: React.FC<MiniMenuProps> = ({
             style={[styles.menuItem, styles.editButton]}
             onPress={onEdit}
           >
-            <Text style={styles.menuItemText}>✏️ Edit</Text>
+            <Text style={[styles.menuItemText, { color: "blue" }]}>
+              ✏️ Edit
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.menuItem, styles.deleteButton]}
             onPress={onDelete}
           >
-            <Text style={styles.menuItemText}>🗑️ Delete</Text>
+            <Text style={[styles.menuItemText, { color: "red" }]}>
+              🗑️ Delete
+            </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -64,17 +68,12 @@ const styles = StyleSheet.create({
   menuButton: {
     width: 48,
     height: 48,
-    borderRadius: 24,
-    backgroundColor: "#fff",
+    borderRadius: 5,
+    backgroundColor: "#ffffffff",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#e1e5e9",
-    shadowColor: "#3b82f6",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 3,
+    borderColor: "#d2d5d8ff",
   },
   menuButtonActive: {
     backgroundColor: "#f1f5f9",
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
   menuItem: {
     padding: 12,
     paddingHorizontal: 16,
-    borderRadius: 20,
+    borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
     minWidth: 80,
@@ -106,11 +105,11 @@ const styles = StyleSheet.create({
   },
   editButton: {
     backgroundColor: "#fff",
-    borderColor: "#d1d5db",
+    borderColor: "#ffffffff",
   },
   deleteButton: {
-    backgroundColor: "#fef2f2",
-    borderColor: "#fecaca",
+    backgroundColor: "#ffffffff",
+    borderColor: "#f3f3f3ff",
   },
   menuItemText: {
     fontSize: 14,

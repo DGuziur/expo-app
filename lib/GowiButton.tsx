@@ -20,7 +20,7 @@ export default function GowiButton({
   handleBtnPress,
 }: {
   buttonText: string;
-  customStyles: StyleProp<ViewStyle>;
+  customStyles?: StyleProp<ViewStyle>;
   handleBtnPress: (props: any) => any;
 }) {
   return (

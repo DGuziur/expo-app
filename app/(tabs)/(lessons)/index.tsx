@@ -13,6 +13,7 @@ import { course } from "../../../data/data";
 
 export default function Lessons() {
   const [editMode, setEditMode] = useState(false);
+  const [miniMenu, setMiniMenu] = useState(false);
   let counter = 0;
   const allUnits: Unit[] = course;
 
@@ -48,7 +49,7 @@ export default function Lessons() {
       />
 
       <TouchableOpacity
-        style={styles.editBtn}
+        style={editMode ? styles.editBtnChecked : styles.editBtn}
         onPress={() => setEditMode(!editMode)}
       >
         {editMode ? (
@@ -88,6 +89,62 @@ export default function Lessons() {
 
                 return (
                   <View key={lesson.id} style={styles.lessonRow}>
+                    {editMode && (
+                      <View
+                        style={{
+                          alignSelf: placeHere,
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: 10,
+                          zIndex: 100,
+                          marginBottom: 10,
+                        }}
+                      >
+                        <TouchableOpacity
+                          style={
+                            miniMenu
+                              ? {
+                                  ...styles.editModeBtns,
+                                  width: 30,
+                                  height: 30,
+                                }
+                              : {
+                                  ...styles.editModeBtns, //marginLeft: 100
+                                }
+                          }
+                          onPress={() => setMiniMenu(!miniMenu)}
+                        >
+                          {miniMenu ? (
+                            <Text>X</Text>
+                          ) : (
+                            <Text style={{ fontSize: 30 }}>...</Text>
+                          )}
+                        </TouchableOpacity>
+
+                        {miniMenu && (
+                          <View
+                            style={{
+                              gap: 10,
+                              flexDirection: "row",
+                            }}
+                          >
+                            <TouchableOpacity style={styles.editModeBtns}>
+                              <Text>&#128397;</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                              style={[
+                                styles.editModeBtns,
+                                { backgroundColor: "red" },
+                              ]}
+                            >
+                              <Text>&#10006;</Text>
+                            </TouchableOpacity>
+                          </View>
+                        )}
+                      </View>
+                    )}
+
                     <TouchableOpacity
                       style={[styles.lessonCircle, { alignSelf: placeHere }]}
                     >
@@ -158,6 +215,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   lessonRow: {
+    position: "relative",
     marginBottom: 10,
   },
   lessonCircle: {
@@ -220,10 +278,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 2,
-    borderBottomColor: "#13145fff",
+    //borderBottomColor: "#13145fff",
     borderBottomWidth: 7,
-    borderWidth: 1,
-    borderColor: "#c503c5ff",
+    borderWidth: 3,
+    borderColor: "black",
   },
   addLessonBtnText: {
     color: "#c503c5ff",
@@ -231,8 +289,34 @@ const styles = StyleSheet.create({
   editBtn: {
     padding: 10,
     borderRadius: 10,
-    backgroundColor: "#74b9ff",
+    backgroundColor: "#ecececff",
+    borderColor: "black",
+    borderWidth: 3,
     margin: 5,
     alignItems: "center",
+  },
+  editBtnChecked: {
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#74b9ff",
+    borderColor: "black",
+    borderWidth: 3,
+    margin: 5,
+    alignItems: "center",
+  },
+  editModeBtns: {
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 55,
+    height: 55,
+    backgroundColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.3)",
+    shadowColor: "#288ee2ff",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
 });

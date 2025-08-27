@@ -1,7 +1,6 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
-  Button,
   ScrollView,
   StyleSheet,
   Text,
@@ -44,6 +43,13 @@ export default function LessonForm() {
   return (
     <ScrollView>
       <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => router.push("/(tabs)/(lessons)")}
+        >
+          <Text>Anuluj - wróć do zakładki lekcji</Text>
+        </TouchableOpacity>
+
         <Text style={styles.header}>
           Formularz dodania Lekcji oraz zadań dla modułu {unitId}
         </Text>
@@ -88,13 +94,23 @@ export default function LessonForm() {
         <Text>Polecenie</Text>
         <Text>Tresc</Text>
 
-        <TouchableOpacity style={styles.submitBtn}>
-          <Button title="submit" onPress={handleSubmit(submit)} />
+        <TouchableOpacity
+          style={styles.submitBtn}
+          onPress={handleSubmit(submit)}
+        >
+          <Text>SUBMIT</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
+
+const baseBTN = {
+  padding: 10,
+  borderRadius: 10,
+  backgroundColor: "#74b9ff",
+  alignItems: "center",
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -114,10 +130,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
   },
-  submitBtn: {
-    marginTop: 18,
-    width: "90%",
-  },
+
   label: {
     marginTop: 18,
     fontWeight: "600",
@@ -125,7 +138,17 @@ const styles = StyleSheet.create({
   },
   header: {
     marginTop: 18,
-
     textAlign: "center",
+  },
+
+  backBtn: {
+    ...baseBTN,
+    margin: 5,
+    width: "90%",
+  },
+  submitBtn: {
+    ...baseBTN,
+    marginTop: 18,
+    width: "90%",
   },
 });

@@ -1,5 +1,6 @@
 import { Unit } from "@/types/types";
 import { router } from "expo-router";
+import { useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,6 +12,7 @@ import {
 import { course } from "../../../data/data";
 
 export default function Lessons() {
+  const [editMode, setEditMode] = useState(false);
   let counter = 0;
   const allUnits: Unit[] = course;
 
@@ -44,6 +46,17 @@ export default function Lessons() {
           uri: "https://picsum.photos/600/300",
         }}
       />
+
+      <TouchableOpacity
+        style={styles.editBtn}
+        onPress={() => setEditMode(!editMode)}
+      >
+        {editMode ? (
+          <Text>Wyłącz tryb edycji &#10006; </Text>
+        ) : (
+          <Text>Włącz tryb edycji &#128397;</Text>
+        )}
+      </TouchableOpacity>
 
       {allUnits.map((unit, indexUnit) => {
         const lessonPositions = unit.lessons.map((_, i) => {
@@ -94,12 +107,15 @@ export default function Lessons() {
                   </View>
                 );
               })}
-              <TouchableOpacity
-                style={styles.addLessonBTN}
-                onPress={() => openLessonForm(unit.id)}
-              >
-                <Text style={styles.addLessonBtnText}>+</Text>
-              </TouchableOpacity>
+
+              {editMode && (
+                <TouchableOpacity
+                  style={styles.addLessonBTN}
+                  onPress={() => openLessonForm(unit.id)}
+                >
+                  <Text style={styles.addLessonBtnText}>+</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         );
@@ -211,5 +227,12 @@ const styles = StyleSheet.create({
   },
   addLessonBtnText: {
     color: "#c503c5ff",
+  },
+  editBtn: {
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#74b9ff",
+    margin: 5,
+    alignItems: "center",
   },
 });

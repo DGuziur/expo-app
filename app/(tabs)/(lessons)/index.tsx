@@ -21,8 +21,20 @@ export default function Lessons() {
   let counter = 0;
   const allUnits: Unit[] = course;
 
-  function handleEditLesson(lessonId: number | string) {
-    console.log("edit: ", lessonId);
+  function handleEditLesson(
+    lessonId: number | string,
+    lessonTitle: string,
+    unitId: string | number
+  ) {
+    //console.log("edit: ", lessonId, " title: ", lessonTitle);
+    router.push({
+      pathname: "/(tabs)/(lessons)/FormLesson",
+      params: {
+        sendedLessonName: lessonTitle,
+        lessonId: lessonId,
+        unitId: unitId,
+      },
+    });
   }
 
   function handleDeleteLesson(
@@ -69,7 +81,7 @@ export default function Lessons() {
   }
 
   function openLessonForm(unitId: string) {
-    console.log("openLessonForm wywołane!", unitId);
+    // console.log("openLessonForm wywołane!", unitId);
     router.push({
       pathname: "/(tabs)/(lessons)/FormLesson",
       params: { unitId: unitId },
@@ -132,10 +144,12 @@ export default function Lessons() {
                         isActive={activeMenuId === lesson.id}
                         onToggle={(id) => {
                           setActiveMenuId(activeMenuId === id ? null : id);
-                          console.log(id);
+                          //console.log(id);
                         }}
                         index={lesson.id}
-                        onEdit={() => handleEditLesson(lesson.id)}
+                        onEdit={() =>
+                          handleEditLesson(lesson.id, lesson.title, unit.id)
+                        }
                         onDelete={() =>
                           handleDeleteLesson(lesson.id, indexUnit, lesson.title)
                         }

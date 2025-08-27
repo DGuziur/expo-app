@@ -1,6 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,7 +15,8 @@ import { course } from "../../../data/data";
 
 export default function LessonForm() {
   const allUnits: Unit[] = course;
-  const { unitId } = useLocalSearchParams();
+  const { unitId, sendedLessonName, lessonId } = useLocalSearchParams();
+  //console.log(unitId, sendedLessonName, lessonId);
 
   const {
     control,
@@ -22,7 +24,7 @@ export default function LessonForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      lessonName: "",
+      lessonName: sendedLessonName !== undefined ? sendedLessonName : "",
       lessonDesc: "",
     },
   });
@@ -31,13 +33,27 @@ export default function LessonForm() {
     lessonName: string;
     lessonDesc: string;
   };
-  const submit = (data: FormData) => {
-    console.log(data);
+  const submit = (data: any) => {
+    console.log(data, lessonId);
 
-    const addToThisUnit = allUnits.find((unit) => unit.id === unitId);
-    if (addToThisUnit) {
-      addToThisUnit.lessons.push(data);
-      console.log("Dodano do unitu o ID: ", unitId, " Dane: ", data);
+    const addLessonToUnit = allUnits.find((unit) => unit.id === unitId);
+
+    if (lessonId !== undefined) {
+      const editLesson = addLessonToUnit?.lessons.find(
+        (lesson) => lesson.id === lessonId
+      );
+
+      if (editLesson) {
+        editLesson.title = data.lessonName;
+        Alert.alert("Akcja", `Zmieniono lekcję  na "${data.lessonName}"`);
+      }
+    } else {
+      if (addLessonToUnit) {
+        addLessonToUnit.lessons.push(data);
+        Alert.alert(
+          `Dodano do unitu o ID: "${unitId}" Dane: "${data.lessonName}"`
+        );
+      }
     }
   };
 

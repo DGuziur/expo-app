@@ -16,9 +16,9 @@ interface LoginForm {
 }
 
 export default function LoginPage() {
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const [firebaseError, setFirebaseError] = useState<string | null>(null);
 
-  const test = useForm({
+  const loginForm = useForm({
     delayError: 3000,
     mode: "onChange",
     defaultValues: {
@@ -33,8 +33,8 @@ export default function LoginPage() {
       formData.email,
       formData.password
     ).catch((err: FirebaseError) => {
-      test.reset();
-      setLoginError(getAuthErrorNamePl(err.code));
+      loginForm.reset();
+      setFirebaseError(getAuthErrorNamePl(err.code));
     });
   };
   return (
@@ -50,10 +50,10 @@ export default function LoginPage() {
           marginBottom: 50,
         }}
       />
-      {loginError && <Text style={styles.errorText}>{loginError}</Text>}
+      {firebaseError && <Text style={styles.errorText}>{firebaseError}</Text>}
 
       <GowiFormInput
-        control={test.control}
+        control={loginForm.control}
         controlName="email"
         label="Email"
         placeholder="Email"
@@ -64,7 +64,7 @@ export default function LoginPage() {
         }}
       ></GowiFormInput>
       <GowiFormInput
-        control={test.control}
+        control={loginForm.control}
         controlName="password"
         label="Password"
         placeholder="Password"
@@ -81,7 +81,7 @@ export default function LoginPage() {
       <GowiButton
         buttonText="Sign In"
         customStyles={{ width: "80%", maxWidth: 300, marginVertical: 15 }}
-        handleBtnPress={test.handleSubmit(signIn)}
+        handleBtnPress={loginForm.handleSubmit(signIn)}
       ></GowiButton>
       <TouchableOpacity onPress={() => router.push("/(auth)/SignUpPage")}>
         <Text>Dont have an account? Sign up</Text>

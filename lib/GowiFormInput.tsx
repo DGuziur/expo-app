@@ -108,8 +108,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   inputError: {
-    borderColor: "#ff4444",
-    backgroundColor: "#fff5f5",
+    backgroundColor: "rgba(230, 60, 60, 0.1)",
   },
   errorText: {
     color: "#ff4444",

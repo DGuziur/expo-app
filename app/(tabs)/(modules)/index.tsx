@@ -3,7 +3,6 @@ import { app } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
 import {
   collection,
-  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -14,7 +13,7 @@ import {
   updateDoc,
 } from "@firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useGlobalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Pressable,
@@ -35,7 +34,7 @@ type UnitData = {
 type FirestoreUnitData = { title: string; desc: string };
 
 export default function Index() {
-  const { newUnit, updatedUnit } = useLocalSearchParams();
+  const { newUnit, updatedUnit } = useGlobalSearchParams();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [units, setUnits] = useState<UnitData[]>([]);
@@ -52,7 +51,12 @@ export default function Index() {
 
     if (!orderDoc.exists()) return handleMissingOrderDoc();
 
-    if (!savedOrder || !savedUnits)
+    if (
+      !savedOrder ||
+      !savedUnits ||
+      !JSON.parse(savedOrder).length ||
+      !JSON.parse(savedUnits).length
+    )
       return getFreshUnits(orderDoc.data().order as string[]);
 
     if (JSON.stringify(orderDoc.data().order) === savedOrder)
@@ -101,7 +105,7 @@ export default function Index() {
     const unitIds = units.map((unit) => unit.id);
 
     await Promise.all([
-      setDoc(doc(db, "Config", "UnitsOrder"), unitIds),
+      setDoc(doc(db, "Config", "UnitsOrder"), { order: unitIds }),
       AsyncStorage.setItem("UnitsOrder", JSON.stringify(unitIds)),
       AsyncStorage.setItem("Units", JSON.stringify(units)),
     ]);
@@ -146,21 +150,24 @@ export default function Index() {
     try {
       const newUnits = units.filter((unit) => unit.id !== id);
       setUnits(newUnits);
-
       const newOrder = newUnits.map((unit) => unit.id);
 
-      await Promise.all([
-        deleteDoc(doc(db, "Units", id)),
-        setDoc(doc(db, "Config", "UnitsOrder"), {
+      await runTransaction(db, async (transaction) => {
+        transaction.delete(doc(db, "Units", id));
+        transaction.set(doc(db, "Config", "UnitsOrder"), {
           order: newOrder,
-        }),
+        });
+      });
+
+      await Promise.all([
         AsyncStorage.setItem("UnitsOrder", JSON.stringify(newOrder)),
         AsyncStorage.setItem("Units", JSON.stringify(newUnits)),
       ]);
+
+      alert("1 delete, 1 write");
     } catch (error) {
       await getUnits();
     }
-    alert("1 delete 1 write");
   };
 
   const addNewUnit = async (newUnit: string) => {
@@ -180,7 +187,14 @@ export default function Index() {
       });
 
       const unitWithId = { ...unit, id: newUnitRef.id };
-      setUnits((prev) => [...prev, unitWithId]);
+
+      setUnits((prev) => {
+        const newUnits = [...prev, unitWithId];
+        const newOrder = newUnits.map((unit) => unit.id);
+        AsyncStorage.setItem("UnitsOrder", JSON.stringify(newOrder));
+        AsyncStorage.setItem("Units", JSON.stringify(newUnits));
+        return newUnits;
+      });
 
       alert("created, you did 2 writes");
     } catch (error) {
@@ -207,10 +221,12 @@ export default function Index() {
   useEffect(() => {
     if (newUnit) {
       addNewUnit(newUnit as string);
+      router.setParams({ newUnit: undefined });
     }
 
     if (updatedUnit) {
       updateUnit(JSON.parse(updatedUnit as string));
+      router.setParams({ updatedUnit: undefined });
     }
   }, [newUnit, updatedUnit]);
 

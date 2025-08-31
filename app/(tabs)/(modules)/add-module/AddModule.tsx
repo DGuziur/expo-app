@@ -38,24 +38,6 @@ export default function AddModule() {
     }
   };
 
-  // const addNewModule = async (formData: ModuleFormData) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const newModuleData = { ...formData, lessons: [] };
-  //     const newDocRef = await addDoc(collection(db, "Units"), newModuleData);
-
-  //     router.back();
-  //     router.setParams({
-  //       newUnit: JSON.stringify({ id: newDocRef.id, ...newModuleData }),
-  //     });
-  //   } catch (error) {
-  //     console.error("Error adding module:", error);
-  //     router.back();
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const {
     control,
     handleSubmit,

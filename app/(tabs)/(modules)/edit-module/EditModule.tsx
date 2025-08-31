@@ -1,7 +1,6 @@
 import { app } from "@/firebaseInit";
 import { router, useLocalSearchParams } from "expo-router";
 import { getFirestore } from "firebase/firestore";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Pressable,
@@ -21,7 +20,6 @@ export default function EditModule() {
   const { id, title, desc } = useLocalSearchParams<
     ModuleFormData & { id: string }
   >();
-  const [isLoading, setIsLoading] = useState(false);
 
   const db = getFirestore(app);
 
@@ -38,13 +36,10 @@ export default function EditModule() {
   });
 
   const updateModule = async (formData: ModuleFormData) => {
-    setIsLoading(true);
-
     router.setParams({
       updatedUnit: JSON.stringify({ id, ...formData }),
     });
     router.back();
-    setIsLoading(false);
   };
 
   return (
@@ -110,11 +105,9 @@ export default function EditModule() {
       <Pressable
         onPress={handleSubmit(updateModule)}
         style={[style.button, !isValid && style.buttonDisabled]}
-        disabled={!isValid || isLoading}
+        disabled={!isValid}
       >
-        <Text style={style.buttonText}>
-          {isLoading ? "Zapisywanie..." : "Zapisz"}
-        </Text>
+        <Text style={style.buttonText}>Zapisz</Text>
       </Pressable>
 
       <Pressable onPress={() => router.back()} style={style.button}>

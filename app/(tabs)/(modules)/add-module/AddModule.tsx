@@ -1,7 +1,4 @@
-import { app } from "@/firebaseInit";
 import { router } from "expo-router";
-import { getFirestore } from "firebase/firestore";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Pressable,
@@ -18,24 +15,13 @@ type ModuleFormData = {
 };
 
 export default function AddModule() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const db = getFirestore(app);
-
   const addNewModule = async (formData: ModuleFormData) => {
-    setIsLoading(true);
-    try {
-      const newModuleData = { ...formData, lessons: [] };
+    const newModuleData = { ...formData, lessons: [] };
 
-      router.setParams({
-        newUnit: JSON.stringify({ ...newModuleData }),
-      });
-      router.back();
-    } catch (error) {
-      console.error("Error adding module:", error);
-      router.back();
-    } finally {
-      setIsLoading(false);
-    }
+    router.setParams({
+      newUnit: JSON.stringify({ ...newModuleData }),
+    });
+    router.back();
   };
 
   const {
@@ -113,7 +99,7 @@ export default function AddModule() {
       <Pressable
         onPress={handleSubmit(addNewModule)}
         style={[style.button, !isValid && style.buttonDisabled]}
-        disabled={!isValid || isLoading}
+        disabled={!isValid}
       >
         <Text style={style.buttonText}>Dodaj</Text>
       </Pressable>

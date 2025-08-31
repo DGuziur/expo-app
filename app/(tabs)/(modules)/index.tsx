@@ -24,6 +24,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useToast } from "react-native-toast-notifications";
 
 type UnitData = {
   id: string;
@@ -35,6 +36,7 @@ type FirestoreUnitData = { title: string; desc: string };
 
 export default function Index() {
   const { newUnit, updatedUnit } = useGlobalSearchParams();
+  const toast = useToast();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [units, setUnits] = useState<UnitData[]>([]);
@@ -65,6 +67,15 @@ export default function Index() {
     return getFreshUnits(orderDoc.data().order as string[]);
   };
 
+  const showSuccess = (message: string) => {
+    toast.show(message, {
+      type: "success",
+      placement: "top",
+      duration: 3000,
+      textStyle: { fontSize: 20 },
+    });
+  };
+
   const getFreshUnits = async (idOrder: string[]) => {
     const snapshot = await getDocs(query(collection(db, "Units")));
     const units: UnitData[] = snapshot.docs.map((doc) => ({
@@ -81,7 +92,7 @@ export default function Index() {
       AsyncStorage.setItem("Units", JSON.stringify(sortedUnits)),
     ]);
 
-    alert(`Got units from firebase, ${snapshot.docs.length} reads`);
+    showSuccess(`Got units from firebase, ${snapshot.docs.length} reads`);
 
     setUnits(sortedUnits);
     setLoading(false);
@@ -90,7 +101,7 @@ export default function Index() {
   const handleMissingOrderDoc = async () => {
     const allUnitsSnapshot = await getDocs(collection(db, "Units"));
 
-    alert(
+    showSuccess(
       `created missing order docs, ${allUnitsSnapshot.docs.length} reads, 1 write`
     );
 
@@ -114,7 +125,7 @@ export default function Index() {
   };
 
   const loadCached = (savedUnits: UnitData[]) => {
-    alert("loaded cached :> 0 reads");
+    showSuccess("loaded cached :> 0 reads");
     setUnits(savedUnits);
     setLoading(false);
   };
@@ -143,7 +154,7 @@ export default function Index() {
     } finally {
       setSelectedForSwap(null);
     }
-    alert("1 write");
+    showSuccess("Swapped, 1 write");
   };
 
   const deleteUnit = async (id: string) => {
@@ -164,7 +175,7 @@ export default function Index() {
         AsyncStorage.setItem("Units", JSON.stringify(newUnits)),
       ]);
 
-      alert("1 delete, 1 write");
+      showSuccess("1 delete, 1 write");
     } catch (error) {
       await getUnits();
     }
@@ -196,7 +207,7 @@ export default function Index() {
         return newUnits;
       });
 
-      alert("created, you did 2 writes");
+      showSuccess("created, you did 2 writes");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -211,7 +222,7 @@ export default function Index() {
       setUnits((prev) => prev.map((u) => (u.id === unit.id ? unit : u)));
       Promise.all([AsyncStorage.setItem("Units", JSON.stringify(units))]);
 
-      alert("updated, you did 1 write");
+      showSuccess("updated, you did 1 write");
     } catch (error) {
       console.error("Update failed:", error);
       await getUnits();

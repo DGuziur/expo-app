@@ -2,7 +2,6 @@ import Spinner from "@/components/Spinner";
 import { app } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -10,7 +9,9 @@ import {
   getDocs,
   getFirestore,
   query,
+  runTransaction,
   setDoc,
+  updateDoc,
 } from "@firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -165,22 +166,42 @@ export default function Index() {
   const addNewUnit = async (newUnit: string) => {
     const unit = JSON.parse(newUnit);
 
-    const newDocRef = await addDoc(collection(db, "Units"), unit);
+    try {
+      const newUnitRef = doc(collection(db, "Units"));
+      await runTransaction(db, async (transaction) => {
+        const orderDocRef = doc(db, "Config", "UnitsOrder");
+        const orderDoc = await transaction.get(orderDocRef);
+        const currentOrder = orderDoc.exists() ? orderDoc.data().order : [];
 
-    setUnits((prev) => {
-      const updated = [...prev, unit];
-      const newOrder = updated.map((u) => u.id);
+        transaction.set(newUnitRef, unit);
+        transaction.set(orderDocRef, {
+          order: [...currentOrder, newUnitRef.id],
+        });
+      });
 
-      Promise.all([
-        setDoc(doc(db, "Config", "UnitsOrder"), { order: newOrder }),
-        AsyncStorage.setItem("UnitsOrder", JSON.stringify(newOrder)),
-        AsyncStorage.setItem("Units", JSON.stringify(updated)),
-      ]);
+      const unitWithId = { ...unit, id: newUnitRef.id };
+      setUnits((prev) => [...prev, unitWithId]);
 
-      return updated;
-    });
+      alert("created, you did 2 writes");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-    alert("created, you did 2 writes");
+  const updateUnit = async (unit: UnitData) => {
+    try {
+      await updateDoc(doc(db, "Units", unit.id), {
+        title: unit.title,
+        desc: unit.desc,
+      });
+      setUnits((prev) => prev.map((u) => (u.id === unit.id ? unit : u)));
+      Promise.all([AsyncStorage.setItem("Units", JSON.stringify(units))]);
+
+      alert("updated, you did 1 write");
+    } catch (error) {
+      console.error("Update failed:", error);
+      await getUnits();
+    }
   };
 
   useEffect(() => {
@@ -189,22 +210,7 @@ export default function Index() {
     }
 
     if (updatedUnit) {
-      const unit = JSON.parse(updatedUnit as string);
-
-      setUnits((prev) => {
-        const updated = prev.map((p) => (p.id === unit.id ? unit : p));
-        const newOrder = updated.map((u) => u.id);
-
-        Promise.all([
-          setDoc(doc(db, "Config", "UnitsOrder"), { order: newOrder }),
-          AsyncStorage.setItem("UnitsOrder", JSON.stringify(newOrder)),
-          AsyncStorage.setItem("Units", JSON.stringify(updated)),
-        ]);
-
-        return updated;
-      });
-
-      alert("updated, you did 1 write");
+      updateUnit(JSON.parse(updatedUnit as string));
     }
   }, [newUnit, updatedUnit]);
 

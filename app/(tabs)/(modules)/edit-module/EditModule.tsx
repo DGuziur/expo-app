@@ -1,6 +1,6 @@
 import { app } from "@/firebaseInit";
 import { router, useLocalSearchParams } from "expo-router";
-import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -39,22 +39,12 @@ export default function EditModule() {
 
   const updateModule = async (formData: ModuleFormData) => {
     setIsLoading(true);
-    try {
-      await updateDoc(doc(db, "Units", id), {
-        title: formData.title,
-        desc: formData.desc,
-      });
 
-      router.back();
-      router.setParams({
-        updatedUnit: JSON.stringify({ id, ...formData }),
-      });
-    } catch (error) {
-      console.error("Błąd aktualizacji modułu:", error);
-      router.back();
-    } finally {
-      setIsLoading(false);
-    }
+    router.setParams({
+      updatedUnit: JSON.stringify({ id, ...formData }),
+    });
+    router.back();
+    setIsLoading(false);
   };
 
   return (

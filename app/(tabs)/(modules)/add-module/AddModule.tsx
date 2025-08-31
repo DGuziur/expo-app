@@ -1,13 +1,6 @@
 import { app } from "@/firebaseInit";
 import { router } from "expo-router";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getFirestore,
-  setDoc,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -27,18 +20,41 @@ type ModuleFormData = {
 export default function AddModule() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const db = getFirestore(app);
+
   const addNewModule = async (formData: ModuleFormData) => {
     setIsLoading(true);
-    const newModuleData = { ...formData, lessons: [] };
-    const newDocRef = await addDoc(collection(db, "Units"), newModuleData);
-    const orderDoc = await getDoc(doc(db, "Config", "UnitsOrder"));
-    const currentOrder = orderDoc.exists() ? orderDoc.data().order : [];
-    await setDoc(doc(db, "Config", "UnitsOrder"), {
-      order: [...currentOrder, newDocRef.id],
-    });
+    try {
+      const newModuleData = { ...formData, lessons: [] };
 
-    router.back();
+      router.setParams({
+        newUnit: JSON.stringify({ ...newModuleData }),
+      });
+      router.back();
+    } catch (error) {
+      console.error("Error adding module:", error);
+      router.back();
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // const addNewModule = async (formData: ModuleFormData) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const newModuleData = { ...formData, lessons: [] };
+  //     const newDocRef = await addDoc(collection(db, "Units"), newModuleData);
+
+  //     router.back();
+  //     router.setParams({
+  //       newUnit: JSON.stringify({ id: newDocRef.id, ...newModuleData }),
+  //     });
+  //   } catch (error) {
+  //     console.error("Error adding module:", error);
+  //     router.back();
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const {
     control,

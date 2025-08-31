@@ -44,9 +44,14 @@ export default function EditModule() {
         title: formData.title,
         desc: formData.desc,
       });
+
       router.back();
+      router.setParams({
+        updatedUnit: JSON.stringify({ id, ...formData }),
+      });
     } catch (error) {
       console.error("Błąd aktualizacji modułu:", error);
+      router.back();
     } finally {
       setIsLoading(false);
     }

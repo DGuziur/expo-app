@@ -2,6 +2,7 @@ import Spinner from "@/components/Spinner";
 import { app } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -9,11 +10,10 @@ import {
   getDocs,
   getFirestore,
   query,
-  QueryDocumentSnapshot,
-  QuerySnapshot,
   setDoc,
 } from "@firebase/firestore";
-import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Pressable,
@@ -34,85 +34,179 @@ type UnitData = {
 type FirestoreUnitData = { title: string; desc: string };
 
 export default function Index() {
+  const { newUnit, updatedUnit } = useLocalSearchParams();
+
   const [loading, setLoading] = useState<boolean>(true);
   const [units, setUnits] = useState<UnitData[]>([]);
   const [selectedForSwap, setSelectedForSwap] = useState<number | null>(null);
   const router = useRouter();
   const db = getFirestore(app);
 
-  const getUnitsOrder = async (unitsSnapshot: QuerySnapshot) => {
-    try {
-      const orderDoc = await getDoc(doc(db, "Config", "UnitsOrder"));
+  const getUnits = async () => {
+    const [orderDoc, savedOrder, savedUnits] = await Promise.all([
+      getDoc(doc(db, "Config", "UnitsOrder")),
+      AsyncStorage.getItem("UnitsOrder"),
+      AsyncStorage.getItem("Units"),
+    ]);
 
-      if (orderDoc.exists()) {
-        return orderDoc.data().order || [];
-      } else {
-        const defaultOrder = unitsSnapshot.docs.map(
-          (doc: QueryDocumentSnapshot) => doc.id
-        );
+    if (!orderDoc.exists()) return handleMissingOrderDoc();
 
-        await setDoc(doc(db, "Config", "UnitsOrder"), {
-          order: defaultOrder,
-        });
+    if (!savedOrder || !savedUnits)
+      return getFreshUnits(orderDoc.data().order as string[]);
 
-        return defaultOrder;
-      }
-    } catch (error) {
-      console.error("Error getting units order:", error);
-      return [];
-    }
+    if (JSON.stringify(orderDoc.data().order) === savedOrder)
+      return loadCached(JSON.parse(savedUnits));
+
+    return getFreshUnits(orderDoc.data().order as string[]);
   };
 
-  const getUnits = async () => {
+  const getFreshUnits = async (idOrder: string[]) => {
     const snapshot = await getDocs(query(collection(db, "Units")));
-    const unitsOrder = await getUnitsOrder(snapshot);
+    const units: UnitData[] = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...(doc.data() as FirestoreUnitData),
+    }));
 
-    const unitsMap = new Map(
-      snapshot.docs.map((doc) => [
-        doc.id,
-        {
-          id: doc.id,
-          ...(doc.data() as FirestoreUnitData),
-        },
-      ])
-    );
-
-    const sortedUnits = unitsOrder
-      .map((id: string) => unitsMap.get(id))
+    const sortedUnits = idOrder
+      .map((id) => units.find((unit: UnitData) => unit.id === id))
       .filter(Boolean) as UnitData[];
+
+    await Promise.all([
+      AsyncStorage.setItem("UnitsOrder", JSON.stringify(idOrder)),
+      AsyncStorage.setItem("Units", JSON.stringify(sortedUnits)),
+    ]);
+
+    alert(`Got units from firebase, ${snapshot.docs.length} reads`);
 
     setUnits(sortedUnits);
     setLoading(false);
   };
 
+  const handleMissingOrderDoc = async () => {
+    const allUnitsSnapshot = await getDocs(collection(db, "Units"));
+
+    alert(
+      `created missing order docs, ${allUnitsSnapshot.docs.length} reads, 1 write`
+    );
+
+    if (allUnitsSnapshot.empty) {
+      return setUnits([]);
+    }
+
+    const units = allUnitsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...(doc.data() as FirestoreUnitData),
+    }));
+    const unitIds = units.map((unit) => unit.id);
+
+    await Promise.all([
+      setDoc(doc(db, "Config", "UnitsOrder"), unitIds),
+      AsyncStorage.setItem("UnitsOrder", JSON.stringify(unitIds)),
+      AsyncStorage.setItem("Units", JSON.stringify(units)),
+    ]);
+    setUnits(units);
+    setLoading(false);
+  };
+
+  const loadCached = (savedUnits: UnitData[]) => {
+    alert("loaded cached :> 0 reads");
+    setUnits(savedUnits);
+    setLoading(false);
+  };
+
   const swapUnits = async (fromIndex: number, toIndex: number) => {
     try {
-      const orderDoc = await getDoc(doc(db, "Config", "UnitsOrder"));
-      const currentOrder = orderDoc.data()?.order || [];
-
-      const newOrder = [...currentOrder];
-      [newOrder[fromIndex], newOrder[toIndex]] = [
-        newOrder[toIndex],
-        newOrder[fromIndex],
+      const newUnits = [...units];
+      [newUnits[fromIndex], newUnits[toIndex]] = [
+        newUnits[toIndex],
+        newUnits[fromIndex],
       ];
+      setUnits(newUnits);
 
-      await setDoc(doc(db, "Config", "UnitsOrder"), {
-        order: newOrder,
-        updatedAt: new Date(),
-      });
+      const newOrder = newUnits.map((unit) => unit.id);
 
-      await getUnits();
+      await Promise.all([
+        setDoc(doc(db, "Config", "UnitsOrder"), {
+          order: newOrder,
+          updatedAt: new Date(),
+        }),
+        AsyncStorage.setItem("UnitsOrder", JSON.stringify(newOrder)),
+        AsyncStorage.setItem("Units", JSON.stringify(newUnits)),
+      ]);
     } catch (error) {
-      console.error("Error swapping units:", error);
+      await getUnits();
     } finally {
       setSelectedForSwap(null);
     }
+    alert("1 write");
   };
 
   const deleteUnit = async (id: string) => {
-    deleteDoc(doc(db, "Units", id));
-    setUnits(units.filter((unit) => unit.id !== id));
+    try {
+      const newUnits = units.filter((unit) => unit.id !== id);
+      setUnits(newUnits);
+
+      const newOrder = newUnits.map((unit) => unit.id);
+
+      await Promise.all([
+        deleteDoc(doc(db, "Units", id)),
+        setDoc(doc(db, "Config", "UnitsOrder"), {
+          order: newOrder,
+        }),
+        AsyncStorage.setItem("UnitsOrder", JSON.stringify(newOrder)),
+        AsyncStorage.setItem("Units", JSON.stringify(newUnits)),
+      ]);
+    } catch (error) {
+      await getUnits();
+    }
+    alert("1 delete 1 write");
   };
+
+  const addNewUnit = async (newUnit: string) => {
+    const unit = JSON.parse(newUnit);
+
+    const newDocRef = await addDoc(collection(db, "Units"), unit);
+
+    setUnits((prev) => {
+      const updated = [...prev, unit];
+      const newOrder = updated.map((u) => u.id);
+
+      Promise.all([
+        setDoc(doc(db, "Config", "UnitsOrder"), { order: newOrder }),
+        AsyncStorage.setItem("UnitsOrder", JSON.stringify(newOrder)),
+        AsyncStorage.setItem("Units", JSON.stringify(updated)),
+      ]);
+
+      return updated;
+    });
+
+    alert("created, you did 2 writes");
+  };
+
+  useEffect(() => {
+    if (newUnit) {
+      addNewUnit(newUnit as string);
+    }
+
+    if (updatedUnit) {
+      const unit = JSON.parse(updatedUnit as string);
+
+      setUnits((prev) => {
+        const updated = prev.map((p) => (p.id === unit.id ? unit : p));
+        const newOrder = updated.map((u) => u.id);
+
+        Promise.all([
+          setDoc(doc(db, "Config", "UnitsOrder"), { order: newOrder }),
+          AsyncStorage.setItem("UnitsOrder", JSON.stringify(newOrder)),
+          AsyncStorage.setItem("Units", JSON.stringify(updated)),
+        ]);
+
+        return updated;
+      });
+
+      alert("updated, you did 1 write");
+    }
+  }, [newUnit, updatedUnit]);
 
   useEffect(() => {
     getUnits();

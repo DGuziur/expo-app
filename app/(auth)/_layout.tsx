@@ -19,7 +19,7 @@ export default function AuthRoutesLayout() {
   if (loading)
     return <Spinner size={60} color="#FF6B6B" strokeWidth={6}></Spinner>;
 
-  if (user) return <Redirect href={"/"} />;
+  if (user) return <Redirect href={"/modules"} />;
 
   return <Stack screenOptions={{ headerShown: false }} />;
 }

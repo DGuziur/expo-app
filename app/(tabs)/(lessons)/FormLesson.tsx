@@ -22,9 +22,11 @@ export default function LessonForm() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormData>({
     defaultValues: {
-      lessonName: sendedLessonName !== undefined ? sendedLessonName : "",
+      lessonName: (sendedLessonName !== undefined
+        ? sendedLessonName
+        : "") as string,
       lessonDesc: "",
     },
   });

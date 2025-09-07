@@ -125,7 +125,7 @@ export default function Lessons() {
             <View style={styles.timelineContainer}>
               <Image
                 style={[
-                  styles.kwiatek,
+                  styles.fleur,
                   {
                     transform: getFlowerTransform(indexUnit),
                   },
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  kwiatek: {
+  fleur: {
     position: "absolute",
     width: 100,
     height: 100,

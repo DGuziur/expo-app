@@ -3,6 +3,7 @@ import {
   StyleProp,
   StyleSheet,
   Text,
+  TextStyle,
   TouchableOpacity,
   ViewStyle,
 } from "react-native";
@@ -18,17 +19,21 @@ export default function GowiButton({
   buttonText,
   customStyles,
   handleBtnPress,
+  buttonTextStyle,
 }: {
   buttonText: string;
   customStyles?: StyleProp<ViewStyle>;
   handleBtnPress: (props: any) => any;
+  buttonTextStyle?: StyleProp<TextStyle>;
 }) {
   return (
     <TouchableOpacity
       style={[styles.buttonStyle, [customStyles]]}
       onPress={handleBtnPress}
     >
-      <Text style={styles.buttonText}>{buttonText}</Text>
+      <Text style={[styles.buttonTextDeafultStyle, [buttonTextStyle]]}>
+        {buttonText}
+      </Text>
     </TouchableOpacity>
   );
 }
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
     borderLeftColor: "#501594ff",
     borderLeftWidth: 2,
   },
-  buttonText: {
+  buttonTextDeafultStyle: {
     color: "white",
     fontSize: 16,
   },

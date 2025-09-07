@@ -1,4 +1,5 @@
 import MiniMenu from "@/components/MiniMenu";
+import GowiButton from "@/lib/GowiButton";
 import { Unit } from "@/types/types";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -97,16 +98,16 @@ export default function Lessons() {
         }}
       />
 
-      <TouchableOpacity
-        style={editMode ? styles.editBtnChecked : styles.editBtn}
-        onPress={() => setEditMode(!editMode)}
-      >
-        {editMode ? (
-          <Text>Wyłącz tryb edycji &#10006; </Text>
-        ) : (
-          <Text>Włącz tryb edycji &#128397;</Text>
-        )}
-      </TouchableOpacity>
+      <GowiButton
+        customStyles={editMode ? styles.editBtnChecked : styles.editBtn}
+        handleBtnPress={() => setEditMode(!editMode)}
+        buttonText={
+          editMode
+            ? `Wyłącz tryb edycji  ${String.fromCharCode(10006)}`
+            : `Włącz tryb edycji  ${String.fromCharCode(128397)}`
+        }
+        buttonTextStyle={!editMode && styles.buttonText}
+      />
 
       {allUnits.map((unit, indexUnit) => {
         const lessonPositions = unit.lessons.map((_, i) => {
@@ -300,21 +301,15 @@ const styles = StyleSheet.create({
     color: "#c503c5ff",
   },
   editBtn: {
-    padding: 10,
-    borderRadius: 10,
     backgroundColor: "#ecececff",
-    borderColor: "black",
-    borderWidth: 3,
-    margin: 5,
-    alignItems: "center",
+    width: "100%",
+    marginTop: 1,
+    borderTopColor: "#8a3de2ff",
+    borderTopWidth: 2,
   },
+  buttonText: { color: "#8a3de2ff" },
   editBtnChecked: {
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: "#74b9ff",
-    borderColor: "black",
-    borderWidth: 3,
-    margin: 5,
-    alignItems: "center",
+    width: "100%",
+    marginTop: 1,
   },
 });

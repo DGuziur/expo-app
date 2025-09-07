@@ -1,7 +1,7 @@
 import MiniMenu from "@/components/MiniMenu";
 import GowiButton from "@/lib/GowiButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { useState } from "react";
 import {
   Alert,
@@ -13,9 +13,10 @@ import {
   View,
 } from "react-native";
 
+import { Unit } from "@/types/types";
 export default function Lessons() {
   const [editMode, setEditMode] = useState(false);
-  const [allUnits, setAllUnits] = useState([]);
+  const [allUnits, setAllUnits] = useState<Unit[]>([]);
   const [activeMenuId, setActiveMenuId] = useState<string | number | null>(
     null
   );
@@ -24,7 +25,7 @@ export default function Lessons() {
   const waitForCourse = async () => {
     const awaitedCourse = await AsyncStorage.getItem("Units");
     if (awaitedCourse === null) {
-      return;
+      return <Redirect href={"/(tabs)/(modules)/index"} />;
     }
     setAllUnits(JSON.parse(awaitedCourse));
   };
@@ -127,7 +128,7 @@ export default function Lessons() {
         return (
           <View key={unit.id}>
             <View style={styles.header}>
-              <Text style={styles.courseTitle}>{unit.lessonTitle}</Text>
+              <Text style={styles.courseTitle}>{unit.title}</Text>
               <Text style={styles.lessonsCount}>
                 {unit.lessons.length} lekcji
               </Text>

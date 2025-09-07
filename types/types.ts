@@ -8,10 +8,11 @@ export interface Unit {
 
 export interface Lesson {
   id: string;
-  title: string;
-  types: ContentTypeEnabled;
-  //taskIds: string[];
-  content: Task[];
+  lessonTitle: string;
+  lessonDescription: string;
+  // types: ContentTypeEnabled;
+  // //taskIds: string[];
+  // content: Task[];
 }
 
 export interface Task {

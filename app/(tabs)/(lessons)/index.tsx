@@ -1,6 +1,6 @@
 import MiniMenu from "@/components/MiniMenu";
 import GowiButton from "@/lib/GowiButton";
-import { Unit } from "@/types/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -12,15 +12,24 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { course } from "../../../data/data";
 
 export default function Lessons() {
   const [editMode, setEditMode] = useState(false);
+  const [allUnits, setAllUnits] = useState([]);
   const [activeMenuId, setActiveMenuId] = useState<string | number | null>(
     null
   );
   let counter = 0;
-  const allUnits: Unit[] = course;
+
+  const waitForCourse = async () => {
+    const awaitedCourse = await AsyncStorage.getItem("Units");
+    if (awaitedCourse === null) {
+      return;
+    }
+    setAllUnits(JSON.parse(awaitedCourse));
+  };
+
+  waitForCourse();
 
   function handleEditLesson(
     lessonId: number | string,
@@ -118,7 +127,7 @@ export default function Lessons() {
         return (
           <View key={unit.id}>
             <View style={styles.header}>
-              <Text style={styles.courseTitle}>{unit.title}</Text>
+              <Text style={styles.courseTitle}>{unit.lessonTitle}</Text>
               <Text style={styles.lessonsCount}>
                 {unit.lessons.length} lekcji
               </Text>
@@ -149,10 +158,18 @@ export default function Lessons() {
                         }}
                         index={lesson.id}
                         onEdit={() =>
-                          handleEditLesson(lesson.id, lesson.title, unit.id)
+                          handleEditLesson(
+                            lesson.id,
+                            lesson.lessonTitle,
+                            unit.id
+                          )
                         }
                         onDelete={() =>
-                          handleDeleteLesson(lesson.id, indexUnit, lesson.title)
+                          handleDeleteLesson(
+                            lesson.id,
+                            indexUnit,
+                            lesson.lessonTitle
+                          )
                         }
                       />
                     )}

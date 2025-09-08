@@ -61,15 +61,14 @@ export default function TabsLayout() {
           </TouchableOpacity>
         ),
         headerStyle: {
-          backgroundColor: "powderblue",
+          backgroundColor: "#ffffffff",
         },
-        headerTintColor: "white",
+        headerTintColor: "black",
         headerTitleStyle: {
-          fontWeight: "bold",
           fontSize: 20,
         },
         tabBarStyle: {
-          backgroundColor: "powderblue",
+          backgroundColor: "#ffffffff",
         },
       }}
     >

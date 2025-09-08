@@ -30,7 +30,7 @@ export default function Lessons() {
     }
 
     const parsed = JSON.parse(awaitedCourse);
-    console.log("Parsed units:", parsed);
+    //console.log("Parsed units:", parsed);
     setAllUnits(parsed);
   };
 
@@ -115,14 +115,14 @@ export default function Lessons() {
       />
 
       <GowiButton
-        customStyles={editMode ? styles.editBtnChecked : styles.editBtn}
+        customStyles={!editMode ? styles.editBtnChecked : styles.editBtn}
         handleBtnPress={() => setEditMode(!editMode)}
         buttonText={
           editMode
             ? `Wyłącz tryb edycji  ${String.fromCharCode(10006)}`
             : `Włącz tryb edycji  ${String.fromCharCode(128397)}`
         }
-        buttonTextStyle={!editMode && styles.buttonText}
+        buttonTextStyle={editMode && styles.buttonText}
       />
 
       {allUnits.map((unit, indexUnit) => {
@@ -224,7 +224,7 @@ export default function Lessons() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1b39b109",
+    backgroundColor: "#ffffffff",
   },
   image: {
     height: 200,
@@ -236,10 +236,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   courseTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#0a041aff",
-    marginBottom: 5,
+    fontSize: 18,
+    color: "#505050ff",
+    marginBottom: 1,
+    paddingBottom: 1,
+    textAlign: "center",
   },
   lessonsCount: {
     fontSize: 16,
@@ -258,17 +259,16 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "powderblue",
+    backgroundColor: "#8a3de2ff",
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 2,
-    borderBottomColor: "#13145fff",
-    borderBottomWidth: 7,
+    borderBottomWidth: 2,
     borderWidth: 1,
-    borderColor: "#aabcd6ff",
+    borderColor: "#6327a7ff",
   },
   lessonNumber: {
-    color: "white",
+    color: "#ffffffff",
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: "#74b9ff",
+    backgroundColor: "#8a3de2ff",
     marginHorizontal: 10,
   },
   finish: {
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "#b811853a",
+    backgroundColor: "#410a0a23",
     justifyContent: "center",
     alignItems: "center",
     borderBottomWidth: 7,
@@ -325,15 +325,15 @@ const styles = StyleSheet.create({
     color: "#c503c5ff",
   },
   editBtn: {
-    backgroundColor: "#ecececff",
+    backgroundColor: "#e6e6e673",
     width: "100%",
-    marginTop: 1,
-    borderTopColor: "#8a3de2ff",
-    borderTopWidth: 2,
+    marginTop: 5,
+    borderColor: "#303030a8",
+    borderWidth: 3,
   },
-  buttonText: { color: "#8a3de2ff" },
+  buttonText: { color: "#303030a8" },
   editBtnChecked: {
     width: "100%",
-    marginTop: 1,
+    marginTop: 5,
   },
 });

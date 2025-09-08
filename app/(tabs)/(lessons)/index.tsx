@@ -1,8 +1,8 @@
 import MiniMenu from "@/components/MiniMenu";
 import GowiButton from "@/lib/GowiButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Redirect, router } from "expo-router";
-import { useState } from "react";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Image,
@@ -24,13 +24,19 @@ export default function Lessons() {
 
   const waitForCourse = async () => {
     const awaitedCourse = await AsyncStorage.getItem("Units");
-    if (awaitedCourse === null) {
-      return <Redirect href={"/(tabs)/(modules)/index"} />;
+
+    if (!awaitedCourse) {
+      return router.push("/(tabs)/(modules)");
     }
-    setAllUnits(JSON.parse(awaitedCourse));
+
+    const parsed = JSON.parse(awaitedCourse);
+    console.log("Parsed units:", parsed);
+    setAllUnits(parsed);
   };
 
-  waitForCourse();
+  useEffect(() => {
+    waitForCourse();
+  }, []);
 
   function handleEditLesson(
     lessonId: number | string,
@@ -120,20 +126,19 @@ export default function Lessons() {
       />
 
       {allUnits.map((unit, indexUnit) => {
-        const lessonPositions = unit.lessons.map((_, i) => {
+        const lessons = Array.isArray(unit.lessons) ? unit.lessons : [];
+        const lessonPositions = lessons.map((_, i) => {
           counter++;
           return whereItemGo(counter - 1);
         });
-        const lessonsLength = unit.lessons.length;
+        const lessonsLength = lessons.length;
         return (
           <View key={unit.id}>
             <View style={styles.header}>
               <Text style={styles.courseTitle}>{unit.title}</Text>
-              <Text style={styles.lessonsCount}>
-                {unit.lessons.length} lekcji
-              </Text>
+              <Text style={styles.lessonsCount}>{lessons.length} lekcji</Text>
             </View>
-            <View style={styles.timelineContainer}>
+            <View key={unit.id} style={styles.timelineContainer}>
               <Image
                 style={[
                   styles.fleur,
@@ -143,7 +148,7 @@ export default function Lessons() {
                 ]}
                 source={require("../../../assets/images/gowi1.png")}
               />
-              {unit.lessons.map((lesson, i) => {
+              {lessons.map((lesson, i) => {
                 const placeHere: any = lessonPositions[i];
                 const nextPlacement: any = lessonPositions[i + 1];
 
@@ -197,6 +202,7 @@ export default function Lessons() {
 
               {editMode && (
                 <TouchableOpacity
+                  key={unit.id}
                   style={styles.addLessonBTN}
                   onPress={() => openLessonForm(unit.id)}
                 >

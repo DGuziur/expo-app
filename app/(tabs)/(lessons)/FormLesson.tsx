@@ -46,7 +46,7 @@ export default function LessonForm() {
       );
 
       if (editLesson) {
-        editLesson.title = data.lessonName;
+        editLesson.lessonTitle = data.lessonName;
         Alert.alert("Akcja", `Zmieniono lekcję  na "${data.lessonName}"`);
       }
     } else {

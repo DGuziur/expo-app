@@ -2,8 +2,8 @@ import { useAuth } from "@/AuthContext";
 import Spinner from "@/components/Spinner";
 import { auth } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
-import { signOut } from "@firebase/auth";
 import { Redirect, Tabs } from "expo-router";
+import { signOut } from "firebase/auth";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function TabsLayout() {
@@ -35,9 +35,7 @@ export default function TabsLayout() {
               }}
             >
               <Text style={{ marginRight: 10 }}>
-                {auth.currentUser?.displayName ??
-                  auth.currentUser?.email ??
-                  "User"}
+                {user?.displayName ?? user?.email ?? "User"}
               </Text>
               <Image
                 source={{ uri: "https://i.pravatar.cc/40" }}

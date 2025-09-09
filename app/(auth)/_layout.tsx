@@ -1,21 +1,21 @@
-import { Stack } from "expo-router";
+import { useAuth } from "@/AuthContext";
+import Spinner from "@/components/Spinner";
+import { Redirect, Stack } from "expo-router";
 
 export default function AuthRoutesLayout() {
-  // const [user, setUser] = useState<User | null>(null);
-  // const [loading, setLoading] = useState(true);
+  const { user, loading } = useAuth();
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     setUser(user);
-  //     setLoading(false);
-  //   });
-  //   return unsubscribe;
-  // }, []);
+  if (loading)
+    return (
+      <Spinner
+        style={{ flex: 1 }}
+        size={100}
+        color="pink"
+        strokeWidth={8}
+      ></Spinner>
+    );
 
-  // if (loading)
-  //   return <Spinner size={60} color="#FF6B6B" strokeWidth={6}></Spinner>;
-
-  // if (user) return <Redirect href={"/(tabs)"} />;
+  if (user) return <Redirect href="/(tabs)/(modules)" />;
 
   return <Stack screenOptions={{ headerShown: false }} />;
 }

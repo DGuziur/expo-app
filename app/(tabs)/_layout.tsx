@@ -1,32 +1,25 @@
+import { useAuth } from "@/AuthContext";
+import Spinner from "@/components/Spinner";
 import { auth } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
 import { signOut } from "@firebase/auth";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function TabsLayout() {
-  // const [user, setUser] = useState<User | null>(null);
-  // const [loading, setLoading] = useState(true);
+  const { user, loading } = useAuth();
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     setUser(user);
-  //     setLoading(false);
-  //   });
-  //   return unsubscribe;
-  // }, []);
+  if (loading)
+    return (
+      <Spinner
+        style={{ flex: 1 }}
+        size={100}
+        color="pink"
+        strokeWidth={8}
+      ></Spinner>
+    );
 
-  // if (loading)
-  //   return (
-  //     <Spinner
-  //       style={{ flex: 1 }}
-  //       size={100}
-  //       color="pink"
-  //       strokeWidth={8}
-  //     ></Spinner>
-  //   );
-
-  // if (!user) return <Redirect href={"/(auth)/LoginPage"} />;
+  if (!user) return <Redirect href="/(auth)/LoginPage" />;
 
   return (
     <Tabs

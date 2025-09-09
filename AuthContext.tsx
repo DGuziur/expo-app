@@ -1,6 +1,11 @@
 import { onAuthStateChanged, User } from "@firebase/auth";
-import { useRouter } from "expo-router";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { auth } from "./firebaseInit";
 
 type AuthContextType = {
@@ -17,15 +22,12 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export default function AuthProvider({ children }: AuthProviderProps) {
-  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      if (user) router.replace("/(tabs)/(modules)");
-      else router.replace("/(auth)/LoginPage");
       setLoading(false);
     });
     return unsubscribe;
@@ -36,4 +38,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       {children}
     </AuthContext.Provider>
   );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
 }

@@ -1,22 +1,13 @@
+import { useAuth } from "@/AuthContext";
 import Spinner from "@/components/Spinner";
 import { auth } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
-import { onAuthStateChanged, signOut, User } from "@firebase/auth";
 import { Redirect, Tabs } from "expo-router";
-import { useEffect, useState } from "react";
+import { signOut } from "firebase/auth";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function TabsLayout() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
+  const { user, loading } = useAuth();
 
   if (loading)
     return (
@@ -28,7 +19,7 @@ export default function TabsLayout() {
       ></Spinner>
     );
 
-  if (!user) return <Redirect href={"/(auth)/LoginPage"} />;
+  if (!user) return <Redirect href="/(auth)/LoginPage" />;
 
   return (
     <Tabs
@@ -44,9 +35,7 @@ export default function TabsLayout() {
               }}
             >
               <Text style={{ marginRight: 10 }}>
-                {auth.currentUser?.displayName ??
-                  auth.currentUser?.email ??
-                  "User"}
+                {user?.displayName ?? user?.email ?? "User"}
               </Text>
               <Image
                 source={{ uri: "https://i.pravatar.cc/40" }}

@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useGlobalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
+  Alert,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -24,7 +25,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useToast } from "react-native-toast-notifications";
 
 type UnitData = {
   id: string;
@@ -36,7 +36,6 @@ type FirestoreUnitData = { title: string; desc: string };
 
 export default function Index() {
   const { newUnit, updatedUnit } = useGlobalSearchParams();
-  const toast = useToast();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [units, setUnits] = useState<UnitData[]>([]);
@@ -68,12 +67,7 @@ export default function Index() {
   };
 
   const showSuccess = (message: string) => {
-    toast.show(message, {
-      type: "success",
-      placement: "top",
-      duration: 3000,
-      textStyle: { fontSize: 20 },
-    });
+    Alert.alert(message);
   };
 
   const getFreshUnits = async (idOrder: string[]) => {

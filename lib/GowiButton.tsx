@@ -59,5 +59,7 @@ const styles = StyleSheet.create({
   buttonTextDeafultStyle: {
     color: "white",
     fontSize: 16,
+    fontFamily: "Cochin",
+    fontWeight: "bold",
   },
 });

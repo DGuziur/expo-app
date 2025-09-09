@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  Button,
   Image,
   ScrollView,
   StyleSheet,
@@ -124,6 +125,14 @@ export default function Lessons() {
         }
         buttonTextStyle={editMode && styles.buttonText}
       />
+
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>To jest Home tab</Text>
+        <Button
+          title="Otwórz Settings overlay"
+          onPress={() => router.push("/(tabs)/(settings)")}
+        />
+      </View>
 
       {allUnits.map((unit, indexUnit) => {
         const lessons = Array.isArray(unit.lessons) ? unit.lessons : [];

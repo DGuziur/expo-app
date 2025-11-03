@@ -1,5 +1,5 @@
 
-export const colors = {
+export const themeColors = {
   primary: {
     100: "#FFF4C7",
     200: "#FFE044",
@@ -81,7 +81,7 @@ export const colors = {
 
   gradientsDarkMOde:{
     background: ['#10031F', '#300A33'],
-    cta: ['#FF0FCB', '#FF8C42','#FFE044CC'],
+    cta: [ '#FFE044CC','#FF8C42', '#FF0FCB'],
     lesson: ['#BA0085', '#FF8908'],
     progress: ['#E5007A', '#FF8C42'],
 

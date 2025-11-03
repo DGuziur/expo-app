@@ -1,4 +1,5 @@
 import { buttonsStyles } from "@/assets/styles/buttons";
+import { themeColors } from "@/assets/styles/themeColors";
 import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, Text, ViewStyle } from "react-native";
 
@@ -14,14 +15,15 @@ type GowiButtonProps = {
 
 const variants = {
   primary: {
-    colors: ["#FFE044", "#FF8C42", "#CA009E"],
+   // colors: ["#FFE044", "#FF8C42", "#CA009E"],
+    colors: themeColors.gradientsDarkMOde.cta,
     pressedColors: ["#FFA64A"],
     borderColor: "#B34602",
     textColor: "#FFFFFF",
     hasShadow: true,
   },
   secondary: {
-    colors: ["#5A2292"],
+    colors: [themeColors.secondary[700]],
     pressedColors: ["#985FD2"],
     borderColor: "#6A2AAB",
     textColor: "#FFFFFF",

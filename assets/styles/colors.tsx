@@ -1,3 +1,4 @@
+
 // colors.ts
 export const colors = {
   primary: {
@@ -36,4 +37,16 @@ export const colors = {
     740: "#666666",
     820: "#404040",
   },
+  green:{
+    700: "#2FE3AD",
+  },
+  red:{
+    700: "#F1524E",
+  },
+  neutralsDarkMode:{
+    Background: '#0F0A10',
+    Surface: '#260D30',
+    SurfaceElev: '#361D40',
+    Divider: '#3F3046',
+  }
 };

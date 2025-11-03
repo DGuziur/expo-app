@@ -5,16 +5,18 @@ import { ScrollView, StyleSheet, View } from "react-native";
 export default function AddLesson() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.text}>Primary</Text>
+      <Text style={styles.text}>Btn duże</Text>
       <View style={styles.grid}>
         <GowiButton title="Primary Button L" size="L" onPress={() => {}} />
         <GowiButton title="Primary Button S" size="S" onPress={() => {}} />
-        <GowiButton title="Primary Button L gray" size="L" type="disabled" onPress={() => {}} />
-        <GowiButton title="Primary Button S gray" size="S" type="disabled" onPress={() => {}} />
-        <GowiButton title="Primary Button L violet" size="L" type="secondary" onPress={() => {}} />
-        <GowiButton title="Primary Button S violet" size="S" type="secondary" onPress={() => {}} />
+        <GowiButton title="Disabled Button L gray" size="L" type="disabled" onPress={() => {}} />
+        <GowiButton title="Disabled Button S gray" size="S" type="disabled" onPress={() => {}} />
+        <GowiButton title="Secondary Button L violet" size="L" type="secondary" onPress={() => {}} />
+        <GowiButton title="Secondary Button S violet" size="S" type="secondary" onPress={() => {}} />
         <GowiButton title="Primary Button textOnly" size="L" textOnly onPress={() => {}} />
-        <GowiButton title="Primary Button textOnly underline" size="L" textOnly underline onPress={() => {}} />
+        <GowiButton title="Primary Button textOnly underline" size="L"  textOnly underline onPress={() => {}} />
+        <GowiButton title="Primary Button textOnly disabled L" size="L"  type="disabled" textOnly onPress={() => {}} />
+        <GowiButton title="Primary Button textOnly underline disabled s" size="S"  type="disabled" textOnly underline onPress={() => {}} />
       </View>
 
       <Text style={styles.text}>Squery</Text>

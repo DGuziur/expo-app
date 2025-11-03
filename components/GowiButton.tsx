@@ -71,15 +71,28 @@ export default function GowiButton({
     return (
       <Pressable onPress={onPress}>
         {({ pressed }) => (
-          <Text
+          <LinearGradient
+            colors={pressed ? ["rgba(255, 255, 255, 0.25)"] : ["transparent"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
             style={[
-              buttonsStyles.text,
-              { color: pressed ? "#ABABAB" : "#FFFFFF" },
-              { textDecorationLine: underline ? "underline" : "none" },
+              sizeStyle,
+              {
+                borderBottomColor: "transparent",
+                borderBottomWidth: 0,
+              },
             ]}
           >
-            {title} &#8594;
-          </Text>
+            <Text
+              style={[
+                buttonsStyles.text,
+                { color: type === "disabled" ? "#666666" : "#FFFFFF" },
+                { textDecorationLine: underline ? "underline" : "none" },
+              ]}
+            >
+              {title} &#8594;
+            </Text>
+          </LinearGradient>
         )}
       </Pressable>
     );

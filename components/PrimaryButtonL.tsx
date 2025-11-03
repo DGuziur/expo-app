@@ -18,7 +18,7 @@ export default function PrimaryButtonL({ title, onPress, colors }:PrimaryButtonL
         end={{ x: 1, y: 1 }}
         style={[buttonsStyles.base, buttonsStyles.shadow]}
       >
-        <Text style={buttonsStyles.text}>{title}</Text>
+        <Text style={buttonsStyles.text}>{title} -></Text>
       </LinearGradient> 
     </TouchableOpacity>
   );

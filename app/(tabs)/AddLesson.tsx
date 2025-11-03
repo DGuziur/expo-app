@@ -35,7 +35,7 @@ export default function AddLesson() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3d0f3cff",
+    backgroundColor: "#300A33",
   },
   content: {
     alignItems: "center",

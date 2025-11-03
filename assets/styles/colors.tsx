@@ -75,6 +75,16 @@ export const colors = {
     textWarning: '#E5A400',
     textError: '#E24B4B',
     textInfo: '#4C6FEA',
+  },
+
+  /// nie lepiej rozbić na succes i warrning? i tam wersja light dark
+
+  gradientsDarkMOde:{
+    background: ['#10031F', '#300A33'],
+    cta: ['#FF0FCB', '#FF8C42','#FFE044CC'],
+    lesson: ['#BA0085', '#FF8908'],
+    progress: ['#E5007A', '#FF8C42'],
+
   }
 
 };

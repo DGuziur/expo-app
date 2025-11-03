@@ -1,5 +1,4 @@
 
-// colors.ts
 export const colors = {
   primary: {
     100: "#FFF4C7",

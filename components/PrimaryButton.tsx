@@ -1,6 +1,6 @@
 import { buttonsStyles } from "@/assets/styles/buttons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, ViewStyle } from "react-native";
 
 type PrimaryButtonLProps = {
   title: string;
@@ -12,6 +12,7 @@ type PrimaryButtonLProps = {
   violet?: boolean;
   textOnly?: boolean;
   underline?: boolean;
+  square?: boolean;
 };
 
 export default function PrimaryButtonL({
@@ -24,9 +25,16 @@ export default function PrimaryButtonL({
   violet = false,
   textOnly = false,
   underline = false,
+  square = false,
 }: PrimaryButtonLProps) {
-  const sizeStyle =
-    size === "L" ? buttonsStyles.base_L : buttonsStyles.base_S;
+  // const sizeStyle =
+  //   size === "L" ? buttonsStyles.base_L : buttonsStyles.base_S;
+
+  const sizeStyle = square
+    ? { width: 56, height: 56, borderRadius: 12, alignItems: "center", justifyContent: "center" } as ViewStyle
+    : size === "L"
+    ? buttonsStyles.base_L
+    : buttonsStyles.base_S;  
 
   const defaultColors = ["#FFE044", "#FF8C42", "#CA009E"];
   const defaultPressedColors = ["#FFA64A"];
@@ -35,7 +43,7 @@ export default function PrimaryButtonL({
   const grayPressedColors = ["#404040"];
 
   const violetColors = ["#5A2292"];
-  const violetPressedColors = ["#BA68C8"];
+  const violetPressedColors = ["#985FD2"];
 
   const activeColors = gray
     ? grayColors
@@ -86,7 +94,10 @@ export default function PrimaryButtonL({
           end={{ x: 1, y: 1 }}
           style={[sizeStyle, 
             shadowStyle, 
-            {borderBottomColor: borderColor},
+            {borderBottomColor: borderColor,
+            borderBottomWidth: square ? 5 : 3,
+
+            },
            ]}
         >
           <Text

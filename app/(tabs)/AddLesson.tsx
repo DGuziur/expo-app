@@ -1,9 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import PrimaryButtonL from "@/components/PrimaryButtonL";
+import { StyleSheet, View } from "react-native";
 
 export default function AddLesson() {
   return (
     <View style={styles.container}>
-      <Text>KUPA</Text>
+     <PrimaryButtonL
+       title="Zapisz"
+        onPress={() => console.log("click")}
+        colors={["#4c669f", "#3b5998", "#192f6a"]}
+          />
     </View>
   );
 }
@@ -13,12 +18,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 16,
-    backgroundColor: "#7e7676ff",
+    backgroundColor: "#3d0f3cff",
   },
-  title: {
-    fontSize: 24,
+  text: {
+    color: "#fff",
+    textAlign: "center",
     fontWeight: "bold",
-    marginBottom: 16,
   },
 });

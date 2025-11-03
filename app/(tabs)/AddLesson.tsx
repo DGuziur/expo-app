@@ -44,6 +44,21 @@ export default function AddLesson() {
         size="S"
         violet
           />
+      <PrimaryButton
+       title="Primary Button textOnly"
+        onPress={() => console.log("click")}
+        // colors={["#4c669f", "#3b5998", "#192f6a"]}
+        size="L"
+        textOnly
+          />
+      <PrimaryButton
+       title="Primary Button textOnly underline"
+        onPress={() => console.log("click")}
+        // colors={["#4c669f", "#3b5998", "#192f6a"]}
+        size="L"
+        textOnly
+        underline
+          />
     </View>
   );
 }

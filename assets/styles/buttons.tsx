@@ -34,11 +34,15 @@ export const buttonsStyles = StyleSheet.create({
         shadowRadius: 10,
       },
       android: {
-        elevation: 10,
+        elevation: 1,
         shadowColor: "#DF4F58",
+      },
+      web: {
+        boxShadow: "0px -5px 10px rgba(223, 79, 88, 0.8)",
       },
     }),
   },
+
   text: {
     color: "#fff",
     fontWeight: "600",

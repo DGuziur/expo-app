@@ -10,6 +10,8 @@ type PrimaryButtonLProps = {
   size?: "L" | "S";
   gray?: boolean;
   violet?: boolean;
+  textOnly?: boolean;
+  underline?: boolean;
 };
 
 export default function PrimaryButtonL({
@@ -20,12 +22,14 @@ export default function PrimaryButtonL({
   size = "L",
   gray = false,
   violet = false,
+  textOnly = false,
+  underline = false,
 }: PrimaryButtonLProps) {
   const sizeStyle =
     size === "L" ? buttonsStyles.base_L : buttonsStyles.base_S;
 
   const defaultColors = ["#FFE044", "#FF8C42", "#CA009E"];
-  const defaultPressedColors = ["#FFA64A",];
+  const defaultPressedColors = ["#FFA64A"];
 
   const grayColors = ["#666666"];
   const grayPressedColors = ["#404040"];
@@ -51,6 +55,28 @@ export default function PrimaryButtonL({
     ? "#6A2AAB"
     : "#B34602";
 
+
+  const shadowStyle = !gray && !violet ? buttonsStyles.shadow : null;  
+
+  if (textOnly) {
+    return (
+      <Pressable onPress={onPress}>
+        {({ pressed }) => (
+          <Text
+            style={[
+              buttonsStyles.text,
+              { color: pressed ? "#abababff" : "#ffffffff" },
+               { textDecorationLine: underline ? "underline" : "none" },
+            ]}
+          >
+            {title} &#8594;
+          </Text>
+        )}
+      </Pressable>
+    );
+  }
+
+
   return (
     <Pressable onPress={onPress}>
       {({ pressed }) => (
@@ -58,12 +84,16 @@ export default function PrimaryButtonL({
           colors={pressed ? activePressedColors : activeColors}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={[sizeStyle, buttonsStyles.shadow, {borderBottomColor: borderColor}]}
+          style={[sizeStyle, 
+            shadowStyle, 
+            {borderBottomColor: borderColor},
+           ]}
         >
           <Text
             style={[
               buttonsStyles.text,
               gray && { color: "#8A8A8A" },
+              { textDecorationLine: underline ? "underline" : "none" },
             ]}
           >
             {title} &#8594;

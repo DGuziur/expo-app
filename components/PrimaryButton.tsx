@@ -103,7 +103,7 @@ export default function PrimaryButtonL({
           <Text
             style={[
               buttonsStyles.text,
-              gray && { color: "#8A8A8A" },
+              gray && { color: "#B3B3B3" },
               { textDecorationLine: underline ? "underline" : "none" },
             ]}
           >

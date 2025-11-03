@@ -24,7 +24,7 @@ const variants = {
   },
   secondary: {
     colors: [themeColors.secondary[700]],
-    pressedColors: ["#985FD2"],
+    pressedColors: [themeColors.secondary[300]],
     borderColor: "#6A2AAB",
     textColor: "#FFFFFF",
     hasShadow: false,

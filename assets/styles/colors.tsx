@@ -43,15 +43,19 @@ export const colors = {
     700: "#F1524E",
   },
   neutralsDarkMode:{
-    Background: '#0F0A10',
-    Surface: '#260D30',
-    SurfaceElev: '#361D40',
-    Divider: '#3F3046',
+    background: '#0F0A10',
+    surface: '#260D30',
+    surfaceElev: '#361D40',
+    divider: '#3F3046',
   },
-    neutralsLightMode:{
-    Background: '#F5F3EF',
-    Surface: '#E9E6E2',
-    SurfaceElev: '#EFEDEB',
-    Divider: '#DAD6D1',
+  neutralsLightMode:{
+    background: '#F5F3EF',
+    surface: '#E9E6E2',
+    surfaceElev: '#EFEDEB',
+    divider: '#DAD6D1',
+  },
+  textDarkMode:{
+    textPrimary: '#F6ECFB',
   }
+
 };

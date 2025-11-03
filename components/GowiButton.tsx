@@ -48,16 +48,24 @@ export default function GowiButton({
   const config = variants[type];
 
   const sizeStyle = square
-    ? {
-        width: 56,
-        height: 56,
-        borderRadius: 12,
-        alignItems: "center",
-        justifyContent: "center",
-      } as ViewStyle
-    : size === "L"
-    ? buttonsStyles.base_L
-    : buttonsStyles.base_S;
+      ? size === "L"
+        ? {
+            width: 56,
+            height: 56,
+            borderRadius: 12,
+            alignItems: "center",
+            justifyContent: "center",
+          } as ViewStyle
+        : {
+            width: 40,
+            height: 40,
+            borderRadius: 8,
+            alignItems: "center",
+            justifyContent: "center",
+          } as ViewStyle
+      : size === "L"
+      ? buttonsStyles.base_L
+      : buttonsStyles.base_S;
 
   if (textOnly) {
     return (

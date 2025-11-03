@@ -22,6 +22,9 @@ export default function AddLesson() {
         <GowiButton title="1" size="L" square onPress={() => {}} />
         <GowiButton title="2" size="L" type="secondary" square onPress={() => {}} />
         <GowiButton title="3" size="L" type="disabled" square onPress={() => {}} />
+        <GowiButton title="1" size="S" square onPress={() => {}} />
+        <GowiButton title="2" size="S" type="secondary" square onPress={() => {}} />
+        <GowiButton title="3" size="S" type="disabled" square onPress={() => {}} />
       </View>
     </ScrollView>
   );

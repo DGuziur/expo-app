@@ -11,7 +11,7 @@ export const buttonsStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   //  borderBottomColor: '#B34602',
-    borderBottomWidth: 5,
+    borderBottomWidth: 7,
   },
     base_S: {
     minWidth: 100,
@@ -23,7 +23,7 @@ export const buttonsStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
    // borderBottomColor: '#B34602',
-    borderBottomWidth: 5,
+    borderBottomWidth: 7,
   },
   shadow: {
     ...Platform.select({

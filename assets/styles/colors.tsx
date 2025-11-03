@@ -64,6 +64,17 @@ export const colors = {
     textWarning: '#FFC23B',
     textError: '#FF5C73',
     textInfo: '#A8B7FF',
+  },
+  textLightMode:{
+    textPrimary: '#1E1E1E',
+    textSecondary: '#6B6B6B',
+    textTeritary: '#C6C2BE',
+    textInverted: '#C6C2BE',
+    textAccent: '#FF8C42',
+    textSuccess: '#43B66E',
+    textWarning: '#E5A400',
+    textError: '#E24B4B',
+    textInfo: '#4C6FEA',
   }
 
 };

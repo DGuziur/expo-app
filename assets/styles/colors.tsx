@@ -56,6 +56,14 @@ export const colors = {
   },
   textDarkMode:{
     textPrimary: '#F6ECFB',
+    textSecondary: '#B8ABC5',
+    textTeritary: '#817391',
+    textInverted: '#501640',
+    textAccent: '#FF9A3E',
+    textSuccess: '#4ADE80',
+    textWarning: '#FFC23B',
+    textError: '#FF5C73',
+    textInfo: '#A8B7FF',
   }
 
 };

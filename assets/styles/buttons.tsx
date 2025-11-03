@@ -1,15 +1,28 @@
 import { Platform, StyleSheet } from "react-native";
 
 export const buttonsStyles = StyleSheet.create({
-  base: {
+  base_L: {
     minWidth: 100,
     maxWidth: 327,
+    height: 56,
     borderRadius: 30,
     paddingVertical: 14,
     paddingHorizontal: 24,
     alignItems: "center",
     justifyContent: "center",
-    borderBottomColor: '#B34602',
+  //  borderBottomColor: '#B34602',
+    borderBottomWidth: 5,
+  },
+    base_S: {
+    minWidth: 100,
+    maxWidth: 327,
+    height: 40,
+    borderRadius: 30,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    alignItems: "center",
+    justifyContent: "center",
+   // borderBottomColor: '#B34602',
     borderBottomWidth: 5,
   },
   shadow: {

@@ -1,4 +1,4 @@
-import PrimaryButton from "@/components/PrimaryButton";
+import GowiButton from "@/components/GowiButton";
 import { Text } from "@react-navigation/elements";
 import { ScrollView, StyleSheet, View } from "react-native";
 
@@ -7,21 +7,21 @@ export default function AddLesson() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.text}>Primary</Text>
       <View style={styles.grid}>
-        <PrimaryButton title="Primary Button L" size="L" onPress={() => {}} />
-        <PrimaryButton title="Primary Button S" size="S" onPress={() => {}} />
-        <PrimaryButton title="Primary Button L gray" size="L" gray onPress={() => {}} />
-        <PrimaryButton title="Primary Button S gray" size="S" gray onPress={() => {}} />
-        <PrimaryButton title="Primary Button L violet" size="L" violet onPress={() => {}} />
-        <PrimaryButton title="Primary Button S violet" size="S" violet onPress={() => {}} />
-        <PrimaryButton title="Primary Button textOnly" size="L" textOnly onPress={() => {}} />
-        <PrimaryButton title="Primary Button textOnly underline" size="L" textOnly underline onPress={() => {}} />
+        <GowiButton title="Primary Button L" size="L" onPress={() => {}} />
+        <GowiButton title="Primary Button S" size="S" onPress={() => {}} />
+        <GowiButton title="Primary Button L gray" size="L" type="disabled" onPress={() => {}} />
+        <GowiButton title="Primary Button S gray" size="S" type="disabled" onPress={() => {}} />
+        <GowiButton title="Primary Button L violet" size="L" type="secondary" onPress={() => {}} />
+        <GowiButton title="Primary Button S violet" size="S" type="secondary" onPress={() => {}} />
+        <GowiButton title="Primary Button textOnly" size="L" textOnly onPress={() => {}} />
+        <GowiButton title="Primary Button textOnly underline" size="L" textOnly underline onPress={() => {}} />
       </View>
 
       <Text style={styles.text}>Squery</Text>
       <View style={styles.grid}>
-        <PrimaryButton title="1" size="L" square onPress={() => {}} />
-        <PrimaryButton title="2" size="L" violet square onPress={() => {}} />
-        <PrimaryButton title="3" size="L" gray square onPress={() => {}} />
+        <GowiButton title="1" size="L" square onPress={() => {}} />
+        <GowiButton title="2" size="L" type="secondary" square onPress={() => {}} />
+        <GowiButton title="3" size="L" type="disabled" square onPress={() => {}} />
       </View>
     </ScrollView>
   );

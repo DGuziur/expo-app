@@ -1,3 +1,4 @@
+import { useTheme } from "@/themes/ThemeProvider";
 import React from "react";
 import { Control, Controller, RegisterOptions } from "react-hook-form";
 import {
@@ -45,9 +46,10 @@ export default function GowiFormInput({
   editable = true,
   multiline = false,
 }: GowiInputProps) {
+  const theme = useTheme();
   return (
     <View style={[styles.container, customStyles]}>
-      {label && <Text style={[styles.label, labelStyles]}>{label}:</Text>}
+      {label && <Text style={[styles.label, labelStyles, {color: theme.textPrimary}]}>{label}:</Text>}
       <Controller
         control={control}
         name={controlName}
@@ -58,7 +60,7 @@ export default function GowiFormInput({
         }) => (
           <>
             <TextInput
-              style={[styles.input, inputStyles, error && styles.inputError]}
+              style={[{ backgroundColor: theme.surface},styles.input, inputStyles, error && styles.inputError]}
               placeholder={placeholder}
               value={value}
               onChangeText={onChange}
@@ -69,7 +71,7 @@ export default function GowiFormInput({
               keyboardType={keyboardType}
               autoCapitalize={autoCapitalize}
               editable={editable}
-              placeholderTextColor="#999"
+              placeholderTextColor= {theme.textPrimary}
             />
             {error && (
               <Text style={[styles.errorText, errorStyles]}>
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     marginLeft: 14,
   },
   input: {
-    backgroundColor: "rgba(0,0,0, 0.05)",
+   
     borderRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 15,

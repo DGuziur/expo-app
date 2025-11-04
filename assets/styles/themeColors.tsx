@@ -77,8 +77,19 @@ export const themeColors = {
     textInfo: '#4C6FEA',
   },
 
-  /// nie lepiej rozbić na succes i warrning? i tam wersja light dark
+  statusLightMode:{
+    succesLight: '#E3F5EA',
+    warningLight: '#FFF6DA',
+    errorLight: '#FDECEA',
+    infoLight: '#EAF1FD',
 
+  },
+  statusDarkMode:{
+    succesDark: '',
+    warningDark: '',
+    errorDark: '',
+    infoiDark: '',
+  },
   gradientsDarkMOde:{
     background: ['#10031F', '#300A33'],
     cta: [ '#FFE044CC','#FF8C42', '#FF0FCB'],

@@ -1,7 +1,7 @@
-import { styles } from "@/assets/styles/auth.styles";
 import { auth } from "@/firebaseInit";
 import GowiButton from "@/lib/GowiButton";
 import GowiFormInput from "@/lib/GowiFormInput";
+import { styles } from "@/themes/styles/auth.styles";
 import { getAuthErrorNamePl } from "@/utils/errors/firebaseAuth";
 import { router } from "expo-router";
 import { FirebaseError } from "firebase/app";

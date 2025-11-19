@@ -1,5 +1,5 @@
 import { buttonsStyles } from "@/assets/styles/buttons";
-import { themeColors } from "@/assets/styles/themeColors";
+import { themeColors } from "@/themes/themeColors";
 import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, Text, ViewStyle } from "react-native";
 

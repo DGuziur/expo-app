@@ -1,7 +1,8 @@
 import { styles } from "@/assets/styles/auth.styles";
+import GowiButton from "@/components/GowiButton";
 import { auth } from "@/firebaseInit";
-import GowiButton from "@/lib/GowiButton";
 import GowiFormInput from "@/lib/GowiFormInput";
+import { useTheme } from "@/themes/ThemeProvider";
 import { getAuthErrorNamePl } from "@/utils/errors/firebaseAuth";
 import { router } from "expo-router";
 import { FirebaseError } from "firebase/app";
@@ -37,8 +38,10 @@ export default function LoginPage() {
       setFirebaseError(getAuthErrorNamePl(err.code));
     });
   };
+
+  const theme = useTheme();
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, {backgroundColor: theme.background, flex: 1 , }]}>
       <Image
         source={{
           uri: "https://media.istockphoto.com/id/1318764563/vector/various-emotions-and-facial-expressions-of-one-person.webp?a=1&b=1&s=612x612&w=0&k=20&c=dOhYx052PU4Epnjj3Uh8xx16h0XqoN1kdYVqFf_YN1o=",
@@ -79,9 +82,9 @@ export default function LoginPage() {
         }}
       ></GowiFormInput>
       <GowiButton
-        buttonText="Sign In"
-        customStyles={{ width: "80%", maxWidth: 300, marginVertical: 15 }}
-        handleBtnPress={loginForm.handleSubmit(signIn)}
+        title="Sign In"
+        size="L"
+        onPress={loginForm.handleSubmit(signIn)}
       ></GowiButton>
       <TouchableOpacity onPress={() => router.push("/(auth)/SignUpPage")}>
         <Text>Dont have an account? Sign up</Text>

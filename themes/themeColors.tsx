@@ -1,4 +1,3 @@
-
 export const themeColors = {
   primary: {
     100: "#FFF4C7",
@@ -36,66 +35,63 @@ export const themeColors = {
     740: "#666666",
     820: "#404040",
   },
-  green:{
+  green: {
     700: "#2FE3AD",
   },
-  red:{
+  red: {
     700: "#F1524E",
   },
-  neutralsDarkMode:{
-    background: '#0F0A10',
-    surface: '#260D30',
-    surfaceElev: '#361D40',
-    divider: '#3F3046',
+  neutralsDarkMode: {
+    background: "#0F0A10",
+    surface: "#260D30",
+    surfaceElev: "#361D40",
+    divider: "#3F3046",
   },
-  neutralsLightMode:{
-    background: '#F5F3EF',
-    surface: '#E9E6E2',
-    surfaceElev: '#EFEDEB',
-    divider: '#DAD6D1',
+  neutralsLightMode: {
+    background: "#F5F3EF",
+    surface: "#E9E6E2",
+    surfaceElev: "#EFEDEB",
+    divider: "#DAD6D1",
   },
-  textDarkMode:{
-    textPrimary: '#F6ECFB',
-    textSecondary: '#B8ABC5',
-    textTeritary: '#817391',
-    textInverted: '#501640',
-    textAccent: '#FF9A3E',
-    textSuccess: '#4ADE80',
-    textWarning: '#FFC23B',
-    textError: '#FF5C73',
-    textInfo: '#A8B7FF',
+  textDarkMode: {
+    textPrimary: "#F6ECFB",
+    textSecondary: "#B8ABC5",
+    textTeritary: "#817391",
+    textInverted: "#501640",
+    textAccent: "#FF9A3E",
+    textSuccess: "#4ADE80",
+    textWarning: "#FFC23B",
+    textError: "#FF5C73",
+    textInfo: "#A8B7FF",
   },
-  textLightMode:{
-    textPrimary: '#1E1E1E',
-    textSecondary: '#6B6B6B',
-    textTeritary: '#C6C2BE',
-    textInverted: '#C6C2BE',
-    textAccent: '#FF8C42',
-    textSuccess: '#43B66E',
-    textWarning: '#E5A400',
-    textError: '#E24B4B',
-    textInfo: '#4C6FEA',
+  textLightMode: {
+    textPrimary: "#1E1E1E",
+    textSecondary: "#6B6B6B",
+    textTeritary: "#C6C2BE",
+    textInverted: "#C6C2BE",
+    textAccent: "#FF8C42",
+    textSuccess: "#43B66E",
+    textWarning: "#E5A400",
+    textError: "#E24B4B",
+    textInfo: "#4C6FEA",
   },
 
-  statusLightMode:{
-    succesLight: '#E3F5EA',
-    warningLight: '#FFF6DA',
-    errorLight: '#FDECEA',
-    infoLight: '#EAF1FD',
-
+  statusLightMode: {
+    succesLight: "#E3F5EA",
+    warningLight: "#FFF6DA",
+    errorLight: "#FDECEA",
+    infoLight: "#EAF1FD",
   },
-  statusDarkMode:{
-    succesDark: '',
-    warningDark: '',
-    errorDark: '',
-    infoiDark: '',
+  statusDarkMode: {
+    succesDark: "",
+    warningDark: "",
+    errorDark: "",
+    infoiDark: "",
   },
-  gradientsDarkMOde:{
-    background: ['#10031F', '#300A33'],
-    cta: [ '#FFE044CC','#FF8C42', '#FF0FCB'],
-    lesson: ['#BA0085', '#FF8908'],
-    progress: ['#E5007A', '#FF8C42'],
-
-  }
-
+  gradientsDarkMOde: {
+    background: ["#10031F", "#300A33"],
+    cta: ["#FFE044CC", "#FF8C42", "#FF0FCB"] as const,
+    lesson: ["#BA0085", "#FF8908"],
+    progress: ["#E5007A", "#FF8C42"],
+  },
 };

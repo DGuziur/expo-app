@@ -10,20 +10,15 @@ export const buttonsStyles = StyleSheet.create({
     paddingHorizontal: 24,
     alignItems: "center",
     justifyContent: "center",
-  //  borderBottomColor: '#B34602',
-    borderBottomWidth: 7,
   },
-    base_S: {
+  base_S: {
     minWidth: 100,
     maxWidth: 327,
     height: 40,
     borderRadius: 30,
-    paddingVertical: 14,
     paddingHorizontal: 24,
     alignItems: "center",
     justifyContent: "center",
-   // borderBottomColor: '#B34602',
-    borderBottomWidth: 7,
   },
   shadow: {
     ...Platform.select({

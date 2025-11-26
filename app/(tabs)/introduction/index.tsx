@@ -2,7 +2,7 @@ import StepperPanel, { StepData } from "@/components/StepperPanel";
 import { themeColors } from "@/themes/themeColors";
 import OnboBackground from "@assets/icons/ONBO BACKGROUND.png";
 import { LinearGradient } from "expo-linear-gradient";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 const stepperPanelTestData: StepData[] = [
   {
@@ -34,8 +34,9 @@ export default function Introduction() {
       locations={[0, 0.1, 0.2]}
       start={{ x: 1, y: 0 }}
       end={{ x: 1, y: 1 }}
-      style={style.container}
+      style={styles.container}
     >
+      <View style={[styles.dot, { width: 12, height: 12 }]} />;
       <Image
         style={{ width: "100%", height: "50%" }}
         source={OnboBackground}
@@ -46,12 +47,15 @@ export default function Introduction() {
   );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     justifyContent: "center",
     alignContent: "center",
     display: "flex",
+  },
+  dot: {
+    backgroundColor: "#FFD600",
+    borderRadius: 9999,
   },
 });

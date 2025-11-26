@@ -6,19 +6,22 @@ import { Image, StyleSheet, View } from "react-native";
 
 const stepperPanelTestData: StepData[] = [
   {
-    title: "Hi, im gowi",
-    description: "Onboarding first",
-    nextButtonText: "Hi Gowi",
+    title: "introductionTexts.Hi, im gowi",
+    description:
+      "introductionTexts.Nice to see you! I can help you understand yourself This will only take a moment",
+    nextButtonText: "buttons.Hi Gowi",
   },
   {
-    title: "Your everyday space",
-    description: "Onboarding second",
-    nextButtonText: "Sounds good",
+    title: "introductionTexts.Your daily space for self-discovery.",
+    description:
+      "introductionTexts.I help you strengthen your inner power, better understand yourself, and discover ways of living that truly suit you.",
+    nextButtonText: "buttons.Sounds good",
   },
   {
-    title: "Step by step, in your time",
-    description: "Onboarding third",
-    nextButtonText: "Begin",
+    title: "introductionTexts.Step by step, at your pace.",
+    description:
+      "introductionTexts.Every moment you dedicate to yourself matters. Thanks to this, you get closer and closer to what you truly desire.",
+    nextButtonText: "buttons.Let's start",
     hideBackButton: true,
   },
 ];

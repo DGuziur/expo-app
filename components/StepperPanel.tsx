@@ -62,6 +62,7 @@ export default function StepperPanel({ steps }: StepperPanelProps) {
         )}
         <GowiButton
           type="primary"
+          size="L"
           title={t(stepData.nextButtonText ?? "Hi gowi")}
           onPress={() =>
             setStep((state) => (state < steps.length ? state + 1 : 1))

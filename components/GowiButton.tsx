@@ -111,7 +111,8 @@ export default function GowiButton({
           ...sizeStyle,
           position: "absolute",
           top: 4,
-          width: "100%",
+          left: 0,
+          right: 0,
           backgroundColor: config.borderColor,
           borderRadius: sizeStyle.borderRadius,
         }}

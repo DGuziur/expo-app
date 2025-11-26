@@ -2,7 +2,14 @@ import { buttonsStyles } from "@/assets/styles/buttons";
 import { themeColors } from "@/themes/themeColors";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
-import { ColorValue, Pressable, Text, View, ViewStyle } from "react-native";
+import {
+  ColorValue,
+  Pressable,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
 
 type GowiButtonProps = {
   title: string;
@@ -12,6 +19,8 @@ type GowiButtonProps = {
   textOnly?: boolean;
   underline?: boolean;
   square?: boolean;
+  customStyle?: ViewStyle;
+  textStyle?: TextStyle;
 };
 
 const variants = {
@@ -53,6 +62,8 @@ export default function GowiButton({
   textOnly = false,
   underline = false,
   square = false,
+  customStyle = {},
+  textStyle = {},
 }: GowiButtonProps) {
   const config = variants[type];
 
@@ -89,13 +100,14 @@ export default function GowiButton({
             }
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
-            style={[sizeStyle]}
+            style={[sizeStyle, customStyle]}
           >
             <Text
               style={{
                 ...buttonsStyles.text,
                 color: type === "disabled" ? "#666" : "#fff",
                 textDecorationLine: underline ? "underline" : "none",
+                ...textStyle,
               }}
             >
               {t(title)} &#8594;
@@ -130,6 +142,7 @@ export default function GowiButton({
               ...sizeStyle,
               borderRadius: sizeStyle.borderRadius,
               transform: [{ translateY: pressed ? 4 : 0 }],
+              ...customStyle,
             }}
           >
             <Text
@@ -137,6 +150,7 @@ export default function GowiButton({
                 ...buttonsStyles.text,
                 color: config.textColor,
                 textDecorationLine: underline ? "underline" : "none",
+                ...textStyle,
               }}
             >
               {t(title)} &#8594;

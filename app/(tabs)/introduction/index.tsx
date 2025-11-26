@@ -21,7 +21,7 @@ const stepperPanelTestData: StepData[] = [
   },
 ];
 
-export default function Onboarding() {
+export default function Introduction() {
   return (
     <View style={style.container}>
       <Image

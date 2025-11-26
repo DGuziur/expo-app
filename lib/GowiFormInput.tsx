@@ -61,7 +61,7 @@ export default function GowiFormInput({
               color: theme.textDarkMode.textPrimary,
               fontSize: 12,
               textAlign: "left",
-              marginBottom: 5,
+              marginBottom: 8,
             },
             labelStyles,
             { color: theme.textDarkMode.textTeritary },
@@ -83,6 +83,7 @@ export default function GowiFormInput({
               style={[
                 { backgroundColor: theme.surface },
                 {
+                  ...theme.fonts.primary.regular,
                   borderRadius: 8,
                   borderWidth: 1,
                   borderColor: theme.neutralsDarkMode.divider,
@@ -95,7 +96,9 @@ export default function GowiFormInput({
                 },
                 inputStyles,
                 error && {
-                  backgroundColor: "rgba(230, 60, 60, 0.1)",
+                  borderRadius: 8,
+                  borderWidth: 1,
+                  borderColor: theme.textDarkMode.textError,
                 },
               ]}
               placeholder={placeholder}
@@ -114,6 +117,7 @@ export default function GowiFormInput({
               <Text
                 style={[
                   {
+                    ...theme.fonts.primary.regular,
                     color: "#ff4444",
                     fontSize: 14,
                     marginTop: 4,

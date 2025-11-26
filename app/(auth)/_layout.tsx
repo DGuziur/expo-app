@@ -6,17 +6,17 @@ import { View } from "react-native";
 
 export default function AuthRoutesLayout() {
   const { user, loading } = useAuth();
-    const theme = useTheme();
+  const theme = useTheme();
   if (loading)
     return (
-  <View style={{ backgroundColor: theme.background, flex: 1 }}>
-    <Spinner
-      style={{ flex: 1 }}
-      size={100}
-      color="pink"
-      strokeWidth={8}
-    ></Spinner>
-  </View>
+      <View style={{ backgroundColor: theme.background, flex: 1 }}>
+        <Spinner
+          style={{ flex: 1 }}
+          size={100}
+          color="pink"
+          strokeWidth={8}
+        ></Spinner>
+      </View>
     );
 
   if (user) return <Redirect href="/(tabs)/(modules)" />;

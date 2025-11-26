@@ -131,7 +131,7 @@ export default function LoginPage() {
             backgroundColor: "#FFD600",
             borderRadius: 9999,
             zIndex: 100,
-            marginBottom: 100,
+            marginBottom: 50,
           },
           { width: 200, height: 200 },
         ]}

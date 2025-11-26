@@ -1,6 +1,8 @@
 import StepperPanel, { StepData } from "@/components/StepperPanel";
+import { themeColors } from "@/themes/themeColors";
 import OnboBackground from "@assets/icons/ONBO BACKGROUND.png";
-import { Image, StyleSheet, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Image, StyleSheet } from "react-native";
 
 const stepperPanelTestData: StepData[] = [
   {
@@ -23,21 +25,31 @@ const stepperPanelTestData: StepData[] = [
 
 export default function Introduction() {
   return (
-    <View style={style.container}>
+    <LinearGradient
+      colors={[
+        themeColors.gradientsDarkMOde.background[1],
+        themeColors.gradientsDarkMOde.background[1],
+        themeColors.gradientsDarkMOde.background[0],
+      ]}
+      locations={[0, 0.1, 0.2]}
+      start={{ x: 1, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={style.container}
+    >
       <Image
         style={{ width: "100%", height: "50%" }}
         source={OnboBackground}
         resizeMode={"stretch"}
       ></Image>
       <StepperPanel steps={stepperPanelTestData}></StepperPanel>
-    </View>
+    </LinearGradient>
   );
 }
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#300A33",
+
     justifyContent: "center",
     alignContent: "center",
     display: "flex",

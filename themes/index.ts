@@ -4,6 +4,7 @@ import { themeColors } from "./themeColors";
 export const lightTheme = {
   mode: "light",
   background: themeColors.neutralsLightMode.background,
+  gradientBackground: [themeColors.neutralsLightMode.background, "#000"],
   surface: themeColors.neutralsLightMode.surface,
   textPrimary: themeColors.textLightMode.textPrimary,
   textSecondary: themeColors.textLightMode.textSecondary,
@@ -32,6 +33,7 @@ export const lightTheme = {
 export const darkTheme = {
   mode: "dark",
   background: themeColors.neutralsDarkMode.background,
+  gradientBackground: themeColors.gradientsDarkMOde.background,
   surface: themeColors.neutralsDarkMode.surface,
   textPrimary: themeColors.textDarkMode.textPrimary,
   textSecondary: themeColors.textDarkMode.textSecondary,

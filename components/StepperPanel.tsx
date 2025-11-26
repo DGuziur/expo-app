@@ -1,4 +1,5 @@
 import { useTheme } from "@/themes/ThemeProvider";
+import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
@@ -58,15 +59,18 @@ export default function StepperPanel({ steps }: StepperPanelProps) {
           <GowiButton
             type="secondary"
             title={t(stepData.backButtonText ?? "Skip")}
+            onPress={() => {
+              router.push("/(auth)/LoginPage");
+            }}
           ></GowiButton>
         )}
         <GowiButton
           type="primary"
           size="L"
           title={t(stepData.nextButtonText ?? "Hi gowi")}
-          onPress={() =>
-            setStep((state) => (state < steps.length ? state + 1 : 1))
-          }
+          onPress={() => {
+            setStep((state) => (state < steps.length ? state + 1 : 1));
+          }}
         ></GowiButton>
       </View>
     </View>

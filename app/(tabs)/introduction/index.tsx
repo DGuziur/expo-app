@@ -6,10 +6,10 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-export default function Onboarding() {
+export default function Introduction() {
   const theme = useTheme();
   const { t } = useTranslation();
-  const [onboardingStep, setOnboardingStep] = useState(1);
+  const [onboardingStep, setIntroductionStep] = useState(1);
   return (
     <View style={style.container}>
       <Image
@@ -25,7 +25,7 @@ export default function Onboarding() {
             fontSize: 28,
           }}
         >
-          {t("Hi, im gowi")}
+          {t("introductionTexts.Hi, im gowi")}
         </Text>
         <Text
           style={{
@@ -35,9 +35,9 @@ export default function Onboarding() {
             textAlign: "center",
           }}
         >
-          {t("Nice to see you")}
-          {t("I can help you understand yourself")}
-          {t("This will only take a moment")}
+          {t("introductionTexts.Nice to see you")}
+          {t("introductionTexts.I can help you understand yourself")}
+          {t("introductionTexts.This will only take a moment")}
         </Text>
         <Stepper currentStep={onboardingStep} totalSteps={3}></Stepper>
         <View style={{ flexDirection: "row", gap: 5 }}>
@@ -46,7 +46,7 @@ export default function Onboarding() {
             type="primary"
             title={t("Hi Gowi")}
             onPress={() =>
-              setOnboardingStep((state) => (state < 3 ? state + 1 : 1))
+              setIntroductionStep((state) => (state < 3 ? state + 1 : 1))
             }
           ></GowiButton>
         </View>

@@ -10,7 +10,7 @@ export const lightTheme = {
   textSecondary: themeColors.textLightMode.textSecondary,
   fonts: {
     primary: {
-      loght: {
+      light: {
         fontFamily: "SpaceGrotesk-Light",
       } as TextStyle,
       regular: {
@@ -39,7 +39,7 @@ export const darkTheme = {
   textSecondary: themeColors.textDarkMode.textSecondary,
   fonts: {
     primary: {
-      loght: {
+      light: {
         fontFamily: "SpaceGrotesk-Light",
       } as TextStyle,
       regular: {

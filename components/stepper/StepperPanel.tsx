@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
-import GowiButton from "./GowiButton";
+import GowiButton from "../GowiButton";
 import Stepper from "./Stepper";
 
 export interface StepperPanelProps {

@@ -36,7 +36,9 @@ export default function Introduction() {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
-      <View style={[styles.dot, { width: 12, height: 12 }]} />;
+      <View style={styles.dotContainer}>
+        <View style={[styles.dot, { width: 200, height: 200 }]} />
+      </View>
       <Image
         style={{ width: "100%", height: "50%" }}
         source={OnboBackground}
@@ -54,8 +56,18 @@ const styles = StyleSheet.create({
     alignContent: "center",
     display: "flex",
   },
+  dotContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   dot: {
     backgroundColor: "#FFD600",
     borderRadius: 9999,
+    zIndex: 100,
   },
 });

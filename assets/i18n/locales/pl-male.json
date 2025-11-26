@@ -1,9 +1,15 @@
 {
   "Hi, im gowi": "Cześć, jestem Gowi.",
   "Hi Gowi": "Hej Gowi!",
-  "Nice to see you": "Miło Cię widzieć \uD83D\uDE0A \n",
-  "I can help you understand yourself": "Pomogę Ci na chwilę się zatrzymać i lepiejzrozumieć siebie.\n",
-  "This will only take a moment": "To zajmie tylko kilka minut.",
 
+  "Your everyday space": "Twoja codzienna \nprzestrzeń do \nodkrywania siebie.",
+  "Step by step, in your time": "Krok po kroku, w Twoim tempie.",
+
+  "Onboarding first": "Miło Cię widzieć \uD83D\uDE0A \nPomogę Ci na chwilę się zatrzymać \ni lepiej zrozumieć siebie.\nTo zajmie tylko kilka minut.",
+  "Onboarding second": "Pomagam Ci wzmocnić Twoją \nwewnętrzną siłę, lepiej zrozumieć \nsiebie oraz odkrywać sposoby życia, \nktóre naprawdę do Ciebie pasują.",
+  "Onboarding third": "Każdy moment, który poświęcasz \nsobie, ma znaczenie. Dzięki temu \nzbliżasz się coraz bardziej do tego, \nczego naprawdę pragniesz.",
+
+  "Sounds good": "Brzmi dobrze",
+  "Begin": "Zaczynamy",
   "Skip": "Pomiń"
 }

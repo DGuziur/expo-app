@@ -71,7 +71,7 @@ export default function NewUserQuestions() {
             paddingVertical: 40,
           }}
         >
-          W jakim stopniu dotyczy to ciebie? (0-5)
+          {t("quizTexts.To what extent does this apply to you? (0-5)")}
         </Text>
         <View style={{ gap: 10 }}>
           {IntroQuestionAnswers.map((answer, i) => {

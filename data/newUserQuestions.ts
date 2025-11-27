@@ -40,38 +40,53 @@ export interface IntroQuestion {
 
 export const IntroQuestions: IntroQuestion[] = [
   {
-    category: "CIAŁO I ENERGIA",
+    category: "wellbeingProfile.BODY AND ENERGY",
     categoryIcon: HumanSVG,
     questionText:
-      "Moje zdrowie fizyczne pozwala mi robić to, co chcę na co dzień",
+      "quizTexts.My physical health allows me to do what I want every day",
     answer: null,
   },
   {
-    category: "CIAŁO I ENERGIA",
+    category: "wellbeingProfile.BODY AND ENERGY",
     categoryIcon: HumanSVG,
-    questionText:
-      "Moje zdrowie fizyczne pozwala mi robić to, co chcę na co dzień",
+    questionText: "quizTexts.I feel calm and in mental balance",
     answer: null,
   },
   {
-    category: "CIAŁO I ENERGIA",
+    category: "wellbeingProfile.BODY AND ENERGY",
     categoryIcon: HumanSVG,
-    questionText:
-      "Moje zdrowie fizyczne pozwala mi robić to, co chcę na co dzień",
+    questionText: "quizTexts.I feel that my life has meaning and direction",
     answer: null,
   },
   {
-    category: "CIAŁO I ENERGIA",
+    category: "wellbeingProfile.BODY AND ENERGY",
     categoryIcon: HumanSVG,
-    questionText:
-      "Moje zdrowie fizyczne pozwala mi robić to, co chcę na co dzień",
+    questionText: "quizTexts.Overall, I am satisfied with my life",
     answer: null,
   },
   {
-    category: "CIAŁO I ENERGIA",
+    category: "wellbeingProfile.BODY AND ENERGY",
+    categoryIcon: HumanSVG,
+    questionText: "quizTexts.I have pleasant and supportive social contacts",
+    answer: null,
+  },
+  {
+    category: "wellbeingProfile.BODY AND ENERGY",
     categoryIcon: HumanSVG,
     questionText:
-      "Moje zdrowie fizyczne pozwala mi robić to, co chcę na co dzień",
+      "quizTexts.I am able to cope with daily duties and challenges",
+    answer: null,
+  },
+  {
+    category: "wellbeingProfile.BODY AND ENERGY",
+    categoryIcon: HumanSVG,
+    questionText: "quizTexts.I return to balance after difficult situations",
+    answer: null,
+  },
+  {
+    category: "wellbeingProfile.BODY AND ENERGY",
+    categoryIcon: HumanSVG,
+    questionText: "quizTexts.I feel that I have good contact with myself",
     answer: null,
   },
 ];

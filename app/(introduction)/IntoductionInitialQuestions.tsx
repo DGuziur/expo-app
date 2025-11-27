@@ -6,7 +6,8 @@ import { useTheme } from "@/themes/ThemeProvider";
 import CheckSVG from "@assets/icons/Check.svg";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function NewUserQuestions() {
   const theme = useTheme();

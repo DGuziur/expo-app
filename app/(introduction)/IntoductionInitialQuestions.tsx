@@ -5,6 +5,7 @@ import { IntroQuestionAnswers, IntroQuestions } from "@/data/newUserQuestions";
 import { app } from "@/firebaseInit";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
+import ArrowRight from "@assets/icons/ArrowRight.svg";
 import CheckSVG from "@assets/icons/Check.svg";
 import { router } from "expo-router";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
@@ -20,6 +21,7 @@ export default function NewUserQuestions() {
   const { t } = useTranslation();
   const totalStages = IntroQuestions.length;
   const [progressState, setProgressState] = useState(0);
+  const [canSubmit, setCanSubmit] = useState(false);
   const CategoryIcon = IntroQuestions[progressState].categoryIcon;
 
   const submitAnswers = async () => {
@@ -44,7 +46,7 @@ export default function NewUserQuestions() {
       setProgressState(progressState + 1);
     } else {
       IntroQuestions[progressState].answer = pointsValue;
-      submitAnswers();
+      setCanSubmit(true);
     }
   };
 
@@ -74,7 +76,7 @@ export default function NewUserQuestions() {
             fontSize: 22,
             color: themeColors.textDarkMode.textPrimary,
             textAlign: "center",
-            paddingVertical: 40,
+            paddingVertical: 30,
           }}
         >
           {t(IntroQuestions[progressState].questionText)}
@@ -86,7 +88,7 @@ export default function NewUserQuestions() {
             fontSize: 16,
             color: themeColors.textDarkMode.textPrimary,
             textAlign: "center",
-            paddingVertical: 40,
+            paddingVertical: 30,
           }}
         >
           {t("quizTexts.To what extent does this apply to you? (0-5)")}
@@ -126,6 +128,18 @@ export default function NewUserQuestions() {
             );
           })}
         </View>
+        {canSubmit && (
+          <View
+            style={{ width: "80%", alignItems: "flex-end", paddingTop: 15 }}
+          >
+            <GowiButton
+              title={<ArrowRight></ArrowRight>}
+              square
+              type="primary"
+              onPress={() => submitAnswers()}
+            ></GowiButton>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );

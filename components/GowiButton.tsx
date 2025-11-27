@@ -1,6 +1,7 @@
 import { buttonsStyles } from "@/assets/styles/buttons";
 import { themeColors } from "@/themes/themeColors";
 import { LinearGradient } from "expo-linear-gradient";
+import { ReactNode } from "react";
 import {
   ColorValue,
   Pressable,
@@ -11,7 +12,7 @@ import {
 } from "react-native";
 
 type GowiButtonProps = {
-  title: string;
+  title: string | ReactNode;
   onPress?: () => void;
   styles?: ViewStyle;
   textStyles?: TextStyle;
@@ -107,7 +108,7 @@ export default function GowiButton({
                 textDecorationLine: underline ? "underline" : "none",
               }}
             >
-              {title} &#8594;
+              {title}
             </Text>
           </LinearGradient>
         )}
@@ -150,7 +151,7 @@ export default function GowiButton({
                 ...textStyles,
               }}
             >
-              {title} &#8594;
+              {title}
             </Text>
           </LinearGradient>
         )}

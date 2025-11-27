@@ -1,3 +1,5 @@
+import { ColorValue } from "react-native";
+
 export const themeColors = {
   primary: {
     100: "#FFF4C7",
@@ -89,7 +91,7 @@ export const themeColors = {
     infoiDark: "",
   },
   gradientsDarkMOde: {
-    background: ["#10031F", "#300A33"],
+    background: ["#10031F", "#300A33"] as [ColorValue, ColorValue],
     cta: ["#FFE044CC", "#FF8C42", "#FF0FCB"] as const,
     lesson: ["#BA0085", "#FF8908"],
     progress: ["#E5007A", "#FF8C42"],

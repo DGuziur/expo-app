@@ -6,20 +6,26 @@ import { View } from "react-native";
 
 export default function AuthRoutesLayout() {
   const { user, loading } = useAuth();
-    const theme = useTheme();
+  const theme = useTheme();
   if (loading)
     return (
-  <View style={{ backgroundColor: theme.background, flex: 1 }}>
-    <Spinner
-      style={{ flex: 1 }}
-      size={100}
-      color="pink"
-      strokeWidth={8}
-    ></Spinner>
-  </View>
+      <View style={{ backgroundColor: theme.background, flex: 1 }}>
+        <Spinner
+          style={{ flex: 1 }}
+          size={100}
+          color="pink"
+          strokeWidth={8}
+        ></Spinner>
+      </View>
+    );
+  console.log(user);
+
+  if (!user) return <Stack screenOptions={{ headerShown: false }} />;
+
+  if (!user.hasCompletedOnboarding)
+    return (
+      <Redirect href="/(introduction)/IntoductionInitialQuestions"></Redirect>
     );
 
-  if (user) return <Redirect href="/(tabs)/(modules)" />;
-
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return <Redirect href="/(tabs)/(modules)" />;
 }

@@ -15,7 +15,6 @@ export interface StepData {
   hideBackButton?: boolean;
   backButtonText?: string;
   nextButtonText?: string;
-  onlyNextButton?: boolean;
 }
 
 export default function StepperPanel({ steps }: StepperPanelProps) {

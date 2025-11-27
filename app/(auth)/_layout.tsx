@@ -1,7 +1,7 @@
 import { useAuth } from "@/AuthContext";
 import Spinner from "@/components/Spinner";
 import { useTheme } from "@/themes/ThemeProvider";
-import { Redirect } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
 
 export default function AuthRoutesLayout() {
@@ -18,13 +18,14 @@ export default function AuthRoutesLayout() {
         ></Spinner>
       </View>
     );
+  console.log(user);
 
-  if (true)
+  if (!user) return <Stack screenOptions={{ headerShown: false }} />;
+
+  if (!user.hasCompletedOnboarding)
     return (
       <Redirect href="/(introduction)/IntoductionInitialQuestions"></Redirect>
     );
 
-  // if (user) return <Redirect href="/(tabs)/(modules)" />;
-
-  // return <Stack screenOptions={{ headerShown: false }} />;
+  return <Redirect href="/(tabs)/(modules)" />;
 }

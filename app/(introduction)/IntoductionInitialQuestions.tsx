@@ -1,27 +1,44 @@
+import { useAuth } from "@/AuthContext";
 import GowiButton from "@/components/GowiButton";
 import ProgressStages from "@/components/ProgressStages";
 import { IntroQuestionAnswers, IntroQuestions } from "@/data/newUserQuestions";
+import { app } from "@/firebaseInit";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import CheckSVG from "@assets/icons/Check.svg";
+import { router } from "expo-router";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function NewUserQuestions() {
+  const { user } = useAuth();
+  const db = getFirestore(app);
   const theme = useTheme();
   const { t } = useTranslation();
   const totalStages = IntroQuestions.length;
   const [progressState, setProgressState] = useState(0);
   const CategoryIcon = IntroQuestions[progressState].categoryIcon;
 
-  const submitAnswers = () => {
-    console.log(IntroQuestions);
+  const submitAnswers = async () => {
+    if (!user) return;
+    await updateDoc(doc(db, "Users", user.uid), {
+      hasCompletedOnboarding: true,
+      onboardingQuestions: IntroQuestions.map((question) => {
+        return {
+          category: question.category,
+          question: question.questionText,
+          answer: question.answer,
+        };
+      }),
+    });
+
+    router.replace("/(tabs)/(modules)");
   };
 
   const handleAnswerClick = (pointsValue: number) => {
-    console.log(progressState);
     if (progressState < totalStages - 1) {
       IntroQuestions[progressState].answer = pointsValue;
       setProgressState(progressState + 1);

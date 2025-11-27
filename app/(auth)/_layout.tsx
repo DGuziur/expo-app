@@ -1,25 +1,31 @@
+import { useAuth } from "@/AuthContext";
 import Spinner from "@/components/Spinner";
-import { auth } from "@/firebaseInit";
-import { onAuthStateChanged, User } from "@firebase/auth";
+import { useTheme } from "@/themes/ThemeProvider";
 import { Redirect, Stack } from "expo-router";
-import { useEffect, useState } from "react";
+import { View } from "react-native";
 
 export default function AuthRoutesLayout() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
-
+  const { user, loading } = useAuth();
+  const theme = useTheme();
   if (loading)
-    return <Spinner size={60} color="#FF6B6B" strokeWidth={6}></Spinner>;
+    return (
+      <View style={{ backgroundColor: theme.background, flex: 1 }}>
+        <Spinner
+          style={{ flex: 1 }}
+          size={100}
+          color="pink"
+          strokeWidth={8}
+        ></Spinner>
+      </View>
+    );
+  console.log(user);
 
-  if (user) return <Redirect href={"/"} />;
+  if (!user) return <Stack screenOptions={{ headerShown: false }} />;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  if (!user.hasCompletedOnboarding)
+    return (
+      <Redirect href="/(introduction)/IntoductionInitialQuestions"></Redirect>
+    );
+
+  return <Redirect href="/(tabs)/(modules)" />;
 }

@@ -1,9 +1,10 @@
 import { styles } from "@/assets/styles/auth.styles";
-import { auth } from "@/firebaseInit";
+import { app, auth } from "@/firebaseInit";
 import { getAuthErrorNamePl } from "@/utils/errors/firebaseAuth";
 import { router } from "expo-router";
 import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import {
   Image,
@@ -17,11 +18,26 @@ export default function SignUpPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loginError, setLoginError] = useState<string | null>(null);
+  const db = getFirestore(app);
 
   const signUp = async () => {
-    await createUserWithEmailAndPassword(auth, email, password).catch(
-      (err: FirebaseError) => setLoginError(getAuthErrorNamePl(err.code))
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    ).catch((err: FirebaseError) =>
+      setLoginError(getAuthErrorNamePl(err.code))
     );
+    if (!userCredential) return;
+
+    await setDoc(doc(db, "Users", userCredential.user.uid), {
+      uid: userCredential.user.uid,
+      email: userCredential.user.email,
+      displayName: userCredential.user.displayName,
+      photoURL: userCredential.user.photoURL,
+      createdAt: serverTimestamp(),
+      hasCompletedOnboarding: false,
+    });
   };
 
   return (

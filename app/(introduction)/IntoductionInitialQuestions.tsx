@@ -1,20 +1,40 @@
 import GowiButton from "@/components/GowiButton";
 import ProgressStages from "@/components/ProgressStages";
+import { IntroQuestionAnswers, IntroQuestions } from "@/data/newUserQuestions";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
-import HumanSvg from "@assets/icons/human.svg";
+import CheckSVG from "@assets/icons/Check.svg";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { SafeAreaView, Text, View } from "react-native";
 
 export default function NewUserQuestions() {
   const theme = useTheme();
-  const totalStages = 8;
+  const { t } = useTranslation();
+  const totalStages = IntroQuestions.length;
   const [progressState, setProgressState] = useState(0);
+  const CategoryIcon = IntroQuestions[progressState].categoryIcon;
+
+  const submitAnswers = () => {
+    console.log(IntroQuestions);
+  };
+
+  const handleAnswerClick = (pointsValue: number) => {
+    console.log(progressState);
+    if (progressState < totalStages - 1) {
+      IntroQuestions[progressState].answer = pointsValue;
+      setProgressState(progressState + 1);
+    } else {
+      IntroQuestions[progressState].answer = pointsValue;
+      submitAnswers();
+    }
+  };
+
   return (
-    <>
+    <SafeAreaView>
       <ProgressStages
         total={totalStages}
-        current={progressState}
+        current={progressState + 1}
         onBackBtnPress={() =>
           setProgressState((state) => (state > 0 ? state - 1 : 0))
         }
@@ -27,9 +47,9 @@ export default function NewUserQuestions() {
             color: themeColors.textDarkMode.textSecondary,
           }}
         >
-          CIAŁO I ENERGIA
+          {t(IntroQuestions[progressState].category)}
         </Text>
-        <HumanSvg></HumanSvg>
+        <CategoryIcon></CategoryIcon>
         <Text
           style={{
             ...theme.fonts.primary.bold,
@@ -39,8 +59,9 @@ export default function NewUserQuestions() {
             paddingVertical: 40,
           }}
         >
-          Moje zdrowie fizyczne pozwala mi robić to, co chcę na co dzień.
+          {t(IntroQuestions[progressState].questionText)}
         </Text>
+
         <Text
           style={{
             ...theme.fonts.primary.regular,
@@ -53,43 +74,41 @@ export default function NewUserQuestions() {
           W jakim stopniu dotyczy to ciebie? (0-5)
         </Text>
         <View style={{ gap: 10 }}>
-          <GowiButton
-            textStyles={{ width: "100%" }}
-            title="0 → zupełnie się nie zgadzam"
-            type="secondary"
-            onPress={() =>
-              setProgressState((state) =>
-                state < totalStages ? state + 1 : totalStages
-              )
-            }
-          ></GowiButton>
-          <GowiButton
-            textStyles={{ width: "100%" }}
-            title="1 → nie zgadzam się"
-            type="secondary"
-          ></GowiButton>
-          <GowiButton
-            textStyles={{ width: "100%" }}
-            title="2 → trochę się nie zgadzam"
-            type="secondary"
-          ></GowiButton>
-          <GowiButton
-            textStyles={{ width: "100%" }}
-            title="3 → trochę się zgadzam"
-            type="secondary"
-          ></GowiButton>
-          <GowiButton
-            textStyles={{ width: "100%" }}
-            title="4 → zgadzam się"
-            type="secondary"
-          ></GowiButton>
-          <GowiButton
-            textStyles={{ width: "100%" }}
-            title="5 → całkowicie się zgadzam"
-            type="secondary"
-          ></GowiButton>
+          {IntroQuestionAnswers.map((answer, i) => {
+            return (
+              <View
+                key={i}
+                style={{
+                  width: 300,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <GowiButton
+                  styles={{
+                    width: 250,
+                    height: 52,
+                    padding: 4,
+                    position: "relative",
+                  }}
+                  textStyles={{ width: "100%" }}
+                  title={answer.answerText}
+                  type="secondary"
+                  onPress={() => handleAnswerClick(answer.pointsValue)}
+                ></GowiButton>
+                {IntroQuestions[progressState].answer === answer.pointsValue ? (
+                  <CheckSVG
+                    style={{ position: "absolute", right: -10 }}
+                    width={32}
+                    height={32}
+                  ></CheckSVG>
+                ) : null}
+              </View>
+            );
+          })}
         </View>
       </View>
-    </>
+    </SafeAreaView>
   );
 }

@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "gowi",
     slug: "mood-app",
-    version: "1.0.2",
+    version: "1.0.3",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "noteapp",

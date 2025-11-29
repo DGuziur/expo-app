@@ -1,32 +1,28 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import Svg, { Circle, G, Line, Polygon } from "react-native-svg";
+import Svg, { Circle, G, Line, Path } from "react-native-svg";
 
-// Typ pojedynczego punktu danych
 export type RadarDataPoint = {
   value: number;
-  icon: React.ReactNode; // Przyjmujemy dowolny komponent Reacta (ikonę, obrazek, tekst)
+  icon: React.ReactNode;
 };
 
-// Props komponentu
 interface NeonRadarChartProps {
   data: RadarDataPoint[];
-  size?: number; // Całkowity rozmiar kwadratu kontenera
-  maxValue?: number; // Maksymalna wartość skali (domyślnie 10)
-  lineColor?: string; // Kolor głównej linii (np. żółty)
-  glowColor?: string; // Kolor poświaty (np. czerwony)
-  gridColor?: string; // Kolor siatki
-  iconOffset?: number; // Jak daleko od wykresu mają być ikony
+  size?: number;
+  maxValue?: number;
+  lineColor?: string;
+  glowColor?: string;
+  gridColor?: string;
+  iconOffset?: number;
 }
 
-// Funkcja pomocnicza: Zamiana współrzędnych biegunowych na kartezjańskie (x, y)
 const polarToCartesian = (
   centerX: number,
   centerY: number,
   radius: number,
   angleInDegrees: number
 ) => {
-  // Odejmujemy 90 stopni, aby 0 zaczynało się na górze (godzina 12), a nie z prawej strony
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
   return {
     x: centerX + radius * Math.cos(angleInRadians),
@@ -38,17 +34,15 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
   data,
   size = 320,
   maxValue = 10,
-  lineColor = "#FBFF00", // Neonowy żółty
-  glowColor = "#FF3300", // Neonowy czerwony/pomarańczowy
-  gridColor = "#554a66", // Szary/fioletowy pasujący do tła
-  iconOffset = 35,
+  lineColor = "#FFE044",
+  glowColor = "#DF4F58",
+  gridColor = "#FFF4C7",
+  iconOffset = 15,
 }) => {
   const center = size / 2;
-  // Promień samego wykresu (zostawiamy miejsce na ikony)
   const chartRadius = size / 2 - iconOffset - 10;
   const angleSlice = 360 / data.length;
 
-  // 1. Obliczanie punktów wielokąta (Polygon) na podstawie wartości
   const points = data
     .map((item, index) => {
       const value = item.value > maxValue ? maxValue : item.value; // Clamp wartości
@@ -63,7 +57,6 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
     })
     .join(" ");
 
-  // 2. Generowanie siatki (koncentryczne koła)
   const gridLevels = 4;
   const gridCircles = Array.from({ length: gridLevels }).map((_, i) => {
     const levelRadius = (chartRadius / gridLevels) * (i + 1);
@@ -76,12 +69,11 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
         stroke={gridColor}
         strokeWidth="1"
         fill="transparent"
-        strokeOpacity={0.6}
+        strokeOpacity={0.3}
       />
     );
   });
 
-  // 3. Generowanie osi (linii od środka)
   const axes = data.map((_, index) => {
     const coords = polarToCartesian(
       center,
@@ -98,12 +90,11 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
         y2={coords.y}
         stroke={gridColor}
         strokeWidth="1"
-        strokeOpacity={0.6}
+        strokeOpacity={0.3}
       />
     );
   });
 
-  // 4. Renderowanie ikon wokół wykresu
   const iconElements = data.map((item, index) => {
     const iconPosition = polarToCartesian(
       center,
@@ -111,7 +102,7 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
       chartRadius + iconOffset,
       index * angleSlice
     );
-    const iconSize = 24; // Zakładamy uśredniony rozmiar kontenera na ikonę
+    const iconSize = 24;
 
     return (
       <View
@@ -146,30 +137,25 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
           {axes}
         </G>
 
-        {/* Warstwa GLOW (Poświata) - gruba, rozmyta linia pod spodem */}
-        <Polygon
-          points={points}
-          fill="rgba(255,255,255,0.15)" // Lekkie wypełnienie wnętrza
+        <Path
+          d={createRoundedPolygonPath(points, 15)} // 15 = promień zaokrąglenia
+          fill="rgba(255,255,255,0.15)"
           stroke={glowColor}
           strokeWidth="10"
           strokeOpacity="0.4"
-          strokeLinejoin="round" // Zaokrąglone łączenia
         />
 
-        {/* Warstwa Główna - cienka, ostra linia na wierzchu */}
-        <Polygon
-          points={points}
+        <Path
+          d={createRoundedPolygonPath(points, 15)} // 15 = promień zaokrąglenia
           fill="transparent"
           stroke={lineColor}
           strokeWidth="3"
-          strokeLinejoin="round" // Zaokrąglone łączenia
+          strokeLinejoin="round"
         />
 
-        {/* Opcjonalnie: Kropka na środku */}
         <Circle cx={center} cy={center} r="4" fill={gridColor} opacity={0.8} />
       </Svg>
 
-      {/* Ikony są renderowane "nad" SVG za pomocą pozycjonowania absolutnego */}
       {iconElements}
     </View>
   );
@@ -182,3 +168,54 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+const createRoundedPolygonPath = (points: string, radius: number = 10) => {
+  const coords = points.split(" ").map((p) => {
+    const [x, y] = p.split(",").map(Number);
+    return { x, y };
+  });
+
+  if (coords.length < 3) return "";
+
+  let path = "";
+
+  for (let i = 0; i < coords.length; i++) {
+    const current = coords[i];
+    const next = coords[(i + 1) % coords.length];
+    const prev = coords[(i - 1 + coords.length) % coords.length];
+
+    const v1x = current.x - prev.x;
+    const v1y = current.y - prev.y;
+    const len1 = Math.sqrt(v1x * v1x + v1y * v1y);
+
+    const v2x = next.x - current.x;
+    const v2y = next.y - current.y;
+    const len2 = Math.sqrt(v2x * v2x + v2y * v2y);
+
+    const u1x = v1x / len1;
+    const u1y = v1y / len1;
+    const u2x = v2x / len2;
+    const u2y = v2y / len2;
+
+    const r = Math.min(radius, len1 / 2, len2 / 2);
+    const p1x = current.x - u1x * r;
+    const p1y = current.y - u1y * r;
+    const p2x = current.x + u2x * r;
+    const p2y = current.y + u2y * r;
+
+    if (i === 0) {
+      path += `M ${p1x} ${p1y} `;
+    }
+
+    path += `Q ${current.x} ${current.y} ${p2x} ${p2y} `;
+
+    if (i < coords.length - 1) {
+      const nextP1x = next.x - u2x * r;
+      const nextP1y = next.y - u2y * r;
+      path += `L ${nextP1x} ${nextP1y} `;
+    }
+  }
+
+  path += "Z";
+  return path;
+};

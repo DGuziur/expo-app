@@ -10,18 +10,17 @@ import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { NeonRadarChart, RadarDataPoint } from "./../../components/RadarChart"; // Załóżmy, że plik jest obok
 
 export default function App() {
-  // Definicja danych z wartościami 0-10 i ikonami
   const chartData: RadarDataPoint[] = [
     {
-      value: 9,
+      value: 5,
       icon: <MaterialCommunityIcons name="heart" size={20} color="#FF6B6B" />,
     },
     {
-      value: 6,
+      value: 9,
       icon: <FontAwesome5 name="question" size={18} color="#FFA500" />,
     },
     {
-      value: 8,
+      value: 5,
       icon: <Ionicons name="umbrella" size={20} color="#FFA500" />,
     },
     {
@@ -39,17 +38,17 @@ export default function App() {
       icon: <MaterialCommunityIcons name="bird" size={22} color="#FFA500" />,
     },
     {
-      value: 4,
+      value: 7,
       icon: <MaterialCommunityIcons name="email" size={22} color="#FFA500" />,
     },
     {
-      value: 9,
+      value: 4,
       icon: (
         <MaterialCommunityIcons name="message-text" size={20} color="#FFA500" />
       ),
     },
     {
-      value: 3,
+      value: 10,
       icon: <Ionicons name="person" size={20} color="#FFA500" />,
     },
   ];
@@ -57,23 +56,16 @@ export default function App() {
   return (
     <LinearGradient
       style={styles.container}
-      start={{ x: 0, y: 1 }}
+      start={{ x: 0, y: 0.8 }}
       end={{ x: 0, y: 0 }}
       colors={themeColors.gradientsDarkMOde.background}
     >
       <StatusBar barStyle="light-content" />
 
-      <Text style={styles.title}>Statystyki Neonowe</Text>
+      <Text style={styles.title}>Wellbeing Chart</Text>
 
       <View style={styles.chartWrapper}>
-        <NeonRadarChart
-          data={chartData}
-          size={360}
-          maxValue={10}
-          // Możesz nadpisać kolory tutaj:
-          // lineColor="#00FF00"
-          // glowColor="#005500"
-        />
+        <NeonRadarChart data={chartData} size={230} maxValue={10} />
       </View>
     </LinearGradient>
   );

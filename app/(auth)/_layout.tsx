@@ -18,7 +18,6 @@ export default function AuthRoutesLayout() {
         ></Spinner>
       </View>
     );
-  console.log(user);
 
   if (!user) return <Stack screenOptions={{ headerShown: false }} />;
 

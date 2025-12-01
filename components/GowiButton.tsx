@@ -14,13 +14,13 @@ import {
 type GowiButtonProps = {
   title: string | ReactNode;
   onPress?: () => void;
-  styles?: ViewStyle;
-  textStyles?: TextStyle;
   size?: "L" | "S";
   type?: "primary" | "secondary" | "disabled";
   textOnly?: boolean;
   underline?: boolean;
   square?: boolean;
+  customStyle?: ViewStyle;
+  textStyle?: TextStyle;
 };
 
 const variants = {
@@ -55,8 +55,6 @@ const variants = {
 };
 
 export default function GowiButton({
-  styles,
-  textStyles,
   title,
   onPress,
   size = "L",
@@ -64,6 +62,8 @@ export default function GowiButton({
   textOnly = false,
   underline = false,
   square = false,
+  customStyle = {},
+  textStyle = {},
 }: GowiButtonProps) {
   const config = variants[type];
 
@@ -99,13 +99,14 @@ export default function GowiButton({
             }
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
-            style={[sizeStyle]}
+            style={[sizeStyle, customStyle]}
           >
             <Text
               style={{
                 ...buttonsStyles.text,
                 color: type === "disabled" ? "#666" : "#fff",
                 textDecorationLine: underline ? "underline" : "none",
+                ...textStyle,
               }}
             >
               {title}
@@ -140,7 +141,7 @@ export default function GowiButton({
               ...sizeStyle,
               borderRadius: sizeStyle.borderRadius,
               transform: [{ translateY: pressed ? 4 : 0 }],
-              ...styles,
+              ...customStyle,
             }}
           >
             <Text
@@ -148,7 +149,7 @@ export default function GowiButton({
                 ...buttonsStyles.text,
                 color: config.textColor,
                 textDecorationLine: underline ? "underline" : "none",
-                ...textStyles,
+                ...textStyle,
               }}
             >
               {title}

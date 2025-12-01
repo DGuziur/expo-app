@@ -3,7 +3,6 @@ import React from "react";
 import { Control, Controller, RegisterOptions } from "react-hook-form";
 import {
   StyleProp,
-  StyleSheet,
   Text,
   TextInput,
   TextStyle,
@@ -48,8 +47,29 @@ export default function GowiFormInput({
 }: GowiInputProps) {
   const theme = useTheme();
   return (
-    <View style={[styles.container, customStyles]}>
-      {label && <Text style={[styles.label, labelStyles, {color: theme.textPrimary}]}>{label}:</Text>}
+    <View
+      style={[
+        { alignSelf: "center", marginVertical: 8, opacity: 0.9, width: "100%" },
+        customStyles,
+      ]}
+    >
+      {label && (
+        <Text
+          style={[
+            {
+              ...theme.fonts.primary.regular,
+              color: theme.textDarkMode.textPrimary,
+              fontSize: 12,
+              textAlign: "left",
+              marginBottom: 8,
+            },
+            labelStyles,
+            { color: theme.textDarkMode.textTeritary },
+          ]}
+        >
+          {label}:
+        </Text>
+      )}
       <Controller
         control={control}
         name={controlName}
@@ -60,8 +80,29 @@ export default function GowiFormInput({
         }) => (
           <>
             <TextInput
-              style={[{ backgroundColor: theme.surface},styles.input, inputStyles, error && styles.inputError]}
+              style={[
+                { backgroundColor: theme.neutralsDarkMode.surface },
+                {
+                  ...theme.fonts.primary.regular,
+                  borderRadius: 8,
+                  borderWidth: 1,
+                  borderColor: theme.neutralsDarkMode.divider,
+                  paddingHorizontal: 24,
+                  paddingVertical: 17,
+                  fontSize: 16,
+                  color: theme.textDarkMode.textPrimary,
+                  minHeight: 60,
+                  width: "100%",
+                },
+                inputStyles,
+                error && {
+                  borderRadius: 8,
+                  borderWidth: 1,
+                  borderColor: theme.textDarkMode.textError,
+                },
+              ]}
               placeholder={placeholder}
+              placeholderTextColor={theme.textDarkMode.textTeritary}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -71,10 +112,20 @@ export default function GowiFormInput({
               keyboardType={keyboardType}
               autoCapitalize={autoCapitalize}
               editable={editable}
-              placeholderTextColor= {theme.textPrimary}
             />
             {error && (
-              <Text style={[styles.errorText, errorStyles]}>
+              <Text
+                style={[
+                  {
+                    ...theme.fonts.primary.regular,
+                    color: "#ff4444",
+                    fontSize: 14,
+                    marginTop: 4,
+                    marginLeft: 4,
+                  },
+                  errorStyles,
+                ]}
+              >
                 {error.message}
               </Text>
             )}
@@ -84,38 +135,3 @@ export default function GowiFormInput({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignSelf: "center",
-    marginVertical: 8,
-    opacity: 0.9,
-    width: "100%",
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 8,
-    marginLeft: 14,
-  },
-  input: {
-   
-    borderRadius: 30,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    fontSize: 16,
-    color: "#333",
-    minHeight: 60,
-    width: "100%",
-  },
-  inputError: {
-    backgroundColor: "rgba(230, 60, 60, 0.1)",
-  },
-  errorText: {
-    color: "#ff4444",
-    fontSize: 14,
-    marginTop: 4,
-    marginLeft: 4,
-  },
-});

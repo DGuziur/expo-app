@@ -1,4 +1,5 @@
 import { useAuth } from "@/AuthContext";
+import ChatBubble from "@/components/ChatBubble";
 import GowiButton from "@/components/GowiButton";
 import { NeonRadarChart } from "@/components/RadarChart";
 import { IntroQuestion } from "@/data/newUserQuestions";
@@ -11,7 +12,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useMemo } from "react";
-import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function ChartStatsExplainPage() {
   const { user } = useAuth();
@@ -104,7 +105,13 @@ export default function ChartStatsExplainPage() {
       end={{ x: 0, y: 0 }}
       colors={themeColors.gradientsDarkMOde.background}
     >
-      <StatusBar barStyle="light-content" />
+      <ChatBubble
+        text="Oto, jak wygląda Twój obecny stan w różnych obszarach życia - GROWWEB.
+
+        Ten wynik zapisaliśmy na dziś wrócisz do niego po kilku tygodniach, by
+
+        zobaczyć, co się zmieniło."
+      ></ChatBubble>
 
       <Text style={styles.title}>Wellbeing Chart</Text>
 

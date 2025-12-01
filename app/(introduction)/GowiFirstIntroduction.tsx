@@ -1,7 +1,9 @@
 import StepperPanel, { StepData } from "@/components/StepperPanel";
 import { themeColors } from "@/themes/themeColors";
 import OnboBackground from "@assets/icons/ONBO BACKGROUND.png";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
 
 const stepperPanelTestData: StepData[] = [
@@ -26,7 +28,7 @@ const stepperPanelTestData: StepData[] = [
   },
 ];
 
-export default function Introduction() {
+export default function GowiFirstIntroduction() {
   return (
     <LinearGradient
       colors={[
@@ -47,7 +49,16 @@ export default function Introduction() {
         source={OnboBackground}
         resizeMode={"stretch"}
       ></Image>
-      <StepperPanel steps={stepperPanelTestData}></StepperPanel>
+      <StepperPanel
+        steps={stepperPanelTestData}
+        afterFinalStep={() => {
+          AsyncStorage.setItem(
+            "globalSettings",
+            JSON.stringify({ greetedGowi: true })
+          );
+          router.replace("/(auth)/LoginPage");
+        }}
+      ></StepperPanel>
     </LinearGradient>
   );
 }

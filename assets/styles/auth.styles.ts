@@ -3,13 +3,13 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#f5f5f5",
+    padding: 16,
+    backgroundColor: "transparent",
     alignItems: "center",
-    justifyContent: "center",
+    paddingTop: 70,
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: "#eb0c0cff",
     borderWidth: 1,
     borderColor: "#ddd",
     borderRadius: 8,

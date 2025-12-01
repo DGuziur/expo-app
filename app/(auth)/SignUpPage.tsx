@@ -75,7 +75,7 @@ export default function SignUpPage() {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push("/(auth)/LoginPage")}>
-        <Text>Back to login page</Text>
+        <Text style={{ color: "#fff" }}>Back to login page</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

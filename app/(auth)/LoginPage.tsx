@@ -9,7 +9,9 @@ import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Image, SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface LoginForm {
   email: string;
@@ -40,28 +42,55 @@ export default function LoginPage() {
   };
 
   const theme = useTheme();
+  const { t } = useTranslation();
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor: theme.background, flex: 1 , }]}>
-      <Image
-        source={{
-          uri: "https://media.istockphoto.com/id/1318764563/vector/various-emotions-and-facial-expressions-of-one-person.webp?a=1&b=1&s=612x612&w=0&k=20&c=dOhYx052PU4Epnjj3Uh8xx16h0XqoN1kdYVqFf_YN1o=",
-        }}
+    <SafeAreaView style={[styles.container, { flex: 1 }]}>
+      <Text
         style={{
-          width: "80%",
-          maxWidth: 300,
-          aspectRatio: 16 / 9,
-          marginBottom: 50,
+          ...theme.fonts.primary.semiBold,
+          fontSize: 18,
+          color: theme.textDarkMode.textPrimary,
+          marginBottom: 30,
         }}
-      />
+      >
+        {t("loginTexts.Welcome back!")}
+      </Text>
+      <Text
+        style={{
+          ...theme.fonts.primary.regular,
+          fontSize: 16,
+          textAlign: "center",
+          color: theme.textDarkMode.textPrimary,
+          marginBottom: 10,
+        }}
+      >
+        {t("loginTexts.Log in to continue your journey with Gowi.")}
+      </Text>
+
       {firebaseError && <Text style={styles.errorText}>{firebaseError}</Text>}
 
+      <GowiButton
+        title={t("buttons.Don't have an account? Register.")}
+        size="L"
+        textOnly
+        underline
+        textStyle={{
+          ...theme.fonts.primary.semiBold,
+          color: theme.textDarkMode.textSecondary,
+          textAlign: "right",
+        }}
+        customStyle={{ alignContent: "flex-end" }}
+        onPress={() => {
+          router.push("/(auth)/SignUpPage");
+        }}
+      />
       <GowiFormInput
         control={loginForm.control}
         controlName="email"
-        label="Email"
-        placeholder="Email"
+        label="E-mail"
+        placeholder={t("formsInfo.address@email.com")}
         keyboardType={"email-address"}
-        customStyles={{ width: "80%", maxWidth: 300 }}
+        customStyles={{ width: "80%", maxWidth: 295 }}
         rules={{
           required: "Email is required",
         }}
@@ -69,26 +98,50 @@ export default function LoginPage() {
       <GowiFormInput
         control={loginForm.control}
         controlName="password"
-        label="Password"
+        label={t("formsInfo.Password")}
         placeholder="Password"
         secureTextEntry={true}
-        customStyles={{ width: "80%", maxWidth: 300 }}
+        customStyles={{ width: "80%", maxWidth: 295 }}
         rules={{
           required: "Password is required",
           minLength: {
             value: 6,
-            message: "Password has to be at least 6 characters long",
+            message: t("errorMessages.Password is too short."),
           },
         }}
       ></GowiFormInput>
+
       <GowiButton
-        title="Sign In"
+        title={t("buttons.Forgot your password?")}
+        size="L"
+        textOnly
+        underline
+        textStyle={{
+          ...theme.fonts.primary.semiBold,
+          color: theme.textDarkMode.textSecondary,
+          textAlign: "right",
+        }}
+        customStyle={{ alignContent: "flex-end" }}
+        onPress={() => {
+          router.push("/(auth)/SignUpPage");
+        }}
+      />
+      <View
+        style={[
+          {
+            backgroundColor: "#FFD600",
+            borderRadius: 9999,
+            zIndex: 100,
+            marginBottom: 50,
+          },
+          { width: 200, height: 200 },
+        ]}
+      />
+      <GowiButton
+        title={t("buttons.Log in")}
         size="L"
         onPress={loginForm.handleSubmit(signIn)}
       ></GowiButton>
-      <TouchableOpacity onPress={() => router.push("/(auth)/SignUpPage")}>
-        <Text>Dont have an account? Sign up</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }

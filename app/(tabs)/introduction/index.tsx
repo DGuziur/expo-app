@@ -1,4 +1,4 @@
-import StepperPanel, { StepData } from "@/components/StepperPanel";
+import StepperPanel, { StepData } from "@/components/stepper/StepperPanel";
 import { themeColors } from "@/themes/themeColors";
 import OnboBackground from "@assets/icons/ONBO BACKGROUND.png";
 import { LinearGradient } from "expo-linear-gradient";

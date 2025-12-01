@@ -106,13 +106,13 @@ export default function NewUserQuestions() {
                 }}
               >
                 <GowiButton
-                  styles={{
+                  customStyle={{
                     width: 250,
                     height: 52,
                     padding: 4,
                     position: "relative",
                   }}
-                  textStyles={{ width: "100%" }}
+                  textStyle={{ width: "100%" }}
                   title={answer.answerText}
                   type="secondary"
                   onPress={() => handleAnswerClick(answer.pointsValue)}

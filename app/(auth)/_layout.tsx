@@ -4,11 +4,14 @@ import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import { LinearGradient } from "expo-linear-gradient";
 import { Redirect, Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function AuthRoutesLayout() {
   const { user, loading } = useAuth();
+  const { ready } = useTranslation();
+
   const theme = useTheme();
-  if (loading)
+  if (loading || !ready)
     return (
       <LinearGradient
         colors={[

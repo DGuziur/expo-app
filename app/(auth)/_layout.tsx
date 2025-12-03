@@ -2,29 +2,16 @@ import { useAuth } from "@/AuthContext";
 import Spinner from "@/components/Spinner";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
-import { Redirect, router, Stack } from "expo-router";
-import { useEffect } from "react";
+import { Redirect, Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function AuthRoutesLayout() {
   const { user, loading } = useAuth();
+  const { ready } = useTranslation();
+
   const theme = useTheme();
-
-  useEffect(() => {
-    AsyncStorage.getItem("globalSettings").then(
-      (globalSettings: string | null) => {
-        if (!globalSettings)
-          return router.replace("/(introduction)/GowiFirstIntroduction");
-        const settings = JSON.parse(globalSettings);
-        if (!user && !settings.greetedGowi) {
-          router.replace("/(introduction)/GowiFirstIntroduction");
-        }
-      }
-    );
-  }, []);
-
-  if (loading)
+  if (loading || !ready)
     return (
       <LinearGradient
         colors={[

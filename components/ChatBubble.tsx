@@ -1,102 +1,48 @@
-import React from "react";
-import { StyleSheet, Text, View, ViewStyle } from "react-native";
+import { themeColors } from "@/themes/themeColors";
+import { useTheme } from "@/themes/ThemeProvider";
+import ChatBubbleArrow from "@assets/icons/ChatBubbleArrow.svg";
+import { Text, View } from "react-native";
 
-interface ChartBubbleProps {
+interface ChatBubbleProps {
   text: string;
   direction?: "left" | "right";
-  style?: ViewStyle;
 }
-
 export default function ChatBubble({
   text,
   direction = "left",
-  style,
-}: ChartBubbleProps) {
-  const isLeft = direction === "left";
-
+}: ChatBubbleProps) {
+  const theme = useTheme();
   return (
     <View
-      style={[
-        styles.container,
-        isLeft ? styles.alignLeft : styles.alignRight,
-        style,
-      ]}
+      style={{
+        flexDirection: direction === "left" ? "row" : "row-reverse",
+      }}
     >
+      <ChatBubbleArrow
+        style={{ transform: [{ scaleX: direction === "left" ? 1 : -1 }] }}
+        width={16}
+        height={24}
+      ></ChatBubbleArrow>
       <View
-        style={[styles.bubble, isLeft ? styles.bubbleLeft : styles.bubbleRight]}
+        style={{
+          padding: 10,
+          borderRadius: 15,
+          borderTopLeftRadius: direction === "left" ? 0 : 15,
+          borderTopRightRadius: direction === "left" ? 15 : 0,
+          backgroundColor: themeColors.neutralsDarkMode.surfaceElev,
+          borderBottomWidth: 5,
+          borderBottomColor: "#4C2B59",
+        }}
       >
-        <Text style={styles.text}>{text}</Text>
-
-        <View
-          style={[styles.arrow, isLeft ? styles.arrowLeft : styles.arrowRight]}
-        />
+        <Text
+          style={{
+            ...theme.fonts.primary.regular,
+            color: theme.textDarkMode.textPrimary,
+          }}
+        >
+          {text}
+        </Text>
       </View>
     </View>
   );
 }
-
-const COLORS = {
-  bg: "#3E2445",
-  shadow: "#29162E",
-  text: "#F0E6F5",
-};
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-  alignLeft: {
-    alignItems: "flex-start",
-  },
-  alignRight: {
-    alignItems: "flex-end",
-  },
-  bubble: {
-    backgroundColor: COLORS.bg,
-    padding: 16,
-    borderRadius: 16,
-    maxWidth: "85%",
-    borderBottomWidth: 6,
-    borderBottomColor: COLORS.shadow,
-    position: "relative",
-  },
-  bubbleLeft: {
-    borderTopLeftRadius: 4,
-  },
-  bubbleRight: {
-    borderTopRightRadius: 4,
-    backgroundColor: "#5A3860",
-    borderBottomColor: "#3E2445",
-  },
-  text: {
-    color: COLORS.text,
-    fontSize: 16,
-    lineHeight: 22,
-    fontWeight: "400",
-  },
-  arrow: {
-    position: "absolute",
-    top: 0,
-    width: 0,
-    height: 0,
-    borderStyle: "solid",
-    borderTopWidth: 10,
-    borderTopColor: "transparent",
-    borderBottomWidth: 10,
-    borderBottomColor: "transparent",
-  },
-  arrowLeft: {
-    left: -12,
-    top: 0,
-    borderRightWidth: 15,
-    borderRightColor: COLORS.bg,
-  },
-  arrowRight: {
-    right: -12,
-    top: 0,
-    borderLeftWidth: 15,
-    borderLeftColor: "#5A3860",
-  },
-});

@@ -1,10 +1,14 @@
-import React from "react";
+import { FunctionComponent } from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Circle, G, Line, Path } from "react-native-svg";
 
 export type RadarDataPoint = {
+  total: number;
+  count: number;
   value: number;
-  icon: React.ReactNode;
+  title: string;
+  icon: FunctionComponent;
+  description: string;
 };
 
 interface NeonRadarChartProps {
@@ -30,7 +34,7 @@ const polarToCartesian = (
   };
 };
 
-export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
+export const NeonRadarChart = ({
   data,
   size = 320,
   maxValue = 10,
@@ -38,14 +42,14 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
   glowColor = "#DF4F58",
   gridColor = "#FFF4C7",
   iconOffset = 15,
-}) => {
+}: NeonRadarChartProps) => {
   const center = size / 2;
   const chartRadius = size / 2 - iconOffset - 10;
   const angleSlice = 360 / data.length;
 
   const points = data
     .map((item, index) => {
-      const value = item.value > maxValue ? maxValue : item.value; // Clamp wartości
+      const value = item.value > maxValue ? maxValue : item.value;
       const normalizedRadius = (value / maxValue) * chartRadius;
       const coords = polarToCartesian(
         center,
@@ -96,6 +100,7 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
   });
 
   const iconElements = data.map((item, index) => {
+    const Icon = item.icon;
     const iconPosition = polarToCartesian(
       center,
       center,
@@ -117,7 +122,7 @@ export const NeonRadarChart: React.FC<NeonRadarChartProps> = ({
           },
         ]}
       >
-        {item.icon}
+        <Icon></Icon>
       </View>
     );
   });

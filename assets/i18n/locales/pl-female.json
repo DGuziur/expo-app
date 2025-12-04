@@ -127,9 +127,18 @@
     "RESILIENCE AND SELF-TRUST": "ODPORNOŚĆ I ZAUFANIE DO SIEBIE",
     "CONTACT WITH SELF AND COMMUNICATION": "KONTAKST ZE SOBĄ I KOMUNIKACJA",
 
-    "Your wellbeing profile.": "Twój obraz dobrostanu.",
-    "Here is what your current state looks like in various areas of life – GROWWEB.": "Oto, jak wygląda Twój obecny stan w różnych obszarach życia – GROWWEB.",
-    "We have recorded this result for today – you will return to it after a few weeks to see what has changed.": "Ten wynik zapisaliśmy na dziś – wrócisz do niego po kilku tygodniach, by zobaczyć, co się zmieniło."
+    "descriptions": {
+      "BODY AND ENERGY": "Dobrze dbasz o swoje ciało i słuchasz jego potrzeb. Masz energię, ponieważ potrafisz utrzymywać zdrowe nawyki. Zauważasz momenty spadku energii – to ważne sygnały. Każdy świadomy wybór wzmacniający ciało pogłębia też Twoją wewnętrzną równowagę.",
+      "FEELINGS AND THOUGHTS": "Na ogół czujesz spokój i pozostajesz w kontakcie ze swoimi emocjami. Rozumiesz je, nawet jeśli czasem trudno utrzymać je w równowadze. Potrafisz się zatrzymać, gdy tego potrzebujesz, i szukasz chwili ciszy, która wzmacnia Twoją stabilność.",
+      "MEANING AND DEVELOPMENT": "Masz poczucie sensu i kierunku w życiu. Wiesz, co chcesz rozwijać i dokąd zmierzasz. Czerpiesz siłę z wdzięczności i zaufania do własnej drogi. Twoja postawa inspiruje innych i dodaje im odwagi do wzrostu.",
+      "QUALITY OF LIFE AND SAFETY": "Czujesz się dobrze w swoim życiu i masz wewnętrzny spokój. Potrafisz utrzymywać równowagę i stawiać granice. Twoje otoczenie daje Ci poczucie bezpieczeństwa i stabilności. Te momenty są źródłem Twojej siły i wytrwałości.",
+      "RELATIONSHIPS AND PARTICIPATION": "Masz wokół siebie ludzi, ale nie zawsze czujesz z nimi bliskość. Otwieranie się i zaufanie mogą być trudne — to naturalne, bo więź wymaga czasu i obecności. Zacznij od szczerej rozmowy lub drobnego gestu, który buduje zaufanie.",
+      "ACTION AND AUTONOMY": "Czasem trudno Ci działać energicznie i konsekwentnie. Codzienne obowiązki mogą być przytłaczające lub osłabiać poczucie kontroli. To dobry moment, by zrobić mały krok — nawet najmniejsza decyzja może przywrócić poczucie sprawczości.",
+      "RESILIENCE AND SELF-TRUST": "Zwykle zachowujesz spokój, ale stres potrafi wyprowadzić Cię z równowagi. Możesz czuć presję, by radzić sobie ze wszystkim. To normalne — odporność rośnie dzięki doświadczeniu. Przypomnij sobie moment, kiedy mimo trudności poradziłaś/poradziłeś sobie dobrze.",
+      "CONTACT WITH SELF AND COMMUNICATION": "Masz dobry kontakt ze sobą i często wiesz, czego potrzebujesz. Potrafisz słuchać innych z szacunkiem. Czasem jednak tracisz energię, próbując unikać napięć. Zaufaj, że szczera komunikacja wzmacnia relacje zamiast je osłabiać."
+    },
+    "Your wellbeing profile": "Twój obraz dobrostanu",
+    "Here is what your current state looks like in various areas of life GROWWEB": "Oto, jak wygląda Twój obecny stan w różnych obszarach życia - GROWWEB. Ten wynik zapisaliśmy na dziś - wrócisz do niego po kilku tygodniach, by zobaczyć, co się zmieniło."
   },
   "offert": {
     "Before we start...": "Zanim zaczniemy...",

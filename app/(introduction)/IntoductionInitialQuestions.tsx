@@ -37,7 +37,9 @@ export default function NewUserQuestions() {
       }),
     });
 
-    router.replace("/(introduction)/chart-stats-explain-page/NewUserQuestions");
+    router.replace(
+      "/(introduction)/chart-stats-explain-page/ChartStatsExplainPage"
+    );
   };
 
   const handleAnswerClick = (pointsValue: number) => {

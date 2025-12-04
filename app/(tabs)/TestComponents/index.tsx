@@ -1,9 +1,9 @@
-import { Text, View } from "react-native";
+import { Redirect } from "expo-router";
 
 export default function SpeechBox() {
   return (
-    <View>
-      <Text style={{ flex: 1 }}></Text>
-    </View>
+    <Redirect
+      href={"/(introduction)/chart-stats-explain-page/ChartStatsExplainPage"}
+    ></Redirect>
   );
 }

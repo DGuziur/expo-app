@@ -2,10 +2,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import {
   doc,
   DocumentData,
-  getDoc,
   getFirestore,
+  onSnapshot,
   serverTimestamp,
   setDoc,
+  Unsubscribe,
 } from "firebase/firestore";
 import {
   createContext,
@@ -29,36 +30,60 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
 });
 
+const db = getFirestore(app);
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<DocumentData | null>(null);
   const [loading, setLoading] = useState(true);
-  const db = getFirestore(app);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const userRef = doc(db, "Users", user.uid);
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-          setUser(userDoc.data());
-        } else {
-          await setDoc(userRef, {
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            createdAt: serverTimestamp(),
-            hasCompletedOnboarding: false,
-          });
-          setUser(null);
-        }
+    let unsubscribeFromDoc: Unsubscribe | null = null;
+
+    const unsubscribeFromAuth = onAuthStateChanged(auth, async (authUser) => {
+      if (unsubscribeFromDoc) {
+        unsubscribeFromDoc();
+        unsubscribeFromDoc = null;
+      }
+
+      if (authUser) {
+        const userRef = doc(db, "Users", authUser.uid);
+
+        unsubscribeFromDoc = onSnapshot(
+          userRef,
+          async (docSnapshot) => {
+            console.log("USER SNAPSHOT TRIGGERED");
+            if (docSnapshot.exists()) {
+              setUser(docSnapshot.data());
+            } else {
+              await setDoc(userRef, {
+                uid: authUser.uid,
+                email: authUser.email,
+                displayName: authUser.displayName,
+                photoURL: authUser.photoURL,
+                createdAt: serverTimestamp(),
+                hasCompletedOnboarding: false,
+              });
+            }
+            setLoading(false);
+          },
+          (error) => {
+            setUser(null);
+            setLoading(false);
+          }
+        );
       } else {
         setUser(null);
+        setLoading(false);
       }
-      setLoading(false);
+      console.log("AUTHCONTEXT TRIGGERED");
     });
-    return unsubscribe;
-  });
+
+    return () => {
+      unsubscribeFromAuth();
+      if (unsubscribeFromDoc) {
+        unsubscribeFromDoc();
+      }
+    };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

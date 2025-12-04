@@ -1,4 +1,3 @@
-// src/theme/ThemeProvider.tsx
 import { useFonts } from "expo-font";
 import React, { createContext, ReactNode, useContext } from "react";
 import { useColorScheme } from "react-native";

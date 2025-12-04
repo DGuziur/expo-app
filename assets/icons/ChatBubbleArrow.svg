@@ -1,0 +1,14 @@
+<svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <path id="bubblePath" d="M16 0H5.33975C2.39069 0 0 2.39069 0 5.33975C0 7.28113 1.05367 9.06955 2.7518 10.0105L16 17.351V0Z"/>
+    </defs>
+    <use 
+        href="#bubblePath" 
+        fill="#4C2B59" 
+        transform="translate(0, 6)" 
+    />
+    <use 
+        href="#bubblePath" 
+        fill="#361D40" 
+    />
+</svg>

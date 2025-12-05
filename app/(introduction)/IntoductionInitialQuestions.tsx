@@ -57,9 +57,10 @@ export default function NewUserQuestions() {
       <ProgressStages
         total={totalStages}
         current={progressState + 1}
-        onBackBtnPress={() =>
-          setProgressState((state) => (state > 0 ? state - 1 : 0))
-        }
+        onBackBtnPress={() => {
+          if (progressState === 0) return router.back();
+          setProgressState((state) => (state > 0 ? state - 1 : 0));
+        }}
       ></ProgressStages>
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <Text

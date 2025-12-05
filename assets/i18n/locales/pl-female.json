@@ -101,12 +101,12 @@
     "You can request a new link in 5 minutes.": "Możesz poprosić o nowy link za 5 minut."
   },
   "quizTexts": {
-    "Great that you are here!": "Super, że jesteś!",
-    "Now I will ask you a few short questions to get to know you better.": "Teraz zadam Ci kilka krótkich pytań, żeby lepiej Cię poznać.",
+    "Great that you are here": "Super, że jesteś!",
+    "Now I will ask you a few short questions to get to know you better": "Teraz zadam Ci kilka krótkich pytań, żeby lepiej Cię poznać.",
     "Amount": "Ilość",
     "Time": "Czas",
-    "Questions": "Pytań",
-    "Minutes": "Minut",
+    "Questions": "PYTAŃ",
+    "Minutes": "MINUT",
 
     "My physical health allows me to do what I want every day": "Moje zdrowie fizyczne pozwala mi robić to, co chcę na co dzień.",
     "I feel calm and in mental balance": "Czuję się spokojna i jestem w równowadze psychicznej.",

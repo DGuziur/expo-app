@@ -8,6 +8,18 @@ import SpeechBubbleSVG from "@assets/icons/SpeechBubble.svg";
 import UmbrellaSVG from "@assets/icons/Umbrella.svg";
 import { FunctionComponent } from "react";
 
+export const IMPROVEMENT_CATEGORIES: string[] = [
+  "Self-discovery",
+  "Relationships and bonds",
+  "Positive thinking and its impact",
+  "My values and standards",
+  "Meaning of life",
+  "How do I perceive myself?",
+  "Emotional awareness",
+  "My beliefs",
+  "My resources",
+];
+
 export interface WellbeingCategory {
   title: string;
   icon: FunctionComponent;

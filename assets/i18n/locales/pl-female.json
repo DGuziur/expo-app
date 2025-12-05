@@ -27,6 +27,14 @@
     "4 – Rather yes": "4 – Raczej tak",
     "5 – Definitely yes": "5 – Zdecydowanie tak",
 
+    "Random": "Losowo",
+
+    "I am starting my journey": "Zaczynam swoją podróż",
+
+    "I choose the package": "Wybieram pakiet",
+    "Start a free week": "Zacznij darmowy tydzień"
+  },
+  "improvementCategory": {
     "Self-discovery": "Odkrywanie siebie",
     "Relationships and bonds": "Relacje i więzi",
     "Positive thinking and its impact": "Pozytywne myślenie i jego wpływ",
@@ -35,13 +43,7 @@
     "How do I perceive myself?": "Jak postrzegam siebie?",
     "Emotional awareness": "Świadomość emocjonalna",
     "My beliefs": "Moje przekonania",
-    "My resources": "Moje zasoby",
-    "Random": "Losowo",
-
-    "I am starting my journey": "Zaczynam swoją podróż",
-
-    "I choose the package": "Wybieram pakiet",
-    "Start a free week": "Zacznij darmowy tydzień"
+    "My resources": "Moje zasoby"
   },
   "formsInfo": {
     "Password": "Hasło",
@@ -67,8 +69,8 @@
     "Create an account to monitor your development and match the path to yourself. It will take you less than a minute.": "Załóż konto, by obserwować swój rozwój i dopasować drogę do siebie. Zajmie Ci to mniej niż minutę.",
 
     "This is the last step": "To już ostatni krok",
-    "Choose the areas you want to discover first. Take into account your GROWWEB results - they may suggest where it is worth starting.": "Wybierz obszary, które chcesz odkrywać w pierwszej kolejności. Weź pod uwagę swoje wyniki z GROWWEB - mogą podpowiedzieć Ci, od czego warto zacząć.",
-    "All other topics will be waiting for you. You don't lose anything. :)": "Wszystkie pozostałe tematy będą na Ciebie czekać. Niczego nie tracisz. :)",
+    "Choose the areas you want to discover first. Take into account your GROWWEB results - they may suggest where it is worth starting": "Wybierz obszary, które chcesz odkrywać w pierwszej kolejności. Weź pod uwagę swoje wyniki z GROWWEB - mogą podpowiedzieć Ci, od czego warto zacząć.",
+    "All other topics will be waiting for you. You don't lose anything": "Wszystkie pozostałe tematy będą na Ciebie czekać. Niczego nie tracisz. :)",
 
     "The path is ready!": "Ścieżka jest gotowa!",
     "We will start with the topics you have chosen. MyGowi will guide you step by step.": "Zaczniemy od tematów, które wybrałaś. MyGowi poprowadzi Cię krok po kroku."

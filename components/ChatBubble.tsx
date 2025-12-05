@@ -16,6 +16,7 @@ export default function ChatBubble({
     <View
       style={{
         flexDirection: direction === "left" ? "row" : "row-reverse",
+        maxWidth: "95%",
       }}
     >
       <ChatBubbleArrow

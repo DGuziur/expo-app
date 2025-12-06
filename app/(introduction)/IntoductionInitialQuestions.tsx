@@ -37,9 +37,7 @@ export default function NewUserQuestions() {
       }),
     });
 
-    router.replace(
-      "/(introduction)/chart-stats-explain-page/ChartStatsExplainPage"
-    );
+    router.navigate("/(introduction)/ChartStatsExplainPage");
   };
 
   const handleAnswerClick = (pointsValue: number) => {
@@ -139,7 +137,7 @@ export default function NewUserQuestions() {
               title={<ArrowRight></ArrowRight>}
               square
               type="primary"
-              onPress={() => submitAnswers()}
+              onPress={submitAnswers}
             ></GowiButton>
           </View>
         )}

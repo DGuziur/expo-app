@@ -1,10 +1,9 @@
 import StepperPanel, { StepData } from "@/components/stepper/StepperPanel";
-import { themeColors } from "@/themes/themeColors";
 import OnboBackground from "@assets/icons/ONBO BACKGROUND.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const stepperPanelTestData: StepData[] = [
   {
@@ -30,17 +29,7 @@ const stepperPanelTestData: StepData[] = [
 
 export default function GowiFirstIntroduction() {
   return (
-    <LinearGradient
-      colors={[
-        themeColors.gradientsDarkMOde.background[1],
-        themeColors.gradientsDarkMOde.background[1],
-        themeColors.gradientsDarkMOde.background[0],
-      ]}
-      locations={[0, 0.1, 0.2]}
-      start={{ x: 1, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.container}
-    >
+    <SafeAreaView style={styles.container}>
       <View style={styles.dotContainer}>
         <View style={[styles.dot, { width: 200, height: 200 }]} />
       </View>
@@ -59,7 +48,7 @@ export default function GowiFirstIntroduction() {
           router.replace("/(auth)/LoginPage");
         }}
       ></StepperPanel>
-    </LinearGradient>
+    </SafeAreaView>
   );
 }
 

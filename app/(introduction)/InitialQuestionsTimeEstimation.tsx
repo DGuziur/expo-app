@@ -3,7 +3,7 @@ import { IntroQuestions } from "@/data/newUserQuestions";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import BackButtonSVG from "@assets/icons/BackArrow.svg";
-import Gowi from "@assets/images/GOWIPLACEHOLDER.png";
+import Gowi from "@assets/images/gowiButterfly.png";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Image, Text, View } from "react-native";

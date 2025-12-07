@@ -1,5 +1,6 @@
 import { useAuth } from "@/AuthContext";
 import Spinner from "@/components/Spinner";
+import { useFirstLaunch } from "@/hooks/CheckFirstLaunch";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import { LinearGradient } from "expo-linear-gradient";
@@ -7,11 +8,14 @@ import { Redirect, Stack } from "expo-router";
 import { useTranslation } from "react-i18next";
 
 export default function AuthRoutesLayout() {
-  const { user, loading } = useAuth();
-  const { ready } = useTranslation();
+  const { user, loading: authLoading } = useAuth();
+  const { ready: i18nReady } = useTranslation();
+  const { isFirstLaunch, loading: firstLaunchLoading } = useFirstLaunch();
+
+  const isLoading = authLoading || !i18nReady || firstLaunchLoading;
 
   const theme = useTheme();
-  if (loading || !ready)
+  if (isLoading)
     return (
       <LinearGradient
         colors={[
@@ -32,6 +36,10 @@ export default function AuthRoutesLayout() {
         ></Spinner>
       </LinearGradient>
     );
+
+  if (isFirstLaunch) {
+    return <Redirect href={"/(introduction)/GowiFirstIntroduction"}></Redirect>;
+  }
 
   if (!user)
     return (
@@ -60,7 +68,7 @@ export default function AuthRoutesLayout() {
 
   if (!user.hasCompletedOnboarding)
     return (
-      <Redirect href="/(introduction)/IntoductionInitialQuestions"></Redirect>
+      <Redirect href="/(introduction)/InitialQuestionsTimeEstimation"></Redirect>
     );
 
   return <Redirect href="/(tabs)/(modules)" />;

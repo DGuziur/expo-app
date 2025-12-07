@@ -8,6 +8,7 @@ import Stepper from "./Stepper";
 
 export interface StepperPanelProps {
   steps: StepData[];
+  afterFinalStep: Function;
 }
 
 export interface StepData {
@@ -18,7 +19,10 @@ export interface StepData {
   nextButtonText?: string;
 }
 
-export default function StepperPanel({ steps }: StepperPanelProps) {
+export default function StepperPanel({
+  steps,
+  afterFinalStep,
+}: StepperPanelProps) {
   const [step, setStep] = useState(1);
   const stepData = steps[step - 1];
   const { t } = useTranslation();
@@ -68,6 +72,7 @@ export default function StepperPanel({ steps }: StepperPanelProps) {
           size="L"
           title={t(stepData.nextButtonText ?? "Hi gowi")}
           onPress={() => {
+            if (step >= steps.length) return afterFinalStep();
             setStep((state) => (state < steps.length ? state + 1 : 1));
           }}
         ></GowiButton>

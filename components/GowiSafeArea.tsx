@@ -33,24 +33,21 @@ export default function GowiSafeArea({
       ]}
     >
       <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
-        {scrollable ? (
-          <ScrollView
-            contentContainerStyle={[
-              {
-                flexGrow: 1,
-                justifyContent: "center",
-                paddingBottom: Math.max(insets.bottom, 16),
-              },
-              contentContainerStyle,
-            ]}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            {children}
-          </ScrollView>
-        ) : (
-          children
-        )}
+        <ScrollView
+          scrollEnabled={scrollable}
+          contentContainerStyle={[
+            {
+              flexGrow: 1,
+              justifyContent: "center",
+              paddingBottom: Math.max(insets.bottom, 16),
+            },
+            contentContainerStyle,
+          ]}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          {children}
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

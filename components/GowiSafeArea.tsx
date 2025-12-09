@@ -10,28 +10,37 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-interface GowiScreenWrapperProps {
+interface GowiSafeScreenProps {
   children: ReactNode;
   scrollable?: boolean;
   containerStyle?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
-export default function GowiSafeScreen({
+export default function GowiSafeArea({
   children,
   scrollable = true,
   containerStyle,
   contentContainerStyle,
-}: GowiScreenWrapperProps) {
-  const insets = useSafeAreaInsets(); // Dodaj to
+}: GowiSafeScreenProps) {
+  const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView style={[{ flex: 1 }, containerStyle]}>
+    <SafeAreaView
+      style={[
+        { flex: 1, justifyContent: "center", alignItems: "center" },
+        containerStyle,
+      ]}
+    >
       <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         {scrollable ? (
           <ScrollView
             contentContainerStyle={[
-              { flexGrow: 1, paddingBottom: Math.max(insets.bottom, 16) },
+              {
+                flexGrow: 1,
+                justifyContent: "center",
+                paddingBottom: Math.max(insets.bottom, 16),
+              },
               contentContainerStyle,
             ]}
             keyboardShouldPersistTaps="handled"

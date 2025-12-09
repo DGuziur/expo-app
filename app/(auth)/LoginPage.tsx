@@ -1,6 +1,6 @@
 import { styles } from "@/assets/styles/auth.styles";
 import GowiButton from "@/components/GowiButton";
-import GowiSafeScreen from "@/components/GowiSafeScreen";
+import GowiSafeArea from "@/components/GowiSafeArea";
 import { auth } from "@/firebaseInit";
 import GowiFormInput from "@/lib/GowiFormInput";
 import { themeColors } from "@/themes/themeColors";
@@ -46,14 +46,7 @@ export default function LoginPage() {
   const theme = useTheme();
   const { t } = useTranslation();
   return (
-    <GowiSafeScreen
-      containerStyle={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-      contentContainerStyle={{ justifyContent: "center" }}
-    >
+    <GowiSafeArea>
       <Text
         style={{
           ...theme.fonts.primary.semiBold,
@@ -151,6 +144,6 @@ export default function LoginPage() {
         size="L"
         onPress={loginForm.handleSubmit(signIn)}
       ></GowiButton>
-    </GowiSafeScreen>
+    </GowiSafeArea>
   );
 }

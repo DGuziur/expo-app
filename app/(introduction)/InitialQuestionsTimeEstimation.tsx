@@ -1,4 +1,5 @@
 import GowiButton from "@/components/GowiButton";
+import GowiSafeArea from "@/components/GowiSafeArea";
 import { IntroQuestions } from "@/data/newUserQuestions";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
@@ -7,7 +8,6 @@ import Gowi from "@assets/images/gowiButterfly.png";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Image, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function InitialQuestionsTimeEstimation() {
   const { t } = useTranslation();
@@ -15,8 +15,8 @@ export default function InitialQuestionsTimeEstimation() {
   const numberOfQuestions = IntroQuestions.length + 1;
   const numberOfMinutes = Math.ceil((numberOfQuestions * 6) / 60);
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: "space-between", padding: 30 }}
+    <GowiSafeArea
+      contentContainerStyle={{ justifyContent: "space-between", padding: 15 }}
     >
       <View
         style={{
@@ -134,6 +134,6 @@ export default function InitialQuestionsTimeEstimation() {
         }}
         title={t("buttons.OK, let's begin")}
       ></GowiButton>
-    </SafeAreaView>
+    </GowiSafeArea>
   );
 }

@@ -53,7 +53,8 @@
     "Create account": "Utwórz konto",
     "Your name": "Twoje imię",
     "My name is": "Moje imię to",
-    "My name": "Moje imię"
+    "My name": "Moje imię",
+    "My gender": "Moja płeć"
   },
   "introductionTexts": {
     "Hi, im gowi": "Cześć, jestem Gowi.",
@@ -73,6 +74,7 @@
     "All other topics will be waiting for you. You don't lose anything": "Wszystkie pozostałe tematy będą na Ciebie czekać. Niczego nie tracisz. :)",
 
     "The path is ready!": "Ścieżka jest gotowa!",
+    "How should i call you": "Jak mam się do Ciebie zwracać?",
     "We will start with the topics you have chosen. MyGowi will guide you step by step": "Zaczniemy od tematów, które wybrałaś. MyGowi poprowadzi Cię krok po kroku."
   },
   "loginTexts": {

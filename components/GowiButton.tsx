@@ -14,6 +14,7 @@ import {
 type GowiButtonProps = {
   title: string | ReactNode;
   onPress?: () => void;
+  isDisabled?: boolean;
   size?: "L" | "S";
   type?: "primary" | "secondary" | "disabled";
   textOnly?: boolean;
@@ -61,6 +62,7 @@ export default function GowiButton({
   type = "primary",
   textOnly = false,
   underline = false,
+  isDisabled = false,
   square = false,
   customStyle = {},
   textStyle = {},
@@ -89,7 +91,7 @@ export default function GowiButton({
 
   if (textOnly) {
     return (
-      <Pressable onPress={onPress}>
+      <Pressable disabled={isDisabled} onPress={onPress}>
         {({ pressed }) => (
           <LinearGradient
             colors={
@@ -131,7 +133,7 @@ export default function GowiButton({
         }}
       />
 
-      <Pressable onPress={onPress}>
+      <Pressable disabled={isDisabled} onPress={onPress}>
         {({ pressed }) => (
           <LinearGradient
             colors={pressed ? config.pressedColors : config.colors}

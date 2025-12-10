@@ -121,7 +121,7 @@ export default function LoginPage() {
           color: theme.textDarkMode.textSecondary,
           textAlign: "right",
         }}
-        customStyle={{ alignContent: "flex-end" }}
+        customStyle={{ alignSelf: "flex-end" }}
         onPress={() => {
           router.push("/(auth)/SignUpPage");
         }}

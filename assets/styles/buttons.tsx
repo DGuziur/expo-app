@@ -3,7 +3,6 @@ import { Platform, StyleSheet } from "react-native";
 export const buttonsStyles = StyleSheet.create({
   base_L: {
     minWidth: 100,
-    maxWidth: 327,
     height: 56,
     borderRadius: 30,
     paddingVertical: 14,
@@ -13,7 +12,6 @@ export const buttonsStyles = StyleSheet.create({
   },
   base_S: {
     minWidth: 100,
-    maxWidth: 327,
     height: 40,
     borderRadius: 30,
     paddingHorizontal: 24,

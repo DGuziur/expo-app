@@ -1,20 +1,20 @@
 import { useAuth } from "@/AuthContext";
 import ChatBubble from "@/components/ChatBubble";
 import GowiButton from "@/components/GowiButton";
+import GowiHeader from "@/components/GowiHeader";
+import GowiSafeArea from "@/components/GowiSafeArea";
 import { IMPROVEMENT_CATEGORIES } from "@/data/wellbeingCategories";
 import { app } from "@/firebaseInit";
 import { useTheme } from "@/themes/ThemeProvider";
 import { themeColors } from "@/themes/themeColors";
 import ArrowRightSVG from "@assets/icons/ArrowRight.svg";
-import BackButtonSVG from "@assets/icons/BackArrow.svg";
 import CheckSVG from "@assets/icons/Check.svg";
 import DiceSVG from "@assets/icons/Dice.svg";
 import { doc, getFirestore, updateDoc } from "@firebase/firestore";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function SelectAreaOfImprovement() {
   const { t } = useTranslation();
@@ -80,60 +80,42 @@ export default function SelectAreaOfImprovement() {
   };
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, padding: 15, gap: 5, alignItems: "center" }}
+    <GowiSafeArea
+      scrollable={false}
+      contentContainerStyle={{ maxHeight: "100%", padding: 15 }}
     >
-      <View
-        style={{
-          marginBottom: 30,
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <GowiButton
-          square
-          type="secondary"
-          size="S"
-          onPress={() => router.back()}
-          title={<BackButtonSVG></BackButtonSVG>}
-        ></GowiButton>
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              ...theme.fonts.primary.bold,
-              color: themeColors.textDarkMode.textPrimary,
-              textAlign: "center",
-              fontSize: 18,
-            }}
-          >
-            {t("introductionTexts.This is the last step")}🌿
-          </Text>
-        </View>
-      </View>
-      <ChatBubble
-        text={t(
-          "introductionTexts.Choose the areas you want to discover first. Take into account your GROWWEB results - they may suggest where it is worth starting"
-        )}
-      ></ChatBubble>
-      <ChatBubble
-        text={t(
-          "introductionTexts.All other topics will be waiting for you. You don't lose anything"
-        )}
-      ></ChatBubble>
-      <View
-        style={{
+      <GowiHeader
+        content={<Text> {t("introductionTexts.This is the last step")}🌿</Text>}
+      ></GowiHeader>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
           justifyContent: "center",
           alignItems: "center",
           gap: 10,
-          padding: 15,
-          flex: 1,
+          paddingBottom: 15,
         }}
       >
+        <ChatBubble
+          text={t(
+            "introductionTexts.Choose the areas you want to discover first. Take into account your GROWWEB results - they may suggest where it is worth starting"
+          )}
+        ></ChatBubble>
+        <ChatBubble
+          text={t(
+            "introductionTexts.All other topics will be waiting for you. You don't lose anything"
+          )}
+        ></ChatBubble>
+
         {categories.map(
           (category: { title: string; isSelected: boolean }, index: number) => {
             return (
               <View
-                style={{ flexDirection: "row", alignItems: "center" }}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginHorizontal: 35,
+                }}
                 key={index}
               >
                 <View
@@ -189,14 +171,13 @@ export default function SelectAreaOfImprovement() {
             );
           }
         )}
-      </View>
+      </ScrollView>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
           alignSelf: "stretch",
           paddingHorizontal: 15,
-          paddingVertical: 10,
         }}
       >
         <GowiButton
@@ -221,6 +202,6 @@ export default function SelectAreaOfImprovement() {
           ></GowiButton>
         )}
       </View>
-    </SafeAreaView>
+    </GowiSafeArea>
   );
 }

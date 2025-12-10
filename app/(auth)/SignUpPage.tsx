@@ -1,30 +1,45 @@
 import { styles } from "@/assets/styles/auth.styles";
+import GowiButton from "@/components/GowiButton";
+import GowiSafeArea from "@/components/GowiSafeArea";
 import { app, auth } from "@/firebaseInit";
+import GowiFormInput from "@/lib/GowiFormInput";
+import { useTheme } from "@/themes/ThemeProvider";
 import { getAuthErrorNamePl } from "@/utils/errors/firebaseAuth";
 import { router } from "expo-router";
 import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
 import { useState } from "react";
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { Text } from "react-native";
+
+interface SignInForm {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { t } = useTranslation();
+  const theme = useTheme();
   const [loginError, setLoginError] = useState<string | null>(null);
   const db = getFirestore(app);
+  const signInForm = useForm({
+    delayError: 3000,
+    mode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
-  const signUp = async () => {
+  const signUp = async (formData: SignInForm) => {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
-      email,
-      password
+      formData.email,
+      formData.password
     ).catch((err: FirebaseError) =>
       setLoginError(getAuthErrorNamePl(err.code))
     );
@@ -41,42 +56,73 @@ export default function SignUpPage() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Image
-        source={{
-          uri: "https://media.istockphoto.com/id/1318764563/vector/various-emotions-and-facial-expressions-of-one-person.webp?a=1&b=1&s=612x612&w=0&k=20&c=dOhYx052PU4Epnjj3Uh8xx16h0XqoN1kdYVqFf_YN1o=",
+    <GowiSafeArea contentContainerStyle={{ padding: 15, maxWidth: 290 }}>
+      <Text
+        style={{
+          ...theme.fonts.primary.semiBold,
+          fontSize: 18,
+          color: theme.textDarkMode.textPrimary,
+          textAlign: "center",
         }}
-        style={{ width: "50%", aspectRatio: 16 / 9, marginBottom: 50 }}
-      />
-      {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        style={styles.input}
-        placeholderTextColor="#999"
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        style={styles.input}
-        placeholderTextColor="#999"
-        secureTextEntry
-      />
-      <TouchableOpacity
-        onPress={signUp}
-        style={[styles.button, styles.secondaryButton]}
       >
-        <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-          Create an account
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/(auth)/LoginPage")}>
-        <Text style={{ color: "#fff" }}>Back to login page</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        {t("createAccTexts.Create your account")}
+      </Text>
+      <Text
+        style={{
+          ...theme.fonts.primary.regular,
+          fontSize: 16,
+          textAlign: "center",
+          color: theme.textDarkMode.textPrimary,
+        }}
+      >
+        {t(
+          "createAccTexts.This will allow us to save your progress and tailor your development path to you"
+        )}
+      </Text>
+      {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
+      <GowiFormInput
+        label="email"
+        control={signInForm.control}
+        controlName="email"
+        placeholder="email"
+        rules={{
+          required: "Email is wymagany",
+        }}
+      ></GowiFormInput>
+      <GowiFormInput
+        label="hasło"
+        control={signInForm.control}
+        controlName="password"
+        placeholder="Hasło"
+        secureTextEntry
+        rules={{
+          required: "Wpisz hasło",
+        }}
+      ></GowiFormInput>
+      <GowiFormInput
+        label="potwierdź hasło"
+        control={signInForm.control}
+        controlName="confirmPassword"
+        placeholder="potwierdź hasło"
+        secureTextEntry
+        rules={{
+          required: "Wpisz hasło",
+          validate: (value) =>
+            value === signInForm.watch("password") ||
+            "Hasła muszą być takie same",
+        }}
+      ></GowiFormInput>
+      <GowiButton
+        type={signInForm.formState.isValid ? "primary" : "disabled"}
+        isDisabled={!signInForm.formState.isValid}
+        onPress={signInForm.handleSubmit(signUp)}
+        title={t("buttons.Register")}
+      ></GowiButton>
+      <GowiButton
+        title={t("restorePasswordTexts.Return to login")}
+        textOnly
+        onPress={() => router.push("/(auth)/LoginPage")}
+      ></GowiButton>
+    </GowiSafeArea>
   );
 }

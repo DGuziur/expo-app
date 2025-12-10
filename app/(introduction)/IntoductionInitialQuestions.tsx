@@ -1,5 +1,6 @@
 import { useAuth } from "@/AuthContext";
 import GowiButton from "@/components/GowiButton";
+import GowiSafeArea from "@/components/GowiSafeArea";
 import ProgressStages from "@/components/ProgressStages";
 import { IntroQuestionAnswers, IntroQuestions } from "@/data/newUserQuestions";
 import { app } from "@/firebaseInit";
@@ -9,10 +10,9 @@ import ArrowRight from "@assets/icons/ArrowRight.svg";
 import CheckSVG from "@assets/icons/Check.svg";
 import { router } from "expo-router";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Animated, Text, View } from "react-native";
 
 export default function NewUserQuestions() {
   const { user } = useAuth();
@@ -20,19 +20,23 @@ export default function NewUserQuestions() {
   const theme = useTheme();
   const { t } = useTranslation();
   const totalStages = IntroQuestions.length;
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [progressState, setProgressState] = useState(0);
   const [canSubmit, setCanSubmit] = useState(false);
   const CategoryIcon = IntroQuestions[progressState].categoryIcon;
+
+  const opacity = useRef(new Animated.Value(1)).current;
 
   const submitAnswers = async () => {
     if (!user) return;
     await updateDoc(doc(db, "Users", user.uid), {
       hasCompletedOnboarding: true,
-      onboardingQuestions: IntroQuestions.map((question) => {
+      onboardingQuestions: IntroQuestions.map((question, index) => {
         return {
           category: question.category,
           question: question.questionText,
-          answer: question.answer,
+          answer: answers[index],
         };
       }),
     });
@@ -41,17 +45,35 @@ export default function NewUserQuestions() {
   };
 
   const handleAnswerClick = (pointsValue: number) => {
+    if (isAnimating) return;
+    setAnswers((prev) => ({
+      ...prev,
+      [progressState]: pointsValue,
+    }));
+
     if (progressState < totalStages - 1) {
-      IntroQuestions[progressState].answer = pointsValue;
-      setProgressState(progressState + 1);
+      setIsAnimating(true);
+      setTimeout(() => {
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start(() => {
+          setProgressState((stage) => stage + 1);
+          opacity.setValue(1);
+          setIsAnimating(false);
+        });
+      }, 200);
     } else {
-      IntroQuestions[progressState].answer = pointsValue;
       setCanSubmit(true);
     }
   };
 
   return (
-    <SafeAreaView>
+    <GowiSafeArea
+      contentContainerStyle={{ padding: 10, maxHeight: "100%" }}
+      scrollable={false}
+    >
       <ProgressStages
         total={totalStages}
         current={progressState + 1}
@@ -59,8 +81,16 @@ export default function NewUserQuestions() {
           if (progressState === 0) return router.back();
           setProgressState((state) => (state > 0 ? state - 1 : 0));
         }}
-      ></ProgressStages>
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
+      />
+      <Animated.ScrollView
+        pointerEvents={isAnimating ? "none" : "auto"}
+        style={{ opacity }}
+        contentContainerStyle={{
+          paddingBottom: 15,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Text
           style={{
             ...theme.fonts.primary.semiBold,
@@ -70,14 +100,13 @@ export default function NewUserQuestions() {
         >
           {t(IntroQuestions[progressState].category)}
         </Text>
-        <CategoryIcon></CategoryIcon>
+        <CategoryIcon width={80} height={80} />
         <Text
           style={{
             ...theme.fonts.primary.bold,
             fontSize: 22,
             color: themeColors.textDarkMode.textPrimary,
             textAlign: "center",
-            paddingVertical: 30,
           }}
         >
           {t(IntroQuestions[progressState].questionText)}
@@ -117,31 +146,29 @@ export default function NewUserQuestions() {
                   title={answer.answerText}
                   type="secondary"
                   onPress={() => handleAnswerClick(answer.pointsValue)}
-                ></GowiButton>
-                {IntroQuestions[progressState].answer === answer.pointsValue ? (
+                />
+                {answers[progressState] === answer.pointsValue ? (
                   <CheckSVG
                     style={{ position: "absolute", right: -10 }}
                     width={32}
                     height={32}
-                  ></CheckSVG>
+                  />
                 ) : null}
               </View>
             );
           })}
         </View>
-        {canSubmit && (
-          <View
-            style={{ width: "80%", alignItems: "flex-end", paddingTop: 15 }}
-          >
-            <GowiButton
-              title={<ArrowRight></ArrowRight>}
-              square
-              type="primary"
-              onPress={submitAnswers}
-            ></GowiButton>
-          </View>
-        )}
-      </View>
-    </SafeAreaView>
+      </Animated.ScrollView>
+      {canSubmit && (
+        <View style={{ position: "absolute", bottom: 30, right: 50 }}>
+          <GowiButton
+            title={<ArrowRight />}
+            square
+            type="primary"
+            onPress={submitAnswers}
+          />
+        </View>
+      )}
+    </GowiSafeArea>
   );
 }

@@ -1,5 +1,10 @@
-import { Redirect } from "expo-router";
+import { router } from "expo-router";
+import { useEffect } from "react";
+import { View } from "react-native";
 
 export default function SpeechBox() {
-  return <Redirect href={"/(introduction)/PathIsReady"}></Redirect>;
+  useEffect(() => {
+    router.navigate("/(introduction)/ChartStatsExplainPage");
+  }, []);
+  return <View></View>;
 }

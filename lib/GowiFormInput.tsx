@@ -1,11 +1,14 @@
 import { useTheme } from "@/themes/ThemeProvider";
-import React from "react";
+import Visibility from "@assets/icons/visibility.svg";
+import VisibilityOff from "@assets/icons/visibility_off.svg";
+import { useState } from "react";
 import { Control, Controller, RegisterOptions } from "react-hook-form";
 import {
   StyleProp,
   Text,
   TextInput,
   TextStyle,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from "react-native";
@@ -41,11 +44,17 @@ export default function GowiFormInput({
   secureTextEntry = false,
   keyboardType = "default",
   errorStyles,
-  autoCapitalize = "sentences",
+  autoCapitalize = "none",
   editable = true,
   multiline = false,
 }: GowiInputProps) {
   const theme = useTheme();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
   return (
     <View
       style={[
@@ -79,40 +88,64 @@ export default function GowiFormInput({
           fieldState: { error },
         }) => (
           <>
-            <TextInput
-              style={[
-                { backgroundColor: theme.neutralsDarkMode.surface },
-                {
-                  ...theme.fonts.primary.regular,
-                  borderRadius: 8,
-                  borderWidth: 1,
-                  borderColor: theme.neutralsDarkMode.divider,
-                  paddingHorizontal: 24,
-                  paddingVertical: 17,
-                  fontSize: 16,
-                  color: theme.textDarkMode.textPrimary,
-                  minHeight: 60,
-                  width: "100%",
-                },
-                inputStyles,
-                error && {
-                  borderRadius: 8,
-                  borderWidth: 1,
-                  borderColor: theme.textDarkMode.textError,
-                },
-              ]}
-              placeholder={placeholder}
-              placeholderTextColor={theme.textDarkMode.textTeritary}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              multiline={multiline}
-              numberOfLines={numberOfLines}
-              secureTextEntry={secureTextEntry}
-              keyboardType={keyboardType}
-              autoCapitalize={autoCapitalize}
-              editable={editable}
-            />
+            <View style={{ justifyContent: "center" }}>
+              <TextInput
+                style={[
+                  { backgroundColor: theme.neutralsDarkMode.surface },
+                  {
+                    ...theme.fonts.primary.regular,
+                    borderRadius: 8,
+                    borderWidth: 1,
+                    borderColor: theme.neutralsDarkMode.divider,
+                    paddingHorizontal: 24,
+                    paddingRight: secureTextEntry ? 50 : 24,
+                    paddingVertical: 17,
+                    fontSize: 16,
+                    color: theme.textDarkMode.textPrimary,
+                    minHeight: 60,
+                    width: "100%",
+                  },
+                  inputStyles,
+                  error && {
+                    borderRadius: 8,
+                    borderWidth: 1,
+                    borderColor: theme.textDarkMode.textError,
+                  },
+                ]}
+                placeholder={placeholder}
+                placeholderTextColor={theme.textDarkMode.textTeritary}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                multiline={multiline}
+                numberOfLines={numberOfLines}
+                secureTextEntry={secureTextEntry && !isPasswordVisible}
+                keyboardType={keyboardType}
+                autoCapitalize={autoCapitalize}
+                editable={editable}
+              />
+
+              {secureTextEntry && (
+                <TouchableOpacity
+                  onPress={togglePasswordVisibility}
+                  style={{
+                    position: "absolute",
+                    right: 16,
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  activeOpacity={0.7}
+                >
+                  {isPasswordVisible ? (
+                    <Visibility></Visibility>
+                  ) : (
+                    <VisibilityOff></VisibilityOff>
+                  )}
+                </TouchableOpacity>
+              )}
+            </View>
+
             {error && (
               <Text
                 style={[

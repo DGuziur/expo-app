@@ -1,13 +1,6 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "transparent",
-    alignItems: "center",
-    paddingTop: 70,
-  },
   input: {
     backgroundColor: "#eb0c0cff",
     borderWidth: 1,

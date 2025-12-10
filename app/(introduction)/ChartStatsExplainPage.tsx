@@ -2,26 +2,21 @@ import { useAuth } from "@/AuthContext";
 import Accordion from "@/components/Accordion";
 import ChatBubble from "@/components/ChatBubble";
 import GowiButton from "@/components/GowiButton";
+import GowiHeader from "@/components/GowiHeader";
+import GowiSafeArea from "@/components/GowiSafeArea";
 import { NeonRadarChart } from "@/components/RadarChart";
 import { IntroQuestion } from "@/data/newUserQuestions";
 import { WELLBEING_CATEGORIES } from "@/data/wellbeingCategories";
-import { themeColors } from "@/themes/themeColors";
-import { useTheme } from "@/themes/ThemeProvider";
 import ArrowRight from "@assets/icons/ArrowRight.svg";
-import BackButtonSvg from "@assets/icons/BackArrow.svg";
 import { router } from "expo-router";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, Text, View } from "react-native";
 
 export default function ChartStatsExplainPage() {
   const { user } = useAuth();
   const { t } = useTranslation();
-  const theme = useTheme();
-  const onBackBtnPress = () => {
-    router.back();
-  };
+
   const categoryResults = useMemo(() => {
     if (!user?.onboardingQuestions) return [];
 
@@ -49,42 +44,24 @@ export default function ChartStatsExplainPage() {
         ...category,
         total: g.total,
         count: g.count,
-        value: (g.total / g.count) * 2,
+        value: (g.total / g.count) * 2 || 1,
       };
     });
   }, [user?.onboardingQuestions]);
 
   return (
-    <SafeAreaView style={{ padding: 20 }}>
-      <View
-        style={{
-          flexDirection: "row",
+    <GowiSafeArea contentContainerStyle={{ padding: 20, maxHeight: "100%" }}>
+      <GowiHeader
+        content={<Text>✨{t("wellbeingProfile.Your wellbeing profile")}</Text>}
+      ></GowiHeader>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          justifyContent: "center",
           alignItems: "center",
-          marginBottom: 20,
+          gap: 15,
         }}
       >
-        <GowiButton
-          square
-          type="secondary"
-          size="S"
-          onPress={onBackBtnPress}
-          title={<BackButtonSvg></BackButtonSvg>}
-        ></GowiButton>
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              ...theme.fonts.primary.bold,
-              color: themeColors.textDarkMode.textPrimary,
-              textAlign: "center",
-              fontSize: 18,
-            }}
-          >
-            ✨{t("wellbeingProfile.Your wellbeing profile")}
-          </Text>
-        </View>
-        <View style={{ width: 40 }} />
-      </View>
-      <ScrollView contentContainerStyle={styles.container}>
         <ChatBubble
           text={t(
             "wellbeingProfile.Here is what your current state looks like in various areas of life GROWWEB"
@@ -109,7 +86,7 @@ export default function ChartStatsExplainPage() {
           })}
         </View>
       </ScrollView>
-      <View style={{ position: "absolute", bottom: 130, right: 30 }}>
+      <View style={{ position: "absolute", bottom: 30, right: 30 }}>
         <GowiButton
           title={<ArrowRight></ArrowRight>}
           square
@@ -119,14 +96,6 @@ export default function ChartStatsExplainPage() {
           }
         ></GowiButton>
       </View>
-    </SafeAreaView>
+    </GowiSafeArea>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    gap: 50,
-    paddingTop: 30,
-  },
-});

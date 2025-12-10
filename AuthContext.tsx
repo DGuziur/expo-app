@@ -1,4 +1,4 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import {
   doc,
   DocumentData,
@@ -19,6 +19,7 @@ import { app, auth } from "./firebaseInit";
 
 type AuthContextType = {
   user: DocumentData | null;
+  authUser: User | null;
   loading: boolean;
 };
 
@@ -27,12 +28,14 @@ type AuthProviderProps = {
 };
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  authUser: null,
   loading: true,
 });
 
 const db = getFirestore(app);
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<DocumentData | null>(null);
+  const [authUser, setAuthUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,6 +49,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
       if (authUser) {
         const userRef = doc(db, "Users", authUser.uid);
+        setAuthUser(authUser);
 
         unsubscribeFromDoc = onSnapshot(
           userRef,
@@ -67,11 +71,13 @@ export default function AuthProvider({ children }: AuthProviderProps) {
           },
           (error) => {
             setUser(null);
+            setAuthUser(null);
             setLoading(false);
           }
         );
       } else {
         setUser(null);
+        setAuthUser(null);
         setLoading(false);
       }
       console.log("AUTHCONTEXT TRIGGERED");
@@ -86,7 +92,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, authUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

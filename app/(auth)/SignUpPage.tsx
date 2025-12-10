@@ -56,7 +56,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <GowiSafeArea contentContainerStyle={{ padding: 50 }}>
+    <GowiSafeArea contentContainerStyle={{ padding: 15, maxWidth: 290 }}>
       <Text
         style={{
           ...theme.fonts.primary.semiBold,

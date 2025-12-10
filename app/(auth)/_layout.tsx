@@ -4,7 +4,7 @@ import { useFirstLaunch } from "@/hooks/CheckFirstLaunch";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import { LinearGradient } from "expo-linear-gradient";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Slot } from "expo-router";
 import { useTranslation } from "react-i18next";
 
 export default function AuthRoutesLayout() {
@@ -54,7 +54,7 @@ export default function AuthRoutesLayout() {
         end={{ x: 1, y: 1 }}
         style={{ flex: 1 }}
       >
-        <Stack
+        <Slot
           screenOptions={{
             headerShown: false,
             contentStyle: {

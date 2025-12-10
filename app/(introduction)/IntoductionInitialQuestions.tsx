@@ -20,6 +20,7 @@ export default function NewUserQuestions() {
   const theme = useTheme();
   const { t } = useTranslation();
   const totalStages = IntroQuestions.length;
+  const [isAnimating, setIsAnimating] = useState(false);
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [progressState, setProgressState] = useState(0);
   const [canSubmit, setCanSubmit] = useState(false);
@@ -44,12 +45,14 @@ export default function NewUserQuestions() {
   };
 
   const handleAnswerClick = (pointsValue: number) => {
+    if (isAnimating) return;
     setAnswers((prev) => ({
       ...prev,
       [progressState]: pointsValue,
     }));
 
     if (progressState < totalStages - 1) {
+      setIsAnimating(true);
       setTimeout(() => {
         Animated.timing(opacity, {
           toValue: 0,
@@ -58,6 +61,7 @@ export default function NewUserQuestions() {
         }).start(() => {
           setProgressState((stage) => stage + 1);
           opacity.setValue(1);
+          setIsAnimating(false);
         });
       }, 200);
     } else {
@@ -79,6 +83,7 @@ export default function NewUserQuestions() {
         }}
       />
       <Animated.ScrollView
+        pointerEvents={isAnimating ? "none" : "auto"}
         style={{ opacity }}
         contentContainerStyle={{
           paddingBottom: 15,

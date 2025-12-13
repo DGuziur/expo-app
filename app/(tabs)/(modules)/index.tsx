@@ -1,3 +1,4 @@
+import GowiSafeArea from "@/components/GowiSafeArea";
 import Spinner from "@/components/Spinner";
 import { app } from "@/firebaseInit";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,7 +17,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useGlobalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-  Alert,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -35,6 +35,8 @@ type UnitData = {
 type FirestoreUnitData = { title: string; desc: string };
 
 export default function Index() {
+  const [test, setTest] = useState<boolean>(true);
+
   const { newUnit, updatedUnit } = useGlobalSearchParams();
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -67,7 +69,8 @@ export default function Index() {
   };
 
   const showSuccess = (message: string) => {
-    Alert.alert(message);
+    // Alert.alert(message);
+    return;
   };
 
   const getFreshUnits = async (idOrder: string[]) => {
@@ -238,6 +241,14 @@ export default function Index() {
   useEffect(() => {
     getUnits();
   }, []);
+
+  if (test) {
+    return (
+      <GowiSafeArea>
+        <Text>In development</Text>
+      </GowiSafeArea>
+    );
+  }
 
   if (loading)
     return (

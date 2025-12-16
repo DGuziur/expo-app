@@ -1,6 +1,5 @@
 import StepperPanel, { StepData } from "@/components/stepper/StepperPanel";
 import OnboBackground from "@assets/icons/ONBO BACKGROUND.png";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -40,11 +39,7 @@ export default function GowiFirstIntroduction() {
       <StepperPanel
         steps={stepperPanelTestData}
         afterFinalStep={() => {
-          AsyncStorage.setItem(
-            "globalSettings",
-            JSON.stringify({ greetedGowi: true })
-          );
-          router.replace("/(auth)/LoginPage");
+          router.replace("/(introduction)/InitialQuestionsTimeEstimation");
         }}
       ></StepperPanel>
     </View>

@@ -21,6 +21,10 @@ export default {
         backgroundColor: "#ffffff",
       },
       edgeToEdgeEnabled: true,
+      navigationBar: {
+        backgroundColor: "#00000000",
+        barStyle: "dark-content",
+      },
     },
     web: {
       bundler: "metro",
@@ -44,7 +48,14 @@ export default {
           backgroundColor: "#ffffff",
         },
       ],
-      ["react-native-edge-to-edge"],
+      [
+        "react-native-edge-to-edge",
+        {
+          android: {
+            enforceNavigationBarContrast: false,
+          },
+        },
+      ],
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
     ],

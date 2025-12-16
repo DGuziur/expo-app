@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GowiButton from "../GowiButton";
 import Stepper from "./Stepper";
 
@@ -27,8 +28,10 @@ export default function StepperPanel({
   const stepData = steps[step - 1];
   const { t } = useTranslation();
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={style.intro}>
+    <View style={{ ...style.intro, paddingBottom: insets.bottom }}>
       <Text
         style={{
           ...theme.fonts.primary.semiBold,
@@ -85,8 +88,8 @@ const style = StyleSheet.create({
   intro: {
     flex: 1,
     backgroundColor: "#260d30",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    paddingBottom: 30,
+    gap: 40,
   },
 });

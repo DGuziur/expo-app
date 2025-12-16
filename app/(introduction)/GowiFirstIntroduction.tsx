@@ -3,7 +3,6 @@ import OnboBackground from "@assets/icons/ONBO BACKGROUND.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const stepperPanelTestData: StepData[] = [
   {
@@ -29,7 +28,7 @@ const stepperPanelTestData: StepData[] = [
 
 export default function GowiFirstIntroduction() {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.dotContainer}>
         <View style={[styles.dot, { width: 200, height: 200 }]} />
       </View>
@@ -48,7 +47,7 @@ export default function GowiFirstIntroduction() {
           router.replace("/(auth)/LoginPage");
         }}
       ></StepperPanel>
-    </SafeAreaView>
+    </View>
   );
 }
 

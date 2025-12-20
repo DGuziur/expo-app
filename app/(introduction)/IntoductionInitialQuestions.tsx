@@ -8,8 +8,9 @@ import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import ArrowRight from "@assets/icons/ArrowRight.svg";
 import CheckSVG from "@assets/icons/Check.svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Animated, Text, View } from "react-native";
@@ -29,18 +30,18 @@ export default function NewUserQuestions() {
   const opacity = useRef(new Animated.Value(1)).current;
 
   const submitAnswers = async () => {
-    if (!user) return;
-    await updateDoc(doc(db, "Users", user.uid), {
-      hasCompletedOnboarding: true,
-      onboardingQuestions: IntroQuestions.map((question, index) => {
-        return {
-          category: question.category,
-          question: question.questionText,
-          answer: answers[index],
-        };
-      }),
-    });
-
+    await AsyncStorage.setItem(
+      "onboardingQuestions",
+      JSON.stringify(
+        IntroQuestions.map((question, index) => {
+          return {
+            category: question.category,
+            question: question.questionText,
+            answer: answers[index],
+          };
+        })
+      )
+    );
     router.navigate("/(introduction)/ChartStatsExplainPage");
   };
 
@@ -86,77 +87,81 @@ export default function NewUserQuestions() {
         pointerEvents={isAnimating ? "none" : "auto"}
         style={{ opacity }}
         contentContainerStyle={{
-          paddingBottom: 15,
+          paddingBottom: canSubmit ? 69 : 15,
           justifyContent: "center",
           alignItems: "center",
+          gap: 48,
         }}
       >
-        <Text
-          style={{
-            ...theme.fonts.primary.semiBold,
-            fontSize: 19,
-            color: themeColors.textDarkMode.textSecondary,
-          }}
+        <View
+          style={{ justifyContent: "center", alignItems: "center", gap: 24 }}
         >
-          {t(IntroQuestions[progressState].category)}
-        </Text>
-        <CategoryIcon width={80} height={80} />
-        <Text
-          style={{
-            ...theme.fonts.primary.bold,
-            fontSize: 22,
-            color: themeColors.textDarkMode.textPrimary,
-            textAlign: "center",
-          }}
-        >
-          {t(IntroQuestions[progressState].questionText)}
-        </Text>
+          <Text
+            style={{
+              ...theme.fonts.primary.semiBold,
+              fontSize: 16,
+              color: themeColors.textDarkMode.textSecondary,
+            }}
+          >
+            {t(IntroQuestions[progressState].category)}
+          </Text>
+          <CategoryIcon width={48} height={48} />
+          <Text
+            style={{
+              ...theme.fonts.primary.bold,
+              fontSize: 22,
+              color: themeColors.textDarkMode.textPrimary,
+              textAlign: "center",
+            }}
+          >
+            {t(IntroQuestions[progressState].questionText)}
+          </Text>
+        </View>
 
-        <Text
-          style={{
-            ...theme.fonts.primary.regular,
-            fontSize: 16,
-            color: themeColors.textDarkMode.textPrimary,
-            textAlign: "center",
-            paddingVertical: 30,
-          }}
-        >
-          {t("quizTexts.To what extent does this apply to you? (0-5)")}
-        </Text>
-        <View style={{ gap: 10 }}>
-          {IntroQuestionAnswers.map((answer, i) => {
-            return (
-              <View
-                key={i}
-                style={{
-                  width: 300,
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <GowiButton
-                  customStyle={{
-                    width: 250,
-                    height: 52,
-                    padding: 4,
-                    position: "relative",
+        <View style={{ gap: 24 }}>
+          <Text
+            style={{
+              ...theme.fonts.primary.regular,
+              fontSize: 14,
+              color: themeColors.textDarkMode.textSecondary,
+              textAlign: "center",
+            }}
+          >
+            {t("quizTexts.To what extent does this apply to you? (0-5)")}
+          </Text>
+          <View style={{ gap: 10 }}>
+            {IntroQuestionAnswers.map((answer, i) => {
+              return (
+                <View
+                  key={i}
+                  style={{
+                    width: 300,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                  textStyle={{ width: "100%" }}
-                  title={answer.answerText}
-                  type="secondary"
-                  onPress={() => handleAnswerClick(answer.pointsValue)}
-                />
-                {answers[progressState] === answer.pointsValue ? (
-                  <CheckSVG
-                    style={{ position: "absolute", right: -10 }}
-                    width={32}
-                    height={32}
+                >
+                  <GowiButton
+                    size="S"
+                    customStyle={{
+                      width: 250,
+                    }}
+                    textStyle={{ width: "100%" }}
+                    title={answer.answerText}
+                    type="secondary"
+                    onPress={() => handleAnswerClick(answer.pointsValue)}
                   />
-                ) : null}
-              </View>
-            );
-          })}
+                  {answers[progressState] === answer.pointsValue ? (
+                    <CheckSVG
+                      style={{ position: "absolute", right: -10 }}
+                      width={32}
+                      height={32}
+                    />
+                  ) : null}
+                </View>
+              );
+            })}
+          </View>
         </View>
       </Animated.ScrollView>
       {canSubmit && (

@@ -16,8 +16,12 @@ export default function InitialQuestionsTimeEstimation() {
   const numberOfMinutes = Math.ceil((numberOfQuestions * 6) / 60);
   return (
     <GowiSafeArea
-      contentContainerStyle={{ justifyContent: "space-between", padding: 15 }}
+      contentContainerStyle={{
+        justifyContent: "space-between",
+        paddingHorizontal: 40,
+      }}
     >
+      <View style={{ justifyContent: "center", alignItems: "center" }}></View>
       <GowiHeader
         backPossible={false}
         content={t("quizTexts.Great that you are here")}

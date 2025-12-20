@@ -1,100 +1,109 @@
-import { useAuth } from "@/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+
 import Accordion from "@/components/Accordion";
 import ChatBubble from "@/components/ChatBubble";
 import GowiButton from "@/components/GowiButton";
 import GowiHeader from "@/components/GowiHeader";
 import GowiSafeArea from "@/components/GowiSafeArea";
-import { NeonRadarChart } from "@/components/RadarChart";
+import { NeonRadarChart, RadarDataPoint } from "@/components/RadarChart";
+
 import { IntroQuestion } from "@/data/newUserQuestions";
 import { WELLBEING_CATEGORIES } from "@/data/wellbeingCategories";
 import ArrowRight from "@assets/icons/ArrowRight.svg";
-import { router } from "expo-router";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { ScrollView, Text, View } from "react-native";
 
 export default function ChartStatsExplainPage() {
-  const { user } = useAuth();
   const { t } = useTranslation();
+  const [results, setResults] = useState<RadarDataPoint[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const categoryResults = useMemo(() => {
-    if (!user?.onboardingQuestions) return [];
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await AsyncStorage.getItem("onboardingQuestions");
+        if (!data) return;
 
-    const grouped = user.onboardingQuestions.reduce(
-      (
-        acc: Record<string, { total: number; count: number }>,
-        question: IntroQuestion
-      ) => {
-        if (!acc[question.category]) {
-          acc[question.category] = { total: 0, count: 0 };
-        }
+        const questions: IntroQuestion[] = JSON.parse(data);
+        const grouped = questions.reduce(
+          (acc: Record<string, { total: number; count: number }>, q) => {
+            acc[q.category] = acc[q.category] || { total: 0, count: 0 };
+            acc[q.category].total += q.answer ?? 0;
+            acc[q.category].count += 1;
+            return acc;
+          },
+          {}
+        );
 
-        acc[question.category].total += question.answer ?? 0;
-        acc[question.category].count += 1;
+        const processed: RadarDataPoint[] = WELLBEING_CATEGORIES.map((cat) => {
+          const stats = grouped[cat.title] || { total: 0, count: 0 };
+          return {
+            ...cat,
+            total: stats.total,
+            count: stats.count,
+            value: stats.count > 0 ? (stats.total / stats.count) * 2 : 1,
+          };
+        });
 
-        return acc;
-      },
-      {}
+        setResults(processed);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  if (loading)
+    return (
+      <GowiSafeArea>
+        <ActivityIndicator />
+      </GowiSafeArea>
     );
 
-    return WELLBEING_CATEGORIES.map((category) => {
-      const g = grouped[category.title] ?? { total: 0, count: 0 };
-
-      return {
-        ...category,
-        total: g.total,
-        count: g.count,
-        value: (g.total / g.count) * 2 || 1,
-      };
-    });
-  }, [user?.onboardingQuestions]);
-
   return (
-    <GowiSafeArea contentContainerStyle={{ padding: 20, maxHeight: "100%" }}>
+    <GowiSafeArea contentContainerStyle={{ padding: 20, flex: 1 }}>
       <GowiHeader
         content={<Text>✨{t("wellbeingProfile.Your wellbeing profile")}</Text>}
-      ></GowiHeader>
+      />
+
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 15,
-        }}
+        contentContainerStyle={{ gap: 15, paddingBottom: 100 }}
       >
         <ChatBubble
           text={t(
             "wellbeingProfile.Here is what your current state looks like in various areas of life GROWWEB"
           )}
-        ></ChatBubble>
+        />
 
-        <View>
-          <NeonRadarChart data={categoryResults} size={230} maxValue={10} />
+        <View style={{ alignItems: "center" }}>
+          {results.length > 0 && (
+            <NeonRadarChart data={results} size={230} maxValue={10} />
+          )}
         </View>
 
-        <View>
-          {categoryResults.map((category, index) => {
-            return (
-              <Accordion
-                key={index}
-                icon={category.icon}
-                value={(category.value / 10) * 100}
-                title={t(category.title)}
-                hiddenText={t(category.description)}
-              ></Accordion>
-            );
-          })}
+        <View style={{ width: "100%" }}>
+          {results.map((item, i) => (
+            <Accordion
+              key={i}
+              icon={item.icon}
+              title={t(item.title)}
+              hiddenText={t(item.description)}
+              value={(item.value / 10) * 100}
+            />
+          ))}
         </View>
       </ScrollView>
+
       <View style={{ position: "absolute", bottom: 30, right: 30 }}>
         <GowiButton
-          title={<ArrowRight></ArrowRight>}
+          title={<ArrowRight />}
           square
-          type="primary"
           onPress={() =>
             router.navigate("/(introduction)/SelectAreaOfImprovement")
           }
-        ></GowiButton>
+        />
       </View>
     </GowiSafeArea>
   );

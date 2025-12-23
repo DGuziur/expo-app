@@ -1,23 +1,27 @@
-import { useAuth } from "@/AuthContext";
 import GowiButton from "@/components/GowiButton";
 import GowiSafeArea from "@/components/GowiSafeArea";
 import ProgressStages from "@/components/ProgressStages";
 import { IntroQuestionAnswers, IntroQuestions } from "@/data/newUserQuestions";
-import { app } from "@/firebaseInit";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import ArrowRight from "@assets/icons/ArrowRight.svg";
 import CheckSVG from "@assets/icons/Check.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import { getFirestore } from "firebase/firestore";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Animated, Text, View } from "react-native";
+import { Animated, ColorValue, Text, View } from "react-native";
+
+const customGradients: Record<number, [ColorValue, ColorValue]> = {
+  0: ["#331155", "#331155"],
+  1: ["#40156A", "#40156A"],
+  2: ["#4C1A80", "#4C1A80"],
+  3: ["#6522AA", "#6522AA"],
+  4: ["#7929CB", "#7929CB"],
+  5: ["#8638D7", "#8638D7"],
+};
 
 export default function NewUserQuestions() {
-  const { user } = useAuth();
-  const db = getFirestore(app);
   const theme = useTheme();
   const { t } = useTranslation();
   const totalStages = IntroQuestions.length;
@@ -146,6 +150,7 @@ export default function NewUserQuestions() {
                     customStyle={{
                       width: 250,
                     }}
+                    customGradient={customGradients[i]}
                     textStyle={{ width: "100%" }}
                     title={answer.answerText}
                     type="secondary"

@@ -50,7 +50,7 @@ export default function SignUpPage() {
     ).catch((err: FirebaseError) =>
       setLoginError(getAuthErrorNamePl(err.code))
     );
-    if (!userCredential) return router.replace("/(auth)");
+    if (!userCredential) return;
 
     const userRef = doc(db, "Users", userCredential.user.uid);
 

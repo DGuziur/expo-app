@@ -18,14 +18,11 @@ export default function InitialQuestionsTimeEstimation() {
     <GowiSafeArea
       contentContainerStyle={{
         justifyContent: "space-between",
-        paddingHorizontal: 40,
+        padding: 30,
       }}
     >
+      <GowiHeader content={t("quizTexts.Great that you are here")}></GowiHeader>
       <View style={{ justifyContent: "center", alignItems: "center" }}></View>
-      <GowiHeader
-        backPossible={false}
-        content={t("quizTexts.Great that you are here")}
-      ></GowiHeader>
       <Image style={{ alignSelf: "center" }} source={Gowi}></Image>
       <View style={{ gap: 5 }}>
         <Text

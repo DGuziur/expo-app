@@ -79,7 +79,7 @@ export default function StepperPanel({
           <View style={{ flex: 1 }}>
             <GowiButton
               type="secondary"
-              title={t(stepData.backButtonText ?? "Skip")}
+              title={t(stepData.backButtonText ?? "buttons.Skip")}
               onPress={() => {
                 router.push("/(auth)/LoginPage");
               }}

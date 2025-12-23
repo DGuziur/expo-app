@@ -3,11 +3,11 @@ import GowiButton from "@/components/GowiButton";
 import GowiHeader from "@/components/GowiHeader";
 import GowiPickOption from "@/components/GowiPickOption";
 import GowiSafeArea from "@/components/GowiSafeArea";
-import { app } from "@/firebaseInit";
+import { app, auth } from "@/firebaseInit";
 import GowiFormInput from "@/lib/GowiFormInput";
 import { useTheme } from "@/themes/ThemeProvider";
 import { router } from "expo-router";
-import { updateProfile } from "firebase/auth";
+import { signOut, updateProfile } from "firebase/auth";
 import {
   doc,
   getFirestore,
@@ -17,7 +17,7 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 
 export default function PickUsernameScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -61,24 +61,28 @@ export default function PickUsernameScreen() {
 
   return (
     <GowiSafeArea
-      contentContainerStyle={{ maxWidth: 290, justifyContent: "space-between" }}
+      contentContainerStyle={{
+        padding: 30,
+        justifyContent: "space-between",
+        width: Dimensions.get("screen").width,
+      }}
     >
       <GowiHeader
-        backPossible={false}
+        overrideBack={() => signOut(auth)}
         content={t("formsInfo.Your name")}
       ></GowiHeader>
-
-      <Text
-        style={{
-          ...theme.fonts.primary.regular,
-          fontSize: 16,
-          textAlign: "center",
-          color: theme.textDarkMode.textPrimary,
-        }}
-      >
-        {t("introductionTexts.How should i call you")}
-      </Text>
-      <View>
+      <View style={{ flex: 1 }}>
+        <Text
+          style={{
+            ...theme.fonts.primary.regular,
+            fontSize: 16,
+            textAlign: "center",
+            color: theme.textDarkMode.textPrimary,
+            paddingVertical: 80,
+          }}
+        >
+          {t("introductionTexts.How should i call you")}
+        </Text>
         <GowiFormInput
           placeholder={t("formsInfo.My name")}
           label={t("formsInfo.My name")}

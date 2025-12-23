@@ -7,6 +7,8 @@ import { useTheme } from "@/themes/ThemeProvider";
 import { getAuthErrorNamePl } from "@/utils/errors/firebaseAuth";
 import ArrowRightSVG from "@assets/icons/ArrowRight.svg";
 import { styles } from "@assets/styles/auth.styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
@@ -37,6 +39,10 @@ export default function SignUpPage() {
   });
 
   const signUp = async (formData: SignInForm) => {
+    const [selectedAreasOfImprovement, onboardingAnswers] = await Promise.all([
+      AsyncStorage.getItem("OnboSelectedAreas"),
+      AsyncStorage.getItem("onboardingQuestions"),
+    ]);
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       formData.email,
@@ -44,16 +50,26 @@ export default function SignUpPage() {
     ).catch((err: FirebaseError) =>
       setLoginError(getAuthErrorNamePl(err.code))
     );
-    if (!userCredential) return;
+    if (!userCredential) return router.replace("/(auth)");
 
-    await setDoc(doc(db, "Users", userCredential.user.uid), {
+    const userRef = doc(db, "Users", userCredential.user.uid);
+
+    await setDoc(userRef, {
       uid: userCredential.user.uid,
       email: userCredential.user.email,
       displayName: userCredential.user.displayName,
       photoURL: userCredential.user.photoURL,
+      selectedAreasOfImprovement: selectedAreasOfImprovement,
       createdAt: serverTimestamp(),
-      hasCompletedOnboarding: false,
     });
+
+    const todayISO = new Date().toISOString().slice(0, 10);
+    await setDoc(doc(userRef, "wellbeingSurveys", todayISO), {
+      date: todayISO,
+      questions: onboardingAnswers,
+      submittedAt: serverTimestamp(),
+    });
+    router.replace("/(auth)");
   };
 
   return (

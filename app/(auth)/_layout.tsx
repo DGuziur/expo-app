@@ -63,10 +63,5 @@ export default function AuthRoutesLayout() {
   if (!user.displayName)
     return <Redirect href="/(introduction)/PickYourUsername"></Redirect>;
 
-  if (!user.hasCompletedOnboarding)
-    return (
-      <Redirect href="/(introduction)/InitialQuestionsTimeEstimation"></Redirect>
-    );
-
   return <Redirect href="/(tabs)/(modules)" />;
 }

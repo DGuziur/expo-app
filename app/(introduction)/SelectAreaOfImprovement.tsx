@@ -1,15 +1,13 @@
-import { useAuth } from "@/AuthContext";
 import ChatBubble from "@/components/ChatBubble";
 import GowiButton from "@/components/GowiButton";
 import GowiChip from "@/components/GowiChip";
 import GowiHeader from "@/components/GowiHeader";
 import GowiSafeArea from "@/components/GowiSafeArea";
 import { IMPROVEMENT_CATEGORIES } from "@/data/wellbeingCategories";
-import { app } from "@/firebaseInit";
 import ArrowRightSVG from "@assets/icons/ArrowRight.svg";
 import CheckSVG from "@assets/icons/Check.svg";
 import DiceSVG from "@assets/icons/Dice.svg";
-import { doc, getFirestore, updateDoc } from "@firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,8 +15,6 @@ import { ScrollView, Text, View } from "react-native";
 
 export default function SelectAreaOfImprovement() {
   const { t } = useTranslation();
-  const db = getFirestore(app);
-  const { user } = useAuth();
   const [categories, setCategories] = useState(
     IMPROVEMENT_CATEGORIES.map((category) => ({
       title: category,
@@ -63,18 +59,18 @@ export default function SelectAreaOfImprovement() {
   };
 
   const handleSubmit = async () => {
-    if (!user) return;
     const selectedCategories = categories.filter(
       (category) => category.isSelected
     );
     const selectedCategoriesToSend = selectedCategories.map(
       (category) => category.title
     );
-    await updateDoc(doc(db, "Users", user.uid), {
-      seletedAreasOfImprovement: selectedCategoriesToSend,
-    });
+    await AsyncStorage.setItem(
+      "OnboSelectedAreas",
+      JSON.stringify(selectedCategoriesToSend)
+    );
 
-    router.replace("/(tabs)/(modules)");
+    router.navigate("/CreateAccountAfterIntroQuestions");
   };
 
   return (
@@ -117,6 +113,7 @@ export default function SelectAreaOfImprovement() {
                 key={index}
               >
                 <GowiChip
+                  isActive={category.isSelected}
                   variant="primary"
                   onPress={() => toggleCategory(index)}
                 >

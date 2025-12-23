@@ -1,9 +1,9 @@
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { ColorValue, Pressable, Text, View } from "react-native";
 
-interface ChipVariant {
+export interface ChipVariant {
   primaryColor: ColorValue;
   shadowColor: ColorValue;
   textColor: ColorValue;
@@ -50,7 +50,8 @@ const ChipVariants = {
 interface GowiChipProps {
   children: ReactNode | string;
   variant: keyof typeof ChipVariants | ChipVariant;
-  onPress?: Function;
+  onPress: Function;
+  isActive: boolean;
   disabled?: boolean;
 }
 
@@ -59,8 +60,8 @@ export default function GowiChip({
   children,
   onPress,
   disabled = false,
+  isActive = false,
 }: GowiChipProps) {
-  const [active, setActive] = useState(false);
   const colorVariant: ChipVariant =
     typeof variant === "string" ? ChipVariants[variant] : variant;
   const theme = useTheme();
@@ -74,15 +75,13 @@ export default function GowiChip({
     >
       <Pressable
         onPress={() => {
-          if (disabled) return;
-          setActive(!active);
-          if (onPress) onPress();
+          if (!disabled) onPress();
         }}
         style={{
           flex: 1,
           backgroundColor: disabled
             ? colorVariant.disabledPrimary
-            : active
+            : isActive
             ? colorVariant.activeColor
             : colorVariant.primaryColor,
 
@@ -90,7 +89,7 @@ export default function GowiChip({
           borderRadius: 15,
           justifyContent: "center",
           alignContent: "center",
-          transform: [{ translateY: active && !disabled ? 4 : 0 }],
+          transform: [{ translateY: isActive && !disabled ? 4 : 0 }],
         }}
       >
         <Text
@@ -99,7 +98,7 @@ export default function GowiChip({
             paddingHorizontal: 12,
             color: disabled
               ? colorVariant.disabledText
-              : active
+              : isActive
               ? colorVariant.activeTextColor
               : colorVariant.textColor,
             textAlign: "center",

@@ -49,7 +49,7 @@ export default function CreateAccountAfterIntroQuestions() {
             </Text>
           }
           type="primary"
-          onPress={() => router.back()}
+          onPress={() => router.navigate("/(introduction)/SignUpPage")}
         ></GowiButton>
       </View>
 

@@ -12,7 +12,7 @@ import { Image, Text, View } from "react-native";
 export default function InitialQuestionsTimeEstimation() {
   const { t } = useTranslation();
   const theme = useTheme();
-  const numberOfQuestions = IntroQuestions.length + 1;
+  const numberOfQuestions = IntroQuestions.length;
   const numberOfMinutes = Math.ceil((numberOfQuestions * 6) / 60);
   return (
     <GowiSafeArea

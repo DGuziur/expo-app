@@ -9,11 +9,13 @@ import GowiButton from "./GowiButton";
 interface GowiHeaderProps {
   content: string | ReactNode;
   backPossible?: boolean;
+  navigateTo?: string;
 }
 
 export default function GowiHeader({
   content,
   backPossible = true,
+  navigateTo,
 }: GowiHeaderProps) {
   const theme = useTheme();
 

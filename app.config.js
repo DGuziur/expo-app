@@ -4,7 +4,7 @@ export default {
     slug: "mood-app",
     version: "1.0.3",
     orientation: "portrait",
-    icon: "./assets/images/AppIcon.png",
+    icon: "./assets/icons/GowiIcon.svg",
     scheme: "noteapp",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,

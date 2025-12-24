@@ -9,11 +9,13 @@ import GowiButton from "./GowiButton";
 interface GowiHeaderProps {
   content: string | ReactNode;
   backPossible?: boolean;
+  overrideBack?: Function;
 }
 
 export default function GowiHeader({
   content,
   backPossible = true,
+  overrideBack,
 }: GowiHeaderProps) {
   const theme = useTheme();
 
@@ -30,7 +32,7 @@ export default function GowiHeader({
           square
           type="secondary"
           size="S"
-          onPress={() => router.back()}
+          onPress={() => (overrideBack ? overrideBack() : router.back())}
           title={<BackButtonSVG></BackButtonSVG>}
         ></GowiButton>
       )}

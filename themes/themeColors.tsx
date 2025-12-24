@@ -7,7 +7,8 @@ export const themeColors = {
     300: "#FFD28A",
     700: "#FFA64A",
     800: "#FF8A2C",
-    900: "#BE4A00EE",
+    900: "#BE4A00",
+    // 900: "#BE4A00EE",
   },
   secondary: {
     100: "#F2E9FB",

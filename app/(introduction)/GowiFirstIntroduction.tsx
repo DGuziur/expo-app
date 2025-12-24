@@ -1,9 +1,9 @@
+import GowiButton from "@/components/GowiButton";
 import StepperPanel, { StepData } from "@/components/stepper/StepperPanel";
+import BackButtonSVG from "@assets/icons/BackArrow.svg";
 import OnboBackground from "@assets/icons/ONBO BACKGROUND.png";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const stepperPanelTestData: StepData[] = [
   {
@@ -29,26 +29,31 @@ const stepperPanelTestData: StepData[] = [
 
 export default function GowiFirstIntroduction() {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <View style={{ padding: 30, paddingVertical: 50 }}>
+        <GowiButton
+          square
+          type="secondary"
+          size="S"
+          onPress={() => router.back()}
+          title={<BackButtonSVG></BackButtonSVG>}
+        ></GowiButton>
+      </View>
       <View style={styles.dotContainer}>
         <View style={[styles.dot, { width: 200, height: 200 }]} />
       </View>
       <Image
-        style={{ width: "100%", height: "50%" }}
+        style={{ width: "100%", height: "30%" }}
         source={OnboBackground}
         resizeMode={"stretch"}
       ></Image>
       <StepperPanel
         steps={stepperPanelTestData}
         afterFinalStep={() => {
-          AsyncStorage.setItem(
-            "globalSettings",
-            JSON.stringify({ greetedGowi: true })
-          );
-          router.replace("/(auth)/LoginPage");
+          router.replace("/(introduction)/InitialQuestionsTimeEstimation");
         }}
       ></StepperPanel>
-    </SafeAreaView>
+    </View>
   );
 }
 

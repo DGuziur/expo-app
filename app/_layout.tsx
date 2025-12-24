@@ -6,11 +6,11 @@ import "./../i18n.config";
 export default function RootLayout() {
   return (
     <>
-     <ThemeProvider>
+      <ThemeProvider>
         <AuthProvider>
           <Slot />
         </AuthProvider>
-     </ThemeProvider>
+      </ThemeProvider>
     </>
   );
 }

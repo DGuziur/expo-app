@@ -22,6 +22,7 @@ type GowiButtonProps = {
   square?: boolean;
   customStyle?: ViewStyle;
   textStyle?: TextStyle;
+  customGradient?: [ColorValue, ColorValue];
 };
 
 const variants = {
@@ -66,6 +67,7 @@ export default function GowiButton({
   square = false,
   customStyle = {},
   textStyle = {},
+  customGradient,
 }: GowiButtonProps) {
   const config = variants[type];
 
@@ -96,7 +98,10 @@ export default function GowiButton({
           <LinearGradient
             colors={
               pressed
-                ? ["rgba(255,255,255,0.25)", "rgba(255,255,255,0.25)"]
+                ? customGradient ?? [
+                    "rgba(255,255,255,0.25)",
+                    "rgba(255,255,255,0.25)",
+                  ]
                 : ["transparent", "transparent"]
             }
             start={{ x: 0, y: 0 }}
@@ -136,7 +141,9 @@ export default function GowiButton({
       <Pressable disabled={isDisabled} onPress={onPress}>
         {({ pressed }) => (
           <LinearGradient
-            colors={pressed ? config.pressedColors : config.colors}
+            colors={
+              pressed ? config.pressedColors : customGradient ?? config.colors
+            }
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={{

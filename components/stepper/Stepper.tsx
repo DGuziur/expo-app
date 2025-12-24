@@ -68,8 +68,8 @@ const StepperDot = ({
 export default function Stepper({
   currentStep,
   totalSteps,
-  dotSize = 12,
-  activeDotWidth = 48,
+  dotSize = 6,
+  activeDotWidth = 32,
 }: StepperDotsProps) {
   return (
     <View style={styles.container}>
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    height: 40,
   },
   dotContainer: {
     position: "relative",

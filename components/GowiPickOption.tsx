@@ -1,28 +1,30 @@
-import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import React from "react";
 import { Control, Controller, RegisterOptions } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import GowiChip from "./GowiChip";
 
-const OPTIONS = [
+interface option {
+  value: string;
+  labelKey: string;
+  variant: "primary" | "secondary" | "accent";
+}
+
+const OPTIONS: option[] = [
   {
     value: "female",
     labelKey: "Kobieta",
-    colorMain: "#930049",
-    colorShadow: "#E5007A",
+    variant: "accent",
   },
   {
     value: "male",
     labelKey: "Mężczyzna",
-    colorMain: "#BE4A00",
-    colorShadow: "#EB6900",
+    variant: "primary",
   },
   {
     value: "other",
     labelKey: "Inne",
-    colorMain: "#481878",
-    colorShadow: "#6A2AAB",
+    variant: "secondary",
   },
 ];
 
@@ -39,7 +41,6 @@ export default function GowiPickOption({
   label,
   rules,
 }: GowiPickOptionProps) {
-  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -69,36 +70,14 @@ export default function GowiPickOption({
               const isSelected = value === option.value;
 
               return (
-                <TouchableOpacity
+                <GowiChip
                   key={option.value}
-                  activeOpacity={0.8}
+                  variant={option.variant}
                   onPress={() => onChange(option.value)}
-                  style={[
-                    styles.buttonShadow,
-                    {
-                      backgroundColor: option.colorShadow,
-                      opacity: value && !isSelected ? 0.2 : 1,
-                    },
-                    isSelected && { paddingBottom: 0 },
-                  ]}
+                  isActive={isSelected}
                 >
-                  <View
-                    style={[
-                      styles.buttonFace,
-                      { backgroundColor: option.colorMain },
-                    ]}
-                  >
-                    <Text
-                      style={{
-                        ...theme.fonts.primary.bold,
-                        color: themeColors.textDarkMode.textPrimary,
-                        fontSize: 11,
-                      }}
-                    >
-                      {t(option.labelKey, { defaultValue: option.labelKey })}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                  {option.value}
+                </GowiChip>
               );
             })}
           </View>
@@ -121,7 +100,6 @@ const styles = StyleSheet.create({
   },
   optionsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     gap: 10,
   },

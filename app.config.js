@@ -2,9 +2,9 @@ export default {
   expo: {
     name: "gowi",
     slug: "mood-app",
-    version: "1.0.3",
+    version: "1.0.4",
     orientation: "portrait",
-    icon: "./assets/images/AppIcon.png",
+    icon: "./assets/icons/GowiIcon.svg",
     scheme: "noteapp",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
@@ -21,6 +21,10 @@ export default {
         backgroundColor: "#ffffff",
       },
       edgeToEdgeEnabled: true,
+      navigationBar: {
+        backgroundColor: "#00000000",
+        barStyle: "dark-content",
+      },
     },
     web: {
       bundler: "metro",
@@ -42,6 +46,14 @@ export default {
           imageWidth: 200,
           resizeMode: "contain",
           backgroundColor: "#ffffff",
+        },
+      ],
+      [
+        "react-native-edge-to-edge",
+        {
+          android: {
+            enforceNavigationBarContrast: false,
+          },
         },
       ],
       "@react-native-firebase/app",

@@ -14,6 +14,16 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     "SpaceGrotesk-Medium": require("@assets/fonts/SpaceGrotesk-Medium.ttf"),
     "SpaceGrotesk-Regular": require("@assets/fonts/SpaceGrotesk-Regular.ttf"),
     "SpaceGrotesk-Light": require("@assets/fonts/SpaceGrotesk-Light.ttf"),
+    "Lato-Black": require("@assets/fonts/Lato-Black.ttf"),
+    "Lato-BlackItalic": require("@assets/fonts/Lato-BlackItalic.ttf"),
+    "Lato-Bold": require("@assets/fonts/Lato-Bold.ttf"),
+    "Lato-BoldItalic": require("@assets/fonts/Lato-BoldItalic.ttf"),
+    "Lato-Regular": require("@assets/fonts/Lato-Regular.ttf"),
+    "Lato-Italic": require("@assets/fonts/Lato-Italic.ttf"),
+    "Lato-Light": require("@assets/fonts/Lato-Light.ttf"),
+    "Lato-LightItalic": require("@assets/fonts/Lato-LightItalic.ttf"),
+    "Lato-Thin": require("@assets/fonts/Lato-Thin.ttf"),
+    "Lato-ThinItalic": require("@assets/fonts/Lato-ThinItalic.ttf"),
   });
 
   const scheme = useColorScheme();

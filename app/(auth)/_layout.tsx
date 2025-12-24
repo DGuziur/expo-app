@@ -1,6 +1,5 @@
 import { useAuth } from "@/AuthContext";
 import Spinner from "@/components/Spinner";
-import { useFirstLaunch } from "@/hooks/CheckFirstLaunch";
 import { themeColors } from "@/themes/themeColors";
 import { useTheme } from "@/themes/ThemeProvider";
 import { LinearGradient } from "expo-linear-gradient";
@@ -10,9 +9,8 @@ import { useTranslation } from "react-i18next";
 export default function AuthRoutesLayout() {
   const { user, loading: authLoading } = useAuth();
   const { ready: i18nReady } = useTranslation();
-  const { isFirstLaunch, loading: firstLaunchLoading } = useFirstLaunch();
 
-  const isLoading = authLoading || !i18nReady || firstLaunchLoading;
+  const isLoading = authLoading || !i18nReady;
 
   const theme = useTheme();
   if (isLoading)
@@ -36,10 +34,6 @@ export default function AuthRoutesLayout() {
         ></Spinner>
       </LinearGradient>
     );
-
-  if (isFirstLaunch) {
-    return <Redirect href={"/(introduction)/GowiFirstIntroduction"}></Redirect>;
-  }
 
   if (!user)
     return (
@@ -68,11 +62,6 @@ export default function AuthRoutesLayout() {
 
   if (!user.displayName)
     return <Redirect href="/(introduction)/PickYourUsername"></Redirect>;
-
-  if (!user.hasCompletedOnboarding)
-    return (
-      <Redirect href="/(introduction)/InitialQuestionsTimeEstimation"></Redirect>
-    );
 
   return <Redirect href="/(tabs)/(modules)" />;
 }

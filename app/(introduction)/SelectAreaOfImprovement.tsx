@@ -1,26 +1,20 @@
-import { useAuth } from "@/AuthContext";
 import ChatBubble from "@/components/ChatBubble";
 import GowiButton from "@/components/GowiButton";
+import GowiChip from "@/components/GowiChip";
 import GowiHeader from "@/components/GowiHeader";
 import GowiSafeArea from "@/components/GowiSafeArea";
 import { IMPROVEMENT_CATEGORIES } from "@/data/wellbeingCategories";
-import { app } from "@/firebaseInit";
-import { useTheme } from "@/themes/ThemeProvider";
-import { themeColors } from "@/themes/themeColors";
 import ArrowRightSVG from "@assets/icons/ArrowRight.svg";
 import CheckSVG from "@assets/icons/Check.svg";
 import DiceSVG from "@assets/icons/Dice.svg";
-import { doc, getFirestore, updateDoc } from "@firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 export default function SelectAreaOfImprovement() {
   const { t } = useTranslation();
-  const db = getFirestore(app);
-  const { user } = useAuth();
-  const theme = useTheme();
   const [categories, setCategories] = useState(
     IMPROVEMENT_CATEGORIES.map((category) => ({
       title: category,
@@ -65,18 +59,18 @@ export default function SelectAreaOfImprovement() {
   };
 
   const handleSubmit = async () => {
-    if (!user) return;
     const selectedCategories = categories.filter(
       (category) => category.isSelected
     );
     const selectedCategoriesToSend = selectedCategories.map(
       (category) => category.title
     );
-    await updateDoc(doc(db, "Users", user.uid), {
-      seletedAreasOfImprovement: selectedCategoriesToSend,
-    });
+    await AsyncStorage.setItem(
+      "OnboSelectedAreas",
+      JSON.stringify(selectedCategoriesToSend)
+    );
 
-    router.replace("/(tabs)/(modules)");
+    router.navigate("/CreateAccountAfterIntroQuestions");
   };
 
   return (
@@ -118,48 +112,13 @@ export default function SelectAreaOfImprovement() {
                 }}
                 key={index}
               >
-                <View
-                  style={{
-                    position: "relative",
-                  }}
+                <GowiChip
+                  isActive={category.isSelected}
+                  variant="primary"
+                  onPress={() => toggleCategory(index)}
                 >
-                  <View
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: -7,
-                      borderRadius: 30,
-                      backgroundColor: themeColors.primary[800],
-                    }}
-                  />
-
-                  <TouchableOpacity
-                    onPress={() => toggleCategory(index)}
-                    style={{
-                      padding: 10,
-                      borderRadius: 30,
-                      backgroundColor: category.isSelected
-                        ? themeColors.primary[100]
-                        : themeColors.primary[900],
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: category.isSelected
-                          ? themeColors.textDarkMode.textInverted
-                          : themeColors.textDarkMode.textPrimary,
-                        textAlign: "center",
-                        fontSize: 16,
-                        verticalAlign: "middle",
-                        ...theme.fonts.primary.bold,
-                      }}
-                    >
-                      {t(`improvementCategory.${category.title}`)}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                  {t(`improvementCategory.${category.title}`)}
+                </GowiChip>
                 {category.isSelected && (
                   <CheckSVG
                     style={{ position: "absolute", right: -32 }}

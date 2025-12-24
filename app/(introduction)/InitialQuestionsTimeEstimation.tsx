@@ -12,16 +12,17 @@ import { Image, Text, View } from "react-native";
 export default function InitialQuestionsTimeEstimation() {
   const { t } = useTranslation();
   const theme = useTheme();
-  const numberOfQuestions = IntroQuestions.length + 1;
+  const numberOfQuestions = IntroQuestions.length;
   const numberOfMinutes = Math.ceil((numberOfQuestions * 6) / 60);
   return (
     <GowiSafeArea
-      contentContainerStyle={{ justifyContent: "space-between", padding: 15 }}
+      contentContainerStyle={{
+        justifyContent: "space-between",
+        padding: 30,
+      }}
     >
-      <GowiHeader
-        backPossible={false}
-        content={t("quizTexts.Great that you are here")}
-      ></GowiHeader>
+      <GowiHeader content={t("quizTexts.Great that you are here")}></GowiHeader>
+      <View style={{ justifyContent: "center", alignItems: "center" }}></View>
       <Image style={{ alignSelf: "center" }} source={Gowi}></Image>
       <View style={{ gap: 5 }}>
         <Text

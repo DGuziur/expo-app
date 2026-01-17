@@ -9,6 +9,11 @@ export default {
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     ios: {
+      googleServicesFile:
+        process.env.GOOGLE_SERVICES_JSON ?? "./GoogleService-Info.plist",
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
       bundleIdentifier: "com.expoapp.moodapp",
       supportsTablet: true,
     },

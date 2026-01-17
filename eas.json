@@ -11,6 +11,9 @@
     },
     "preview": {
       "distribution": "internal",
+      "ios": {
+        "distribution": "store"
+      },
       "channel": "preview"
     },
     "production": {

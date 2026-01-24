@@ -10,7 +10,7 @@ export default {
     newArchEnabled: true,
     ios: {
       googleServicesFile:
-        process.env.GOOGLE_SERVICES_JSON ?? "./GoogleService-Info.plist",
+        process.env.GOOGLE_SERVICES_JSON_IOS ?? "./GoogleService-Info.plist",
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
@@ -22,7 +22,7 @@ export default {
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
       adaptiveIcon: {
-        foregroundImage: "./assets/images/adaptive-icon.png",
+        foregroundImage: "./assets/images/GowiAppIcon.png",
         backgroundColor: "#ffffff",
       },
       edgeToEdgeEnabled: true,

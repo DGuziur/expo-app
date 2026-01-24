@@ -2,9 +2,9 @@ export default {
   expo: {
     name: "gowi",
     slug: "mood-app",
-    version: "1.0.5",
+    version: "1.0.6",
     orientation: "portrait",
-    icon: "./assets/icons/GowiIcon.svg",
+    icon: "./assets/images/GowiAppIcon.png",
     scheme: "noteapp",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
